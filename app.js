@@ -137,7 +137,7 @@
     frageCb = cb;
     frageBox.returnValue = '';
     frageBox.showModal();
-    if (o.link) { feld.focus(); feld.select(); }
+    if (o.link) { feld.focus(); feld.select(); } else frageBox.focus(); // kein Knopf vorausgewählt
   }
 
   function cleanHash() {

@@ -172,6 +172,7 @@ h1,h2{font-family:var(--font-display); margin:0; text-wrap:balance;}
   width:min(380px, calc(100vw - 32px)); padding:20px 22px 18px; border:1px solid var(--line); border-radius:14px;
   background:var(--surface); color:var(--ink); box-shadow:var(--shadow); font-family:var(--font-body);
 }
+.frage:focus{outline:none;} /* Fokus liegt beim Öffnen auf dem Fenster, nicht auf einem Knopf */
 .frage::backdrop{background:rgba(20,26,22,.5);}
 .frage h2{font-size:1.15rem; font-weight:600; margin:0 0 8px;}
 .frage p{margin:0 0 16px; font-size:.88rem; line-height:1.45; color:var(--ink-soft);}
