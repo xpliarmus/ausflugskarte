@@ -48,6 +48,12 @@ h1,h2{font-family:var(--font-display); margin:0; text-wrap:balance;}
 .stats strong{color:var(--ink); font-weight:700;}
 .progress-track{width:120px; height:6px; border-radius:4px; background:var(--surface-2); overflow:hidden; border:1px solid var(--line);}
 .progress-fill{height:100%; width:0; background:var(--accent); transition:width .4s ease;}
+/* Bewusst nicht "share" genannt: Inhaltsblocker blenden Teilen-Knöpfe oft aus */
+.teilen-knopf{
+  font-family:var(--font-body); font-size:.78rem; font-weight:700; white-space:nowrap; cursor:pointer;
+  padding:5px 12px; border-radius:999px; border:1px solid var(--accent); background:transparent; color:var(--accent);
+}
+.teilen-knopf:hover{background:var(--accent); color:var(--accent-ink);}
 
 /* ---------- Grundlayout (Desktop) ---------- */
 .layout{display:flex; flex:1; min-height:0;}
@@ -161,6 +167,32 @@ h1,h2{font-family:var(--font-display); margin:0; text-wrap:balance;}
 .hochknopf:hover{background:var(--surface-2);}
 .hochknopf.sichtbar{opacity:1; pointer-events:auto; transform:none;}
 
+/* ---------- Mein-Stand-Link: Frage-Fenster und kurze Meldung ---------- */
+.frage{
+  width:min(380px, calc(100vw - 32px)); padding:20px 22px 18px; border:1px solid var(--line); border-radius:14px;
+  background:var(--surface); color:var(--ink); box-shadow:var(--shadow); font-family:var(--font-body);
+}
+.frage::backdrop{background:rgba(20,26,22,.5);}
+.frage h2{font-size:1.15rem; font-weight:600; margin:0 0 8px;}
+.frage p{margin:0 0 16px; font-size:.88rem; line-height:1.45; color:var(--ink-soft);}
+.frage-link{
+  width:100%; margin:-4px 0 16px; padding:8px 10px; border-radius:8px; border:1px solid var(--line);
+  background:var(--surface-2); color:var(--ink); font-family:var(--font-body); font-size:.8rem;
+}
+.frage-knoepfe{display:flex; flex-wrap:wrap; justify-content:flex-end; gap:8px;}
+.frage-knoepfe button{font-family:var(--font-body); font-size:.86rem; font-weight:700; padding:8px 14px; border-radius:8px; cursor:pointer;}
+.knopf-haupt{background:var(--accent); color:var(--accent-ink); border:1px solid var(--accent);}
+.knopf-zweit{background:var(--surface); color:var(--ink); border:1px solid var(--line);}
+.knopf-zweit:hover{background:var(--surface-2);}
+
+.meldung{
+  position:fixed; z-index:1100; left:50%; bottom:calc(24px + env(safe-area-inset-bottom));
+  max-width:calc(100vw - 32px); margin:0; padding:10px 16px; border-radius:10px; text-align:center;
+  background:var(--ink); color:var(--bg); font-size:.86rem; font-weight:600; box-shadow:var(--shadow);
+  opacity:0; pointer-events:none; transform:translate(-50%, 8px); transition:opacity .2s ease, transform .2s ease;
+}
+.meldung.sichtbar{opacity:1; transform:translate(-50%, 0);}
+
 /* ---------- Mobile: normale Seite, die als Ganzes scrollt ---------- */
 @media (max-width: 880px){
   html{overflow-x:hidden;}
@@ -175,6 +207,7 @@ h1,h2{font-family:var(--font-display); margin:0; text-wrap:balance;}
   .filter-chip{flex:0 0 auto;}
   .list{padding:4px 8px 12px;}
   .hochknopf{left:auto; right:16px; bottom:calc(16px + env(safe-area-inset-bottom));}
+  .meldung{bottom:calc(76px + env(safe-area-inset-bottom));} /* über dem Nach-oben-Knopf */
 }
 
 @media (prefers-reduced-motion: reduce){
