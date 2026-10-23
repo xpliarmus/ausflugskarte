@@ -148,8 +148,18 @@ h1,h2{font-family:var(--font-display); margin:0; text-wrap:balance;}
 .hl-halo{fill:var(--accent); fill-opacity:.32; pointer-events:none;}
 .hl-ring{fill:var(--surface); fill-opacity:.65; stroke:var(--accent); pointer-events:none;}
 
-/* ---------- Nach-oben-Knopf ---------- */
-.back-to-top{display:none;}
+/* ---------- Nach-oben-Knopf ----------
+   Bewusst neutral benannt: Inhaltsblocker (z.B. in Safari) blenden Elemente
+   mit Namen wie "back-to-top" oder "scroll-top" oft aus. */
+.hochknopf{
+  display:flex; position:fixed; z-index:1000;
+  left:330px; bottom:calc(20px + env(safe-area-inset-bottom)); /* Desktop: unten rechts in der Liste */
+  width:46px; height:46px; border-radius:50%; border:1px solid var(--line); background:var(--surface); color:var(--ink);
+  box-shadow:var(--shadow); align-items:center; justify-content:center; font-size:1.3rem; line-height:1; cursor:pointer;
+  opacity:0; pointer-events:none; transform:translateY(8px); transition:opacity .18s ease, transform .18s ease;
+}
+.hochknopf:hover{background:var(--surface-2);}
+.hochknopf.sichtbar{opacity:1; pointer-events:auto; transform:none;}
 
 /* ---------- Mobile: normale Seite, die als Ganzes scrollt ---------- */
 @media (max-width: 880px){
@@ -164,13 +174,7 @@ h1,h2{font-family:var(--font-display); margin:0; text-wrap:balance;}
   .chips{flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; padding-bottom:6px; margin-bottom:6px; scrollbar-width:thin;}
   .filter-chip{flex:0 0 auto;}
   .list{padding:4px 8px 12px;}
-  .back-to-top{
-    display:flex; position:fixed; right:16px; bottom:calc(16px + env(safe-area-inset-bottom)); z-index:1000;
-    width:46px; height:46px; border-radius:50%; border:1px solid var(--line); background:var(--surface); color:var(--ink);
-    box-shadow:var(--shadow); align-items:center; justify-content:center; font-size:1.3rem; line-height:1; cursor:pointer;
-    opacity:0; pointer-events:none; transform:translateY(8px); transition:opacity .18s ease, transform .18s ease;
-  }
-  .back-to-top.visible{opacity:1; pointer-events:auto; transform:none;}
+  .hochknopf{left:auto; right:16px; bottom:calc(16px + env(safe-area-inset-bottom));}
 }
 
 @media (prefers-reduced-motion: reduce){

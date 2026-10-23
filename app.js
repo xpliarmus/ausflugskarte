@@ -343,11 +343,19 @@
     // Beim Scrollen wandert ein anderer Eintrag unter den Zeiger: Markierung mitführen
     sidebar.addEventListener('scroll', function () { if (inList && mqHover.matches) hlFromPoint(); }, { passive: true });
 
-    var btt = $('backToTop');
-    function updateBtt() { btt.classList.toggle('visible', window.scrollY > 480); }
-    window.addEventListener('scroll', updateBtt, { passive: true });
-    btt.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
-    updateBtt();
+    // Nach-oben-Knopf: Auf dem Desktop scrollt nur die Liste, mobil die ganze Seite
+    var hoch = $('hochKnopf');
+    function scrollPos() { return mqDesktop.matches ? sidebar.scrollTop : window.scrollY; }
+    function updateHoch() { hoch.classList.toggle('sichtbar', scrollPos() > 480); }
+    window.addEventListener('scroll', updateHoch, { passive: true });
+    sidebar.addEventListener('scroll', updateHoch, { passive: true });
+    if (mqDesktop.addEventListener) mqDesktop.addEventListener('change', updateHoch);
+    else if (mqDesktop.addListener) mqDesktop.addListener(updateHoch);
+    hoch.addEventListener('click', function () {
+      if (mqDesktop.matches) sidebar.scrollTo({ top: 0, behavior: 'smooth' });
+      else window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    updateHoch();
   }
 
   // ---------- Start ----------
