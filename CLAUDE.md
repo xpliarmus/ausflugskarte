@@ -65,13 +65,20 @@ Bewusst flach und ohne Build-Schritt. So lassen sich Dateien notfalls auch von H
 - **localStorage** (nur im Browser des Besuchers):
   - `ausflugsideen.erledigt.v1`: JSON-Array mit den `id`s der erledigten Einträge
   - `ausflugsideen.karte`: zuletzt gewählte Karte (`osm` oder `swisstopo`)
+- **Mein-Stand-Link** (Knopf „Mein Stand teilen“ `#teilenKnopf` / `.teilen-knopf` neben dem Zähler):
+  - Format: `…/#stand=1.<Codes>`. `1` ist die Formatversion. Danach folgt pro erledigtem Eintrag ein Kurzcode aus 4 Zeichen (`0-9A-Za-z`), sortiert und ohne Trennzeichen.
+  - Kurzcode = FNV-1a (32 Bit) über die `id`, reduziert auf 62⁴ Werte (`kurzcode()` in `app.js`). Haben zwei `id`s denselben Code, warnt die Konsole, und der Code wird beim Übernehmen ignoriert. Beim Hinzufügen von Einträgen prüfen, dass alle Codes verschieden sind.
+  - Teilen: Auf Touch-Geräten (`pointer: coarse`) öffnet `navigator.share` das Teilen-Menü, sonst wird kopiert (`navigator.clipboard`). Klappt das nicht, erscheint ein Fenster mit dem Link.
+  - Öffnen: Vorher fragt `<dialog id="frageFenster">` „Erledigte Ziele übernehmen?“ (ältere Browser: `confirm()`). Kein Knopf ist vorausgewählt. Bei „Übernehmen“ wird vereinigt. In jedem Fall wird das Fragment entfernt, und die Meldung `#meldung` / `.meldung` zeigt die Anzahl. Sind alle Haken schon da, erscheint keine Frage, nur ein Hinweis.
+  - Unbekannte Codes werden übergangen. Andere Fragmente (`#irgendwas`) bleiben unangetastet. Bei einer unbekannten Formatversion bleibt das Fragment stehen, und die Seite bittet ums Neuladen.
+  - Auch ein in einem offenen Tab eingefügter Link wirkt (`hashchange`).
 - **Nach-oben-Knopf:** `#hochKnopf` / `.hochknopf` / `.sichtbar`. Auf dem Desktop scrollt er die Liste (`.sidebar`), mobil die ganze Seite.
 - `<meta name="robots" content="noindex, nofollow">`: Die Seite soll nicht in Suchmaschinen erscheinen.
 
 ### Stolperfallen
 
-- **Cache:** GitHub Pages liefert Dateien mit `max-age=600`. **Bei jeder Änderung an `style.css` oder `app.js` die Zahl `?v=N` in `index.html` erhöhen** (aktuell `v=2`). Sonst mischt der Browser bis zu 10 Minuten lang alte und neue Dateien.
-- **Inhaltsblocker (Safari):** Sie blenden Elemente mit Namen wie `back-to-top`, `scroll-top` oder `to-top` aus. Darum heisst der Knopf `hochknopf`. Bei neuen schwebenden Elementen ebenfalls neutrale, deutsche Namen wählen.
+- **Cache:** GitHub Pages liefert Dateien mit `max-age=600`. **Bei jeder Änderung an `style.css` oder `app.js` die Zahl `?v=N` in `index.html` erhöhen** (aktuell `v=3`). Sonst mischt der Browser bis zu 10 Minuten lang alte und neue Dateien.
+- **Inhaltsblocker (Safari):** Sie blenden Elemente mit Namen wie `back-to-top`, `scroll-top` oder `to-top` aus. Darum heisst der Knopf `hochknopf`. Teilen-Knöpfe (`share`, `social`) werden ebenfalls oft ausgeblendet, darum `teilen-knopf`. Bei neuen schwebenden Elementen ebenfalls neutrale, deutsche Namen wählen.
 - **Mobile:** Die Seite scrollt als Ganzes (keine Höhen-Tricks mit `100vh` in der Liste). Horizontales Scrollen muss ausgeschlossen bleiben (`overflow-x: hidden` auf `html`/`body`), die Chips scrollen horizontal für sich.
 - **Leaflet-Stile:** Leaflet setzt eigene Regeln mit höherer Spezifität (z.B. `.leaflet-popup-content p`). Eigene Popup-Regeln darum mit `.leaflet-popup-content …` präfixen.
 
@@ -86,6 +93,11 @@ python3 -m http.server 8899      # im Repo-Ordner
   - 86 Karten und 86 Pins; Filter, Suche und „nur offene“
   - Haken bleibt nach Neuladen erhalten; Popup-Haken und Listen-Haken bleiben abgeglichen
   - Hover-Ring; Nach-oben-Knopf
+  - Mein-Stand-Link:
+    - Link erzeugen: Desktop kopiert (Rechte `clipboard-read`/`clipboard-write`), mobil `navigator.share` per `addInitScript` nachbilden
+    - in einem zweiten Kontext mit eigenen Haken öffnen: Frage, „Nicht übernehmen“, Escape, „Übernehmen“ (Vereinigung), Meldung, Fragment entfernt
+    - unbekannte Codes; Link in offenem Tab
+    - Wichtig: Vor jedem `goto` mit anderem `#` zuerst `about:blank` laden. Sonst gibt es nur einen `hashchange` und kein echtes Neuladen.
   - Mobil kein horizontales Scrollen (`scrollWidth <= innerWidth`)
   - keine JS-Fehler
 - **Kachelserver** sind aus Sandboxes oft nicht erreichbar. Anfragen dann mit `page.route` abfangen und mit einem Platzhalter-PNG beantworten.
@@ -93,16 +105,17 @@ python3 -m http.server 8899      # im Repo-Ordner
 ## Fahrplan (jede Stufe einzeln mit OK)
 
 1. ✅ **Website mit echter Karte** (Oktober 2026).
-2. ⏳ **„Mein-Stand-Link“**: Erledigt-Haken zwischen eigenen Geräten übertragen (z.B. Handy ↔ Laptop) oder an Familienmitglieder schicken. **Noch nicht begonnen. Erst einen Plan vorlegen und das OK abwarten.** Bereits entschieden:
+2. ✅ **„Mein-Stand-Link“** (Oktober 2026): Erledigt-Haken zwischen eigenen Geräten übertragen (z.B. Handy ↔ Laptop) oder an Familienmitglieder schicken. Umsetzung siehe „Verhalten der Seite“. Entscheidungen:
    - Der Stand steht im URL-Fragment (`#…`) und erreicht so nie einen Server. Es gibt kein Konto und keine Datenbank.
    - Beim Öffnen wird der Stand mit den vorhandenen Haken **zusammengeführt** (Vereinigung), damit nie ein Haken verloren geht. Dass Abwählen sich dadurch nicht überträgt, ist bewusst in Kauf genommen.
    - Der Link soll kompakt sein, also pro Eintrag ein Kurz-Hash statt der vollen `id`. Kollisionen müssen geprüft werden.
+   - Vor dem Übernehmen fragt die Seite „Erledigte Ziele übernehmen?“. Wer einen Link versehentlich öffnet, muss so nichts zurücksetzen (Wunsch des Besitzers).
    - Nach dem Übernehmen wird das Fragment aus der Adresszeile entfernt, und ein kurzer Hinweis zeigt, wie viele Haken neu dazukamen.
    - Familienmitglieder haben keinen automatisch gemeinsamen Stand, sondern gleichen nur über diesen Link ab. Das ist so gewollt.
 3. **Microsoft To Do als Quelle der Einträge.**
    - **Abruf:** Microsoft Graph, persönliches Microsoft-Konto, delegierte Berechtigung `Tasks.Read`, Refresh-Token als GitHub-Secret. Eine zeitgesteuerte GitHub Action erzeugt `ausfluege.json` neu. Der Besitzer muss einmalig eine App bei Microsoft registrieren; dafür eine Klick-für-Klick-Anleitung geben.
    - **Was übernommen wird:** To Do liefert **nur die Einträge**, nicht deren Erledigt-Status. Offene und abgeschlossene Aufgaben erscheinen beide. Ein Ziel verschwindet nur, wenn die Aufgabe in To Do gelöscht wird. Veröffentlicht werden nur die nötigen Felder, keine Notizen aus To Do.
-   - **Schlüssel:** Ab dann ist die **To-Do-Aufgaben-ID** der Schlüssel. Es braucht eine einmalige Migration der alten Slug-`id` auf die neue ID, im Browser und für bereits erzeugte Links. Dafür alte IDs mitführen, z.B. im Feld `alteIds`.
+   - **Schlüssel:** Ab dann ist die **To-Do-Aufgaben-ID** der Schlüssel. Es braucht eine einmalige Migration der alten Slug-`id` auf die neue ID, im Browser und für bereits erzeugte Links. Dafür alte IDs mitführen, z.B. im Feld `alteIds`. **Bereits geteilte Mein-Stand-Links** enthalten Kurzcodes der alten Slug-`id`s: Beim Aufbau der Code-Tabelle (`buildCodeMap()`) auch die Codes aus `alteIds` auf den neuen Eintrag zeigen lassen. Neue Links enthalten dann die Codes der To-Do-IDs; das Format bleibt `stand=1`.
    - **Noch offen:**
      - 14 Einträge stehen nicht in To Do (4 Maislabyrinthe, 4 Planetenwege, 6 Kugelbahn-Wanderwege). In To Do anlegen oder als Ergänzungsliste im Repo führen?
      - In To Do gibt es Duplikate (Bosch la Bova, Rugelreise Murgtal, Schlaufensteg Baar, Seebodenalp), die beim Einlesen zusammengeführt werden müssen.
