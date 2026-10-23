@@ -1,6 +1,7 @@
 /* Ausflugsideen – Karte und Liste
  * Daten: ausfluege.json (Schritt 3: wird automatisch aus Microsoft To Do erzeugt)
- * Haken: nur im Browser des jeweiligen Geräts (localStorage)
+ * Haken: nur im Browser des jeweiligen Geräts (localStorage),
+ *        übertragbar per Mein-Stand-Link (#stand=1.<Kurzcodes>, erreicht nie einen Server)
  */
 (function () {
   'use strict';
@@ -9,6 +10,8 @@
   var STORE_DONE = 'ausflugsideen.erledigt.v1';
   var STORE_LAYER = 'ausflugsideen.karte';
   var CLUSTER_KM = 300; // Einträge weiter weg vom Median zählen nicht zur Startansicht
+  var CODE_ZEICHEN = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  var CODE_LAENGE = 4; // 62^4 ≈ 14,8 Mio. mögliche Kurzcodes
 
   var $ = function (id) { return document.getElementById(id); };
   var listEl = $('list'), listMsg = $('listMsg'), chipRow = $('chipRow');
@@ -16,9 +19,11 @@
   var sidebar = document.querySelector('.sidebar'), mapwrap = document.querySelector('.mapwrap');
   var mqDesktop = window.matchMedia('(min-width: 881px)');
   var mqHover = window.matchMedia('(hover: hover)');
+  var mqTouch = window.matchMedia('(pointer: coarse)');
+  var frageBox = $('frageFenster'), frageCb = null, meldungTimer = null;
 
   var items = [], byId = {}, cats = {}, catOrder = [];
-  var cards = {}, markers = {}, hay = {};
+  var cards = {}, markers = {}, hay = {}, codeMap = Object.create(null);
   var done = new Set(), activeCats = new Set(), query = '', hideDone = false;
   var map, markerLayer, mainBounds, hlHalo, hlRing, hlId = null;
 
@@ -86,6 +91,105 @@
     $('doneCount').textContent = n;
     $('totalCount').textContent = items.length;
     $('progressFill').style.width = (items.length ? Math.round(n / items.length * 100) : 0) + '%';
+  }
+
+  // ---------- Mein-Stand-Link ----------
+  // Kurzcode pro id: FNV-1a (32 Bit), auf 4 Zeichen aus 0-9A-Za-z reduziert
+  function kurzcode(id) {
+    var h = 0x811c9dc5, i, s = '';
+    for (i = 0; i < id.length; i++) h = Math.imul(h ^ id.charCodeAt(i), 0x01000193) >>> 0;
+    for (i = 0; i < CODE_LAENGE; i++) { s = CODE_ZEICHEN.charAt(h % 62) + s; h = Math.floor(h / 62); }
+    return s;
+  }
+  function buildCodeMap() {
+    items.forEach(function (a) {
+      var c = kurzcode(a.id);
+      if (c in codeMap) {
+        if (window.console) console.warn('Kurzcode doppelt, wird nicht übernommen:', c, codeMap[c], a.id);
+        codeMap[c] = null; // mehrdeutig: lieber nichts übernehmen als den falschen Haken
+      } else codeMap[c] = a.id;
+    });
+  }
+  function ziele(n) { return n + (n === 1 ? ' erledigtes Ziel' : ' erledigte Ziele'); }
+
+  function meldung(text) {
+    var el = $('meldung');
+    el.textContent = text;
+    el.classList.add('sichtbar');
+    clearTimeout(meldungTimer);
+    meldungTimer = setTimeout(function () { el.classList.remove('sichtbar'); }, 4500);
+  }
+
+  // Kleines Fenster mit Frage oder Link. cb(true), wenn „ja“ gewählt wurde.
+  function frage(o, cb) {
+    if (!frageBox || typeof frageBox.showModal !== 'function') { // ältere Browser
+      if (o.link) { window.prompt(o.text, o.link); cb(false); } else cb(window.confirm(o.titel + '\n\n' + o.text));
+      return;
+    }
+    var feld = $('frageLink'), ja = $('frageJa');
+    $('frageTitel').textContent = o.titel;
+    $('frageText').textContent = o.text;
+    feld.hidden = !o.link;
+    feld.value = o.link || '';
+    ja.hidden = !o.ja;
+    ja.textContent = o.ja || '';
+    $('frageNein').textContent = o.nein;
+    frageCb = cb;
+    frageBox.returnValue = '';
+    frageBox.showModal();
+    if (o.link) { feld.focus(); feld.select(); } else frageBox.focus(); // kein Knopf vorausgewählt
+  }
+
+  function cleanHash() {
+    if (history.replaceState) history.replaceState(null, '', location.pathname + location.search);
+    else location.hash = '';
+  }
+
+  function readLink() {
+    var m = /^#stand=(\d+)\.([0-9A-Za-z]*)/.exec(location.hash);
+    if (!m || (frageBox && frageBox.open)) return;
+    if (m[1] !== '1') { meldung('Dieser Link ist neuer als die Seite. Bitte die Seite neu laden.'); return; }
+    var ids = [], seen = new Set();
+    for (var i = 0; i + CODE_LAENGE <= m[2].length; i += CODE_LAENGE) {
+      var id = codeMap[m[2].substr(i, CODE_LAENGE)];
+      if (id && !seen.has(id)) { seen.add(id); ids.push(id); }
+    }
+    var neu = ids.filter(function (id) { return !done.has(id); });
+    if (!ids.length) { cleanHash(); meldung('Der Link enthält keine bekannten Ziele.'); return; }
+    if (!neu.length) { cleanHash(); meldung('Alle Ziele aus dem Link sind bei dir schon abgehakt.'); return; }
+    frage({
+      titel: 'Erledigte Ziele übernehmen?',
+      text: 'Der Link enthält ' + ziele(ids.length) +
+        (neu.length < ids.length ? ', davon ' + neu.length + (neu.length === 1 ? ' neues' : ' neue') + ' für dich' : '') +
+        '. Deine bisherigen Haken bleiben erhalten.',
+      ja: 'Übernehmen',
+      nein: 'Nicht übernehmen'
+    }, function (ok) {
+      cleanHash();
+      if (!ok) return;
+      neu.forEach(function (id) { setDone(id, true); });
+      meldung(ziele(neu.length) + ' übernommen.');
+    });
+  }
+
+  function copyLink(url) {
+    function manual() {
+      frage({ titel: 'Link kopieren', text: 'Kopiere diesen Link und öffne ihn auf dem anderen Gerät:', link: url, nein: 'Schliessen' }, function () {});
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(function () { meldung('Link kopiert. Öffne ihn auf dem anderen Gerät.'); }, manual);
+    } else manual();
+  }
+
+  function shareStand() {
+    var codes = items.filter(function (a) { return done.has(a.id); }).map(function (a) { return kurzcode(a.id); }).sort();
+    if (!codes.length) { meldung('Du hast noch keine Ziele abgehakt.'); return; }
+    var url = location.href.split('#')[0] + '#stand=1.' + codes.join('');
+    // Handy: Teilen-Menü (WhatsApp, Mail …); Laptop: Link kopieren
+    if (navigator.share && mqTouch.matches) {
+      navigator.share({ title: 'Ausflugsideen', text: 'Erledigte Ausflugsziele (' + codes.length + ' von ' + items.length + ')', url: url })
+        .catch(function (e) { if (!e || e.name !== 'AbortError') copyLink(url); });
+    } else copyLink(url);
   }
 
   // ---------- Liste ----------
@@ -356,6 +460,15 @@
       else window.scrollTo({ top: 0, behavior: 'smooth' });
     });
     updateHoch();
+
+    // Mein-Stand-Link
+    $('teilenKnopf').addEventListener('click', shareStand);
+    if (frageBox) frageBox.addEventListener('close', function () {
+      var cb = frageCb;
+      frageCb = null;
+      if (cb) cb(frageBox.returnValue === 'ja');
+    });
+    window.addEventListener('hashchange', readLink); // Link in schon offenem Tab eingefügt
   }
 
   // ---------- Start ----------
@@ -373,6 +486,7 @@
     items.sort(function (x, y) { return x.titel.localeCompare(y.titel, 'de'); });
 
     loadDone();
+    buildCodeMap();
     buildChips();
     buildCards();
     initMap();
@@ -387,6 +501,8 @@
       $('standInfo').textContent = items.length + ' Einträge · Stand ' +
         (isNaN(d) ? data.stand : d.toLocaleDateString('de-CH', { day: 'numeric', month: 'long', year: 'numeric' }));
     }
+
+    readLink();
   }
 
   fetch(DATA_URL, { cache: 'no-cache' })
