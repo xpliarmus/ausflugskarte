@@ -24,11 +24,11 @@ Interaktive Karte mit unseren Ausflugsideen für die Familie: Schweiz und Umgebu
 | `daten/offen.json` | Ideen aus To Do, deren Angaben noch fehlen |
 | `werkzeuge/todo.py`, `.github/workflows/` | Abruf aus Microsoft To Do (GitHub Actions) |
 | `leaflet.js`, `leaflet.css` | Kartenbibliothek [Leaflet](https://leafletjs.com) 1.9.4 |
-| `fraunces.woff2`, `karla.woff2` | Schriften, lokal eingebunden (keine Anfragen an Google) |
+| `fredoka.woff2`, `karla.woff2` | Schriften, lokal eingebunden (keine Anfragen an Google) |
 | `LIZENZEN.txt` | Lizenzen von Leaflet und den Schriften |
 
 ## Quellen und Lizenzen
 
 - Kartendaten © [OpenStreetMap](https://www.openstreetmap.org/copyright)-Mitwirkende, Kartenkacheln vom OpenStreetMap-Tileserver
 - Landeskarte © [swisstopo](https://www.swisstopo.admin.ch/)
-- Leaflet (BSD-2-Clause), Fraunces und Karla (SIL Open Font License 1.1): siehe `LIZENZEN.txt`
+- Leaflet (BSD-2-Clause), Fredoka und Karla (SIL Open Font License 1.1): siehe `LIZENZEN.txt`
