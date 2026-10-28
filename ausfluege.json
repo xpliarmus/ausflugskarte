@@ -4,47 +4,47 @@
   {
    "key": "tier",
    "label": "Tierpark/Zoo",
-   "farbe": "#ba3636"
+   "farbe": "#E63946"
   },
   {
    "key": "kugel",
    "label": "Kugelbahn/Kinderweg",
-   "farbe": "#ba8e36"
+   "farbe": "#E9A800"
   },
   {
    "key": "sonst",
    "label": "Sonstiges",
-   "farbe": "#8eba36"
+   "farbe": "#7F8C8D"
   },
   {
    "key": "wandern",
    "label": "Wanderung/Themenweg",
-   "farbe": "#36ba36"
+   "farbe": "#2A9D47"
   },
   {
    "key": "wasser",
    "label": "Wasser (Schlucht, Bad, Höhle)",
-   "farbe": "#36ba8e"
+   "farbe": "#00A8CC"
   },
   {
    "key": "berg",
    "label": "Bergbahn/Seilbahn/Aussicht",
-   "farbe": "#368eba"
+   "farbe": "#3A5BD9"
   },
   {
    "key": "museum",
    "label": "Museum",
-   "farbe": "#3636ba"
+   "farbe": "#8E44AD"
   },
   {
    "key": "spiel",
    "label": "Spielplatz/Erlebnispark",
-   "farbe": "#8e36ba"
+   "farbe": "#E84393"
   },
   {
    "key": "park",
    "label": "Freizeitpark/Funpark",
-   "farbe": "#ba368e"
+   "farbe": "#F77F00"
   }
  ],
  "ausfluege": [
