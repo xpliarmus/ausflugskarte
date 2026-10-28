@@ -31,9 +31,9 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-fraunces.woff2 – Fraunces (Undercase Type), via Fontsource
-----------------------------------------------------------
-Copyright 2020 The Fraunces Project Authors (github.com/undercasetype/Fraunces) Fraunces-Italic[SOFT,WONK,opsz,wght].ttf: Copyright 2020 The Fraunces Project Authors (github.com/undercasetype/Fraunces)
+fredoka.woff2 – Fredoka (Milena Brandão, Hafontia), via Fontsource
+------------------------------------------------------------------
+Copyright 2016 The Fredoka Project Authors (https://github.com/hafontia/Fredoka-One)
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 This license is copied below, and is also available with a FAQ at:

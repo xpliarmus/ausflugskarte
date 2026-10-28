@@ -20,7 +20,7 @@ Die Website selbst ist bewusst flach und ohne Build-Schritt. So lassen sich Date
 | Datei | Inhalt |
 |---|---|
 | `index.html` | Seitengerüst. Lädt `style.css?v=N` und `app.js?v=N`. |
-| `style.css` | Gestaltung: Farb-Tokens in `:root`, Dark Mode über `prefers-color-scheme`, Mobile-Layout ab `max-width: 880px`. |
+| `style.css` | Gestaltung: Farb-Tokens in `:root`, Dark Mode über `prefers-color-scheme`, Mobile-Layout ab `max-width: 880px`. Design siehe „Gestaltung“. |
 | `app.js` | Lädt `ausfluege.json` und baut Liste, Filter, Karte und Haken auf (ES5-nah, keine Abhängigkeiten ausser Leaflet). |
 | `ausfluege.json` | **Die Website-Daten** (siehe unten). **Wird von der Action „To-Do-Abruf“ erzeugt, nie von Hand bearbeiten**, auch nicht in PRs. |
 | `daten/ziele.json` | **Die Angaben zu allen Zielen** plus die zugehörigen To-Do-Aufgaben (`todo`). Hier werden Ziele ergänzt oder korrigiert. |
@@ -28,7 +28,7 @@ Die Website selbst ist bewusst flach und ohne Build-Schritt. So lassen sich Date
 | `werkzeuge/todo.py` | Anmeldung bei Microsoft, Abruf der Liste und Zusammenbau (nur Python-Standardbibliothek). |
 | `.github/workflows/` | `microsoft-anmeldung.yml` (einmalige Anmeldung) und `todo-abruf.yml` (Abruf und Zusammenbau, siehe „Microsoft To Do“). |
 | `leaflet.js`, `leaflet.css` | Leaflet 1.9.4, lokal eingebunden (kein CDN). |
-| `fraunces.woff2`, `karla.woff2` | Schriften lokal (Fontsource, latin, variable). Keine Anfragen an Google Fonts. |
+| `fredoka.woff2`, `karla.woff2` | Schriften lokal (Fontsource, latin, variable): Fredoka für Titel und Überschriften (`--font-display`), Karla für alles andere. Keine Anfragen an Google Fonts. |
 | `README.md`, `LIZENZEN.txt` | Beschreibung für Besucher und Drittanbieter-Lizenzen. |
 
 ### Datenformat
@@ -61,7 +61,8 @@ Die Website selbst ist bewusst flach und ohne Build-Schritt. So lassen sich Date
 - **Karte:** Grundkarte sind die OpenStreetMap-Kacheln (`tile.openstreetmap.org`). Der Umschalter „Landeskarte CH“ lädt die swisstopo-Karte (`https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg`, maxNativeZoom 18). Die Quellenangaben (Attribution) müssen bleiben.
 - **Startansicht:** alle Einträge im Umkreis von 300 km um den Median-Punkt (`CLUSTER_KM`). Weit entfernte Ziele wie die Steiermark sieht man erst beim Herauszoomen. Der Knopf ⟲ setzt die Ansicht zurück.
 - **Liste:**
-  - Kategorie-Chips mit Anzahl
+  - Kategorie-Chips mit Anzahl, leicht in ihrer Kategorie-Farbe getönt
+  - Jeder Eintrag hat links einen Streifen in seiner Kategorie-Farbe (`--kat-farbe`, gesetzt in `buildCards()`)
   - Suche, die Umlaute ignoriert („zurich“ findet „Zürich“)
   - „nur offene“
   - „Auf der Karte“ fliegt zum Pin; mobil wird zuerst zur Karte gescrollt
@@ -83,9 +84,17 @@ Die Website selbst ist bewusst flach und ohne Build-Schritt. So lassen sich Date
 - **Nach-oben-Knopf:** `#hochKnopf` / `.hochknopf` / `.sichtbar`. Auf dem Desktop scrollt er die Liste (`.sidebar`), mobil die ganze Seite.
 - `<meta name="robots" content="noindex, nofollow">`: Die Seite soll nicht in Suchmaschinen erscheinen.
 
+### Gestaltung (seit Oktober 2026)
+
+Vom Besitzer gewählt aus mehreren Entwürfen („hell und ruhig“ plus „Bergpanorama“ und „Farbtupfer“). Vorher gab es grünen Hintergrund und die Titelschrift Fraunces. Beides gefiel nicht: zu viel Grün, zu dunkel, Titel zu schlicht.
+
+- **Grund:** weiss mit neutralen Grautönen; Akzent Blau `#2B59C3` (dunkel: `#7EA4FF`); Dunkel-Modus in neutralem Anthrazit, nicht grün. Der Dunkel-Modus soll bleiben.
+- **Kopfzeile:** zarter Himmelsverlauf mit Bergsilhouette (SVG als Data-URI im CSS, je eine Fassung für hell und dunkel), Pin-Symbol `.logo` und Titel in Fredoka.
+- **Farbe kommt aus den Kategorien:** kräftige Kategorie-Farben (in `daten/ziele.json`), getönte Filter-Chips, Farbstreifen an den Einträgen.
+
 ### Stolperfallen
 
-- **Cache:** GitHub Pages liefert Dateien mit `max-age=600`. **Bei jeder Änderung an `style.css` oder `app.js` die Zahl `?v=N` in `index.html` erhöhen** (aktuell `v=3`). Sonst mischt der Browser bis zu 10 Minuten lang alte und neue Dateien.
+- **Cache:** GitHub Pages liefert Dateien mit `max-age=600`. **Bei jeder Änderung an `style.css` oder `app.js` die Zahl `?v=N` in `index.html` erhöhen** (aktuell `v=4`). Sonst mischt der Browser bis zu 10 Minuten lang alte und neue Dateien.
 - **Inhaltsblocker (Safari):** Sie blenden Elemente mit Namen wie `back-to-top`, `scroll-top` oder `to-top` aus. Darum heisst der Knopf `hochknopf`. Teilen-Knöpfe (`share`, `social`) werden ebenfalls oft ausgeblendet, darum `teilen-knopf`. Bei neuen schwebenden Elementen ebenfalls neutrale, deutsche Namen wählen.
 - **Mobile:** Die Seite scrollt als Ganzes (keine Höhen-Tricks mit `100vh` in der Liste). Horizontales Scrollen muss ausgeschlossen bleiben (`overflow-x: hidden` auf `html`/`body`), die Chips scrollen horizontal für sich.
 - **Leaflet-Stile:** Leaflet setzt eigene Regeln mit höherer Spezifität (z.B. `.leaflet-popup-content p`). Eigene Popup-Regeln darum mit `.leaflet-popup-content …` präfixen.

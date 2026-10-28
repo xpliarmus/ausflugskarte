@@ -208,6 +208,7 @@
       var el = document.createElement('article');
       el.className = 'card';
       el.dataset.id = a.id;
+      el.style.setProperty('--kat-farbe', c.farbe); // Farbstreifen in der Liste
       el.innerHTML =
         '<label class="card-check"><input type="checkbox" class="done-check" data-id="' + esc(a.id) + '">' +
         '<span class="card-title">' + esc(a.titel) +
