@@ -1,0 +1,25 @@
+# Einmalige Anmeldung bei Microsoft To Do (nur von Hand starten: Actions → „Microsoft-Anmeldung“ → „Run workflow“).
+# Der Code für microsoft.com/link erscheint im Protokoll. Die Anmeldung selbst wird nie ausgegeben,
+# sondern als Secret MS_REFRESH_TOKEN gespeichert. Nochmals starten, falls die Anmeldung einmal ungültig wird.
+name: Microsoft-Anmeldung
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: microsoft-anmeldung
+
+jobs:
+  anmelden:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - name: Anmelden – hier steht der Code
+        env:
+          MS_CLIENT_ID: ${{ secrets.MS_CLIENT_ID }}
+          GH_TOKEN: ${{ secrets.GH_SECRETS_TOKEN }}
+        run: python3 -u werkzeuge/todo.py anmelden
