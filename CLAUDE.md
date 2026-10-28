@@ -123,12 +123,13 @@ python3 -m http.server 8899      # im Repo-Ordner
    - Vor dem Übernehmen fragt die Seite „Erledigte Ziele übernehmen?“. Wer einen Link versehentlich öffnet, muss so nichts zurücksetzen (Wunsch des Besitzers).
    - Nach dem Übernehmen wird das Fragment aus der Adresszeile entfernt, und ein kurzer Hinweis zeigt, wie viele Haken neu dazukamen.
    - Familienmitglieder haben keinen automatisch gemeinsamen Stand, sondern gleichen nur über diesen Link ab. Das ist so gewollt.
-3. ⏳ **Microsoft To Do als Quelle der Einträge** (Oktober 2026). Umsetzung siehe „Microsoft To Do“. Teilschritte 1–4 erledigt (App registriert, Anmeldung, Probe-Abruf mit Vergleich, Umbau). **Offen: Teilschritt 5**, den Zeitplan einschalten (`schedule` in `todo-abruf.yml`, täglich z.B. 5 Uhr Schweizer Zeit, dazu `push` auf `daten/ziele.json`) und README nachführen. Danach die 22 neuen Ziele aus `daten/offen.json` ergänzen (eigener PR). Entscheidungen des Besitzers:
+3. ✅ **Microsoft To Do als Quelle der Einträge** (Oktober 2026). Umsetzung siehe „Microsoft To Do“. **Als Nächstes:** die 22 neuen Ziele aus `daten/offen.json` ergänzen (eigener PR, siehe „Neue Ziele ergänzen“). Entscheidungen des Besitzers:
    - To Do liefert **nur die Einträge** (id und Titel), nicht deren Erledigt-Status. Notizen werden nie gelesen oder veröffentlicht.
    - **Schlüssel bleibt die Slug-`id`.** Die To-Do-Aufgaben-IDs stehen nur in `todo`. Keine Migration von Haken oder Links nötig.
    - **Neue Aufgaben erscheinen erst, wenn die Angaben ergänzt sind**, nicht vorher ohne Pin.
    - **Schöne Titel nur auf der Website** (Variante A): In To Do bleibt alles, wie es eingetippt wurde. Die App darf nur lesen.
    - Die Titel der Liste „Ausflugsideen“ sind öffentlich (Repo und Protokolle). Der Besitzer weiss das.
+   - **Regel „kein Ausflugsziel“:** Aufgaben, die keine Ziele sind (z.B. „Interaktive Karte (Link)“), stehen in `keinAusflugsziel` in `daten/ziele.json` und erscheinen nirgends.
 4. **Automatische Anreicherung** neuer Einträge (Ort, Koordinaten, Kategorie, Beschreibung, Website) über die Claude-API. Neue Einträge werden mit „bitte prüfen“ markiert. Dabei auch auf Duplikate prüfen (siehe „Neue Ziele ergänzen“).
 
 ## Microsoft To Do
@@ -142,11 +143,17 @@ python3 -m http.server 8899      # im Repo-Ordner
 - **Action „Microsoft-Anmeldung“** (`microsoft-anmeldung.yml`, nur von Hand): Sie zeigt im Protokoll einen Code für microsoft.com/link und schreibt `MS_REFRESH_TOKEN`. Nur nötig, wenn der Abruf meldet, dass die Anmeldung ungültig ist.
 - **Action „To-Do-Abruf“** (`todo-abruf.yml`):
   - Ablauf: Anmeldung erneuern, Liste lesen, `todo.py aktualisieren` baut `ausfluege.json` und `daten/offen.json`. Bei Änderungen committet die Action direkt auf `main` (`GITHUB_TOKEN`, `contents: write`) und fordert eine Pages-Veröffentlichung an (`POST /pages/builds`).
-  - Startet von Hand, mit den Optionen „Probelauf“ (nichts speichern) und „trotzdem“. Ab Teilschritt 5 auch täglich nach Zeitplan und bei jeder Änderung an `daten/ziele.json` auf `main` (`push` mit `paths`), also direkt nach dem Merge eines Ziele-PRs.
+  - Startet in drei Fällen:
+    - täglich um `47 3 * * *` UTC, also 4:47 Uhr Winterzeit bzw. 5:47 Uhr Sommerzeit. Bewusst ohne das neue `timezone`-Feld, dessen Schreibweise nicht geprüft werden konnte.
+    - bei jeder Änderung an `daten/ziele.json` auf `main` (`push` mit `paths`), also direkt nach dem Merge eines Ziele-PRs
+    - von Hand, mit den Optionen „Probelauf“ (nichts speichern) und „trotzdem“
+  - **Zeitplan aktiv halten:** Bei öffentlichen Repos schaltet GitHub Zeitpläne nach 60 Tagen ohne Betrieb ab. Darum ruft jeder Lauf `PUT …/actions/workflows/todo-abruf.yml/enable` auf (`actions: write`). Fällt der Zeitplan trotzdem aus, läuft nach 90 Tagen auch die Microsoft-Anmeldung ab.
+  - **Fehler:** Ein roter Lauf öffnet das Issue „To-Do-Abruf fehlgeschlagen“, das den Besitzer erwähnt, und löst so eine E-Mail aus. Weitere Fehler kommen als Kommentar dazu. Der nächste erfolgreiche Lauf schliesst das Issue. Grund: GitHub schickt Fehler-Mails zu Zeitplänen an den, der den Zeitplan zuletzt geändert hat, und das war ein Claude-Commit.
+  - **Pages:** Schon der Push durch `GITHUB_TOKEN` löst die Veröffentlichung aus. Die zusätzliche Anforderung ersetzt diese nur durch eine gleichwertige. Sie ist harmlos und bleibt als Rückfallebene.
   - Anmeldung und Abruf teilen sich die `concurrency`-Gruppe `microsoft-todo`.
 - **Regeln beim Zusammenbau:**
   - Ein Ziel erscheint, solange **mindestens eine** Aufgabe aus seinem `todo` in To Do steht.
-  - Aufgaben ohne Ziel landen in `daten/offen.json`.
+  - Aufgaben ohne Ziel landen in `daten/offen.json`, ausser ihr Titel steht in `keinAusflugsziel`. Der Vergleich läuft über den Titel, Gross-/Kleinschreibung zählt nicht. Über den Titel deshalb, weil die Aufgabe „Interaktive Karte (Link)“ nach dem Löschen mit neuer id wieder auftauchte.
   - **Sicherheitsgrenze:** Ist die Liste leer oder würden mehr als 10 Ziele auf einmal verschwinden, ändert die Action nichts, und der Lauf wird rot. War es Absicht, „Run workflow“ mit „trotzdem“ starten.
 - **Öffentliches Protokoll:** Nie Tokens, Notizen, Status oder die Namen anderer Listen ausgeben. Titel und Aufgaben-IDs dürfen erscheinen.
 - **Für Claude:** Läufe lassen sich über GitHub-MCP starten (`actions_run_trigger`, z.B. mit `inputs: {probelauf: true}`), Protokolle liest `get_job_logs`. Ein direkter Download aus der Sandbox ist nicht möglich.
@@ -158,4 +165,5 @@ python3 -m http.server 8899      # im Repo-Ordner
 3. **Duplikat?** Gibt es das Ziel schon (gleicher Ort oder gleiche Website), kein neues Ziel anlegen. Stattdessen die Aufgaben-ID im `todo` des bestehenden Ziels ergänzen und im PR erwähnen: „X ist doppelt zu Y, eine davon kann in To Do gelöscht werden.“ Welche gelöscht wird, spielt keine Rolle.
 4. Neues Ziel in `daten/ziele.json` ergänzen: `id` nach der Regel oben, `"todo": ["<id aus offen.json>"]`. Prüfen, dass alle Kurzcodes verschieden bleiben.
 5. **`ausfluege.json` nicht anfassen.** Zum Testen eine Kopie lokal erzeugen, z.B. mit `todo.zusammenbauen()` und allen `todo`-IDs als Liste, und nicht committen.
-6. PR erstellen. Nach dem Merge baut die Action die Website-Daten neu, das Ziel ist nach 1–2 Minuten live. Bis Teilschritt 5 muss der „To-Do-Abruf“ dafür von Hand gestartet werden.
+6. PR erstellen. Nach dem Merge startet der „To-Do-Abruf“ von selbst und baut die Website-Daten neu. Das Ziel ist nach 1–2 Minuten live.
+7. Ist eine Aufgabe kein Ausflugsziel, ihren Titel in `keinAusflugsziel` eintragen und im PR erwähnen.

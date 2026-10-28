@@ -1,10 +1,16 @@
 # Liest die To-Do-Liste «Ausflugsideen» (nur id und Titel), erneuert dabei die Microsoft-Anmeldung und baut
 # aus daten/ziele.json die Website-Daten ausfluege.json sowie daten/offen.json (Aufgaben ohne Angaben).
 # Änderungen speichert die Action direkt auf main; die Website ist danach nach 1–2 Minuten aktuell.
-# Läuft vorerst nur von Hand (Actions → „To-Do-Abruf“ → „Run workflow“).
+# Läuft jeden Morgen, nach jeder Änderung an daten/ziele.json auf main und von Hand
+# (Actions → „To-Do-Abruf“ → „Run workflow“). Bei einem Fehler öffnet sie ein Issue (E-Mail an den Besitzer).
 name: To-Do-Abruf
 
 on:
+  schedule:
+    - cron: '47 3 * * *'  # UTC: 4:47 Uhr Schweizer Winterzeit, 5:47 Uhr Sommerzeit
+  push:
+    branches: [main]
+    paths: ['daten/ziele.json']
   workflow_dispatch:
     inputs:
       probelauf:
@@ -19,9 +25,15 @@ on:
 permissions:
   contents: write  # ausfluege.json und daten/offen.json speichern
   pages: write     # neue Veröffentlichung der Website anfordern
+  actions: write   # Zeitplan aktiv halten (GitHub schaltet ihn sonst nach 60 Tagen ohne Betrieb ab)
+  issues: write    # bei Fehlern ein Issue öffnen, danach wieder schliessen
 
 concurrency:
   group: microsoft-todo  # Anmeldung und Abruf nie gleichzeitig (beide schreiben MS_REFRESH_TOKEN)
+
+env:
+  FEHLER_TITEL: To-Do-Abruf fehlgeschlagen
+  LAUF: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
 jobs:
   abrufen:
@@ -55,4 +67,39 @@ jobs:
             echo "Neue Veröffentlichung der Website angefordert."
           else
             echo "::warning::Veröffentlichung konnte nicht angefordert werden. Die Website aktualisiert sich trotzdem beim nächsten Speichern."
+          fi
+      - name: Zeitplan aktiv halten
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X PUT "repos/$GITHUB_REPOSITORY/actions/workflows/todo-abruf.yml/enable" || echo "::warning::Zeitplan konnte nicht bestätigt werden."
+      - name: Fehler melden (Issue)
+        if: ${{ failure() }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BESITZER: ${{ github.repository_owner }}
+        run: |
+          nr=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --json number,title \
+                 --jq ".[] | select(.title == \"$FEHLER_TITEL\") | .number" | head -n 1)
+          if [ -n "$nr" ]; then
+            gh issue comment "$nr" --repo "$GITHUB_REPOSITORY" --body "Auch dieser Lauf ist fehlgeschlagen: $LAUF"
+          else
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "$FEHLER_TITEL" --body "@$BESITZER Der Abruf der To-Do-Liste ist fehlgeschlagen. Die Website zeigt weiterhin den letzten Stand.
+
+          Protokoll (rote Meldung ganz unten): $LAUF
+
+          - Steht dort, dass die Microsoft-Anmeldung nicht mehr gültig ist: unter Actions → „Microsoft-Anmeldung“ → „Run workflow“ neu anmelden.
+          - Steht dort, dass zu viele Ziele auf einmal verschwinden würden: prüfen, ob das gewollt ist, und dann „To-Do-Abruf“ mit „trotzdem“ starten.
+          - Sonst Claude das Protokoll zeigen.
+
+          Dieses Issue schliesst sich von selbst, sobald ein Abruf wieder klappt."
+          fi
+      - name: Fehlermeldung schliessen
+        if: ${{ success() }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          nr=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --json number,title \
+                 --jq ".[] | select(.title == \"$FEHLER_TITEL\") | .number" | head -n 1)
+          if [ -n "$nr" ]; then
+            gh issue close "$nr" --repo "$GITHUB_REPOSITORY" --comment "Der Abruf klappt wieder: $LAUF"
           fi
