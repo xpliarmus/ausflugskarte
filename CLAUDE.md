@@ -15,19 +15,25 @@ Die Website zeigt Ausflugsideen für eine Familie mit Kindern (Schweiz und Umgeb
 
 ## Aufbau
 
-Bewusst flach und ohne Build-Schritt. So lassen sich Dateien notfalls auch von Hand über die GitHub-Weboberfläche hochladen.
+Die Website selbst ist bewusst flach und ohne Build-Schritt. So lassen sich Dateien notfalls auch von Hand über die GitHub-Weboberfläche hochladen. Nur `ausfluege.json` wird erzeugt (siehe „Microsoft To Do“).
 
 | Datei | Inhalt |
 |---|---|
 | `index.html` | Seitengerüst. Lädt `style.css?v=N` und `app.js?v=N`. |
 | `style.css` | Gestaltung: Farb-Tokens in `:root`, Dark Mode über `prefers-color-scheme`, Mobile-Layout ab `max-width: 880px`. |
 | `app.js` | Lädt `ausfluege.json` und baut Liste, Filter, Karte und Haken auf (ES5-nah, keine Abhängigkeiten ausser Leaflet). |
-| `ausfluege.json` | **Die Daten** (siehe unten). |
+| `ausfluege.json` | **Die Website-Daten** (siehe unten). **Wird von der Action „To-Do-Abruf“ erzeugt, nie von Hand bearbeiten**, auch nicht in PRs. |
+| `daten/ziele.json` | **Die Angaben zu allen Zielen** plus die zugehörigen To-Do-Aufgaben (`todo`). Hier werden Ziele ergänzt oder korrigiert. |
+| `daten/offen.json` | Wird erzeugt: Aufgaben aus To Do, zu denen es noch keine Angaben gibt (`id`, `titel`). |
+| `werkzeuge/todo.py` | Anmeldung bei Microsoft, Abruf der Liste und Zusammenbau (nur Python-Standardbibliothek). |
+| `.github/workflows/` | `microsoft-anmeldung.yml` (einmalige Anmeldung) und `todo-abruf.yml` (Abruf und Zusammenbau, siehe „Microsoft To Do“). |
 | `leaflet.js`, `leaflet.css` | Leaflet 1.9.4, lokal eingebunden (kein CDN). |
 | `fraunces.woff2`, `karla.woff2` | Schriften lokal (Fontsource, latin, variable). Keine Anfragen an Google Fonts. |
 | `README.md`, `LIZENZEN.txt` | Beschreibung für Besucher und Drittanbieter-Lizenzen. |
 
-### Datenformat `ausfluege.json`
+### Datenformat
+
+`daten/ziele.json` hat dieselben Felder wie unten, zusätzlich pro Ziel `"todo": ["<To-Do-Aufgaben-ID>", …]` und ohne `stand`. Daraus entsteht `ausfluege.json`:
 
 ```json
 {
@@ -47,7 +53,8 @@ Bewusst flach und ohne Build-Schritt. So lassen sich Dateien notfalls auch von H
 - **`land`** wird in der Liste nur angezeigt, wenn es nicht „Schweiz“ ist.
 - **`ungefaehr: true`** heisst, dass die Koordinaten nur geschätzt sind. In der Liste erscheint dann ein „~“.
 - **`id`** ist der Schlüssel für die Erledigt-Haken der Besucher. **Eine bestehende `id` nie ändern**, sonst verlieren die Besucher ihre Haken. Für neue Einträge wird die `id` so gebildet: Titel in Kleinbuchstaben, Unicode-NFKD und auf ASCII reduzieren (ä→a), alles ausser `a-z0-9` durch `-` ersetzen, `-` am Rand entfernen.
-- **`stand`** bei jeder Datenänderung auf das aktuelle Datum setzen.
+- **`stand`** setzt der Zusammenbau automatisch auf das Datum, an dem sich etwas geändert hat.
+- **Format von `ausfluege.json`:** `json.dumps(…, ensure_ascii=False, indent=1)` ohne Zeilenumbruch am Ende (`schreiben()` in `werkzeuge/todo.py`). So entstehen keine unnötigen Änderungen.
 
 ### Verhalten der Seite
 
@@ -90,7 +97,7 @@ python3 -m http.server 8899      # im Repo-Ordner
 
 - **Mit Playwright** (Chromium) gegen `http://127.0.0.1:8899/` prüfen:
   - Desktop 1440×900, Dark Mode und ein iPhone-Profil
-  - 86 Karten und 86 Pins; Filter, Suche und „nur offene“
+  - so viele Karten und Pins wie Einträge in `ausfluege.json` (Ende Oktober 2026: 85); Filter, Suche und „nur offene“
   - Haken bleibt nach Neuladen erhalten; Popup-Haken und Listen-Haken bleiben abgeglichen
   - Hover-Ring; Nach-oben-Knopf
   - Mein-Stand-Link:
@@ -101,6 +108,10 @@ python3 -m http.server 8899      # im Repo-Ordner
   - Mobil kein horizontales Scrollen (`scrollWidth <= innerWidth`)
   - keine JS-Fehler
 - **Kachelserver** sind aus Sandboxes oft nicht erreichbar. Anfragen dann mit `page.route` abfangen und mit einem Platzhalter-PNG beantworten.
+- **`werkzeuge/todo.py`** gegen einen nachgebildeten Microsoft-Dienst (`http.server`, `todo.LOGIN`/`todo.GRAPH` umbiegen) und ein nachgebildetes `gh` im `PATH` testen:
+  - Tokens, Notizen und Status erscheinen nie im Protokoll, ausser in `::add-mask::`-Zeilen.
+  - Probelauf schreibt nichts; Sicherheitsgrenze; zweiter Lauf ohne Änderung lässt die Dateien Zeichen für Zeichen gleich.
+  - `todo.zusammenbauen()` mit den echten `daten/ziele.json` prüfen.
 
 ## Fahrplan (jede Stufe einzeln mit OK)
 
@@ -112,20 +123,39 @@ python3 -m http.server 8899      # im Repo-Ordner
    - Vor dem Übernehmen fragt die Seite „Erledigte Ziele übernehmen?“. Wer einen Link versehentlich öffnet, muss so nichts zurücksetzen (Wunsch des Besitzers).
    - Nach dem Übernehmen wird das Fragment aus der Adresszeile entfernt, und ein kurzer Hinweis zeigt, wie viele Haken neu dazukamen.
    - Familienmitglieder haben keinen automatisch gemeinsamen Stand, sondern gleichen nur über diesen Link ab. Das ist so gewollt.
-3. **Microsoft To Do als Quelle der Einträge.**
-   - **Abruf:** Microsoft Graph, persönliches Microsoft-Konto, delegierte Berechtigung `Tasks.Read`, Refresh-Token als GitHub-Secret. Eine zeitgesteuerte GitHub Action erzeugt `ausfluege.json` neu. Der Besitzer muss einmalig eine App bei Microsoft registrieren; dafür eine Klick-für-Klick-Anleitung geben.
-   - **Was übernommen wird:** To Do liefert **nur die Einträge**, nicht deren Erledigt-Status. Offene und abgeschlossene Aufgaben erscheinen beide. Ein Ziel verschwindet nur, wenn die Aufgabe in To Do gelöscht wird. Veröffentlicht werden nur die nötigen Felder, keine Notizen aus To Do.
-   - **Schlüssel:** Ab dann ist die **To-Do-Aufgaben-ID** der Schlüssel. Es braucht eine einmalige Migration der alten Slug-`id` auf die neue ID, im Browser und für bereits erzeugte Links. Dafür alte IDs mitführen, z.B. im Feld `alteIds`. **Bereits geteilte Mein-Stand-Links** enthalten Kurzcodes der alten Slug-`id`s: Beim Aufbau der Code-Tabelle (`buildCodeMap()`) auch die Codes aus `alteIds` auf den neuen Eintrag zeigen lassen. Neue Links enthalten dann die Codes der To-Do-IDs; das Format bleibt `stand=1`.
-   - **Noch offen:**
-     - 14 Einträge stehen nicht in To Do (4 Maislabyrinthe, 4 Planetenwege, 6 Kugelbahn-Wanderwege). In To Do anlegen oder als Ergänzungsliste im Repo führen?
-     - In To Do gibt es Duplikate (Bosch la Bova, Rugelreise Murgtal, Schlaufensteg Baar, Seebodenalp), die beim Einlesen zusammengeführt werden müssen.
-     - „Brunni Engelberg Kugelbahnweg“ und „Holzkugelpfad Brunni“ sind vermutlich derselbe Weg (gleiche Website). Klären.
-4. **Automatische Anreicherung** neuer Einträge (Ort, Koordinaten, Kategorie, Beschreibung, Website) über die Claude-API. Neue Einträge werden mit „bitte prüfen“ markiert.
+3. ⏳ **Microsoft To Do als Quelle der Einträge** (Oktober 2026). Umsetzung siehe „Microsoft To Do“. Teilschritte 1–4 erledigt (App registriert, Anmeldung, Probe-Abruf mit Vergleich, Umbau). **Offen: Teilschritt 5**, den Zeitplan einschalten (`schedule` in `todo-abruf.yml`, täglich z.B. 5 Uhr Schweizer Zeit, dazu `push` auf `daten/ziele.json`) und README nachführen. Danach die 22 neuen Ziele aus `daten/offen.json` ergänzen (eigener PR). Entscheidungen des Besitzers:
+   - To Do liefert **nur die Einträge** (id und Titel), nicht deren Erledigt-Status. Notizen werden nie gelesen oder veröffentlicht.
+   - **Schlüssel bleibt die Slug-`id`.** Die To-Do-Aufgaben-IDs stehen nur in `todo`. Keine Migration von Haken oder Links nötig.
+   - **Neue Aufgaben erscheinen erst, wenn die Angaben ergänzt sind**, nicht vorher ohne Pin.
+   - **Schöne Titel nur auf der Website** (Variante A): In To Do bleibt alles, wie es eingetippt wurde. Die App darf nur lesen.
+   - Die Titel der Liste „Ausflugsideen“ sind öffentlich (Repo und Protokolle). Der Besitzer weiss das.
+4. **Automatische Anreicherung** neuer Einträge (Ort, Koordinaten, Kategorie, Beschreibung, Website) über die Claude-API. Neue Einträge werden mit „bitte prüfen“ markiert. Dabei auch auf Duplikate prüfen (siehe „Neue Ziele ergänzen“).
 
-## Neue Ideen bis Schritt 3
+## Microsoft To Do
 
-Der Besitzer nennt neue Ziele im Chat. Dann:
+- **Quelle:** Liste „Ausflugsideen“ im persönlichen Microsoft-Konto des Besitzers. Auch seine Frau trägt dort Ideen ein.
+- **App bei Microsoft:** „Ausflugskarte“ im Azure-Konto des Besitzers. Kontotyp „Nur persönliche Microsoft-Konten“, öffentliche Clientflows erlaubt, Berechtigungen `Tasks.Read` und `offline_access`. Anmeldung per Device-Code über `/consumers`.
+- **Secrets im Repo:**
+  - `MS_CLIENT_ID`: Anwendungs-ID der App
+  - `MS_REFRESH_TOKEN`: die Anmeldung. Microsoft liefert bei jedem Abruf eine neue, die alte läuft nach 90 Tagen ab. Darum schreibt jeder Abruf sie mit `gh secret set` zurück.
+  - `GH_SECRETS_TOKEN`: Fine-grained Token des Besitzers, nur für dieses Repo, nur „Secrets: Read and write“, **ohne Ablaufdatum**. Wird er einmal ungültig: neuen Token gleich anlegen und das Secret ersetzen.
+- **Action „Microsoft-Anmeldung“** (`microsoft-anmeldung.yml`, nur von Hand): Sie zeigt im Protokoll einen Code für microsoft.com/link und schreibt `MS_REFRESH_TOKEN`. Nur nötig, wenn der Abruf meldet, dass die Anmeldung ungültig ist.
+- **Action „To-Do-Abruf“** (`todo-abruf.yml`):
+  - Ablauf: Anmeldung erneuern, Liste lesen, `todo.py aktualisieren` baut `ausfluege.json` und `daten/offen.json`. Bei Änderungen committet die Action direkt auf `main` (`GITHUB_TOKEN`, `contents: write`) und fordert eine Pages-Veröffentlichung an (`POST /pages/builds`).
+  - Startet von Hand, mit den Optionen „Probelauf“ (nichts speichern) und „trotzdem“. Ab Teilschritt 5 auch täglich nach Zeitplan und bei jeder Änderung an `daten/ziele.json` auf `main` (`push` mit `paths`), also direkt nach dem Merge eines Ziele-PRs.
+  - Anmeldung und Abruf teilen sich die `concurrency`-Gruppe `microsoft-todo`.
+- **Regeln beim Zusammenbau:**
+  - Ein Ziel erscheint, solange **mindestens eine** Aufgabe aus seinem `todo` in To Do steht.
+  - Aufgaben ohne Ziel landen in `daten/offen.json`.
+  - **Sicherheitsgrenze:** Ist die Liste leer oder würden mehr als 10 Ziele auf einmal verschwinden, ändert die Action nichts, und der Lauf wird rot. War es Absicht, „Run workflow“ mit „trotzdem“ starten.
+- **Öffentliches Protokoll:** Nie Tokens, Notizen, Status oder die Namen anderer Listen ausgeben. Titel und Aufgaben-IDs dürfen erscheinen.
+- **Für Claude:** Läufe lassen sich über GitHub-MCP starten (`actions_run_trigger`, z.B. mit `inputs: {probelauf: true}`), Protokolle liest `get_job_logs`. Ein direkter Download aus der Sandbox ist nicht möglich.
 
-1. Recherchieren: genauer Ort, Koordinaten, passende Kategorie, kurze Beschreibung mit Kinderbezug, offizielle Website.
-2. Den Eintrag in `ausfluege.json` ergänzen (`id` nach der Regel oben) und `stand` aktualisieren.
-3. Testen und einen PR erstellen.
+## Neue Ziele ergänzen
+
+1. `daten/offen.json` vom aktuellen `main` lesen. Falls nötig, vorher den „To-Do-Abruf“ laufen lassen.
+2. Pro Aufgabe recherchieren: genauer Ort, Koordinaten, passende Kategorie, kurze Beschreibung mit Kinderbezug, offizielle Website und ein schöner Titel im Stil der bestehenden.
+3. **Duplikat?** Gibt es das Ziel schon (gleicher Ort oder gleiche Website), kein neues Ziel anlegen. Stattdessen die Aufgaben-ID im `todo` des bestehenden Ziels ergänzen und im PR erwähnen: „X ist doppelt zu Y, eine davon kann in To Do gelöscht werden.“ Welche gelöscht wird, spielt keine Rolle.
+4. Neues Ziel in `daten/ziele.json` ergänzen: `id` nach der Regel oben, `"todo": ["<id aus offen.json>"]`. Prüfen, dass alle Kurzcodes verschieden bleiben.
+5. **`ausfluege.json` nicht anfassen.** Zum Testen eine Kopie lokal erzeugen, z.B. mit `todo.zusammenbauen()` und allen `todo`-IDs als Liste, und nicht committen.
+6. PR erstellen. Nach dem Merge baut die Action die Website-Daten neu, das Ziel ist nach 1–2 Minuten live. Bis Teilschritt 5 muss der „To-Do-Abruf“ dafür von Hand gestartet werden.

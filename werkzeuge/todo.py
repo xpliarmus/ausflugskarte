@@ -5,15 +5,18 @@
       Einmalige Anmeldung per Code (microsoft.com/link). Speichert die Anmeldung
       (Refresh-Token) als Secret MS_REFRESH_TOKEN und prüft, ob die Liste da ist.
 
-  python3 -u werkzeuge/todo.py abrufen
+  python3 -u werkzeuge/todo.py aktualisieren
       Erneuert die Anmeldung (Microsoft liefert bei jedem Abruf eine neue, die alte
-      läuft nach 90 Tagen ab) und gibt id und Titel aller Aufgaben der Liste als
-      JSON-Zeilen aus. Notizen und Erledigt-Status werden nicht ausgegeben.
+      läuft nach 90 Tagen ab), liest id und Titel aller Aufgaben der Liste und baut
+      daraus mit daten/ziele.json die Website-Daten ausfluege.json sowie
+      daten/offen.json (Aufgaben, zu denen noch keine Angaben vorliegen).
+      Notizen und Erledigt-Status aus To Do werden nie gelesen oder ausgegeben.
 
 Umgebung: MS_CLIENT_ID (Anwendungs-ID der App bei Microsoft),
-          MS_REFRESH_TOKEN (nur für «abrufen»),
+          MS_REFRESH_TOKEN (nur für «aktualisieren»),
           GH_TOKEN (GitHub-Schlüssel, der Secrets dieses Repos schreiben darf),
-          GITHUB_REPOSITORY (setzt GitHub selbst).
+          GITHUB_REPOSITORY (setzt GitHub selbst),
+          PROBELAUF=true (nur prüfen, nichts schreiben), TROTZDEM=true (Sicherheitsgrenze aufheben).
 
 Das Protokoll der Actions ist öffentlich: Tokens werden nie ausgegeben, sondern
 sofort maskiert. Aus To Do wird nur gelesen (Berechtigung Tasks.Read).
@@ -24,6 +27,8 @@ import subprocess
 import sys
 import time
 import unicodedata
+from datetime import datetime
+from zoneinfo import ZoneInfo
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -33,6 +38,12 @@ GRAPH = 'https://graph.microsoft.com/v1.0'
 SCOPE = 'https://graph.microsoft.com/Tasks.Read offline_access'
 LISTE = 'Ausflugsideen'
 SECRET = 'MS_REFRESH_TOKEN'
+
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ZIELE = os.path.join(REPO, 'daten', 'ziele.json')      # Angaben zu den Zielen + zugehörige To-Do-Aufgaben
+OFFEN = os.path.join(REPO, 'daten', 'offen.json')      # Aufgaben ohne Angaben (noch zu ergänzen)
+WEBSITE = os.path.join(REPO, 'ausfluege.json')         # wird erzeugt, nicht von Hand bearbeiten
+GRENZE = 10  # verschwinden mehr Ziele auf einmal, wird zur Sicherheit nichts geändert
 
 
 class Fehler(Exception):
@@ -199,20 +210,90 @@ def sortierschluessel(text):
     return unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode().casefold()
 
 
-def abrufen():
+def lesen(pfad, ersatz=None):
+    try:
+        with open(pfad, encoding='utf-8') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return ersatz
+
+
+def schreiben(pfad, daten):
+    """Gleiches Format wie die bisherige ausfluege.json: Einzug 1, Umlaute direkt."""
+    with open(pfad, 'w', encoding='utf-8') as f:
+        f.write(json.dumps(daten, ensure_ascii=False, indent=1))
+
+
+def ohne_stand(daten):
+    return {k: v for k, v in (daten or {}).items() if k != 'stand'}
+
+
+def zusammenbauen(quelle, liste, alt, heute, trotzdem=False):
+    """Website-Daten und offene Aufgaben aus den Angaben und der To-Do-Liste (ohne Netz).
+
+    Ein Ziel erscheint, solange mindestens eine seiner Aufgaben in To Do steht. So schadet
+    es nicht, wenn bei Duplikaten die eine oder andere Aufgabe gelöscht wird.
+    Gibt (neue Website-Daten, offene Aufgaben, verschwundene Ziele) zurück.
+    """
+    vorhanden = {a['id'] for a in liste}
+    zugeordnet = set()
+    ausfluege = []
+    for z in quelle['ziele']:
+        todo = z.get('todo', [])
+        zugeordnet.update(todo)
+        if any(t in vorhanden for t in todo):
+            ausfluege.append({k: v for k, v in z.items() if k != 'todo'})
+    offen = sorted(({'id': a['id'], 'titel': (a.get('title') or '').strip()} for a in liste if a['id'] not in zugeordnet),
+                   key=lambda a: sortierschluessel(a['titel']))
+    sichtbar = {z['id'] for z in ausfluege}
+    weg = [z for z in (alt or {}).get('ausfluege', []) if z['id'] not in sichtbar]
+    if len(weg) > GRENZE and not trotzdem:
+        raise Fehler('Es würden %d Ziele auf einmal von der Website verschwinden (%s …). Zur Sicherheit wurde nichts geändert. '
+                     'Falls das so gewollt ist: Action „To-Do-Abruf“ mit dem Häkchen „trotzdem“ starten.'
+                     % (len(weg), ', '.join(z['titel'] for z in weg[:5])))
+    neu = {'stand': (alt or {}).get('stand', heute), 'kategorien': quelle['kategorien'], 'ausfluege': ausfluege}
+    if ohne_stand(neu) != ohne_stand(alt):
+        neu['stand'] = heute
+    return neu, offen, weg
+
+
+def aktualisieren():
+    probelauf = os.environ.get('PROBELAUF') == 'true'
+    trotzdem = os.environ.get('TROTZDEM') == 'true'
     token = erneuern()
     print('✓ Anmeldung erneuert und gespeichert.', flush=True)
     liste = aufgaben(token, liste_finden(token))
-    zeilen = sorted(({'id': a['id'], 'titel': (a.get('title') or '').strip()} for a in liste), key=lambda a: sortierschluessel(a['titel']))
-    print('✓ %d Aufgaben gelesen.' % len(zeilen))
-    print('---- AUFGABEN ----')
-    for z in zeilen:  # bewusst nur id und Titel: keine Notizen, kein Status
-        print(json.dumps(z, ensure_ascii=False))
-    print('---- ENDE ----', flush=True)
+    print('✓ %d Aufgaben gelesen.' % len(liste))
+    if not liste:
+        raise Fehler('Die Liste „%s“ ist leer. Zur Sicherheit wurde nichts geändert.' % LISTE)
+
+    alt = lesen(WEBSITE)
+    heute = datetime.now(ZoneInfo('Europe/Zurich')).date().isoformat()
+    neu, offen, weg = zusammenbauen(lesen(ZIELE), liste, alt, heute, trotzdem)
+    bisher = {z['id'] for z in (alt or {}).get('ausfluege', [])}
+    print('✓ %d Ziele auf der Website.' % len(neu['ausfluege']))
+    for z in neu['ausfluege']:
+        if z['id'] not in bisher:
+            print('  + kommt dazu: %s' % z['titel'])
+    for z in weg:
+        print('  − verschwindet (Aufgabe in To Do gelöscht): %s' % z['titel'])
+    print('✓ %d Aufgaben noch ohne Angaben (daten/offen.json):' % len(offen))
+    for a in offen:
+        print('  · %s' % a['titel'])
+
+    if probelauf:
+        print('Probelauf: nichts gespeichert.', flush=True)
+        return
+    if neu != alt:
+        schreiben(WEBSITE, neu)
+        print('✓ ausfluege.json neu geschrieben (Stand %s).' % neu['stand'])
+    if offen != lesen(OFFEN):
+        schreiben(OFFEN, offen)
+        print('✓ daten/offen.json neu geschrieben.', flush=True)
 
 
 def main():
-    befehle = {'anmelden': anmelden, 'abrufen': abrufen}
+    befehle = {'anmelden': anmelden, 'aktualisieren': aktualisieren}
     if len(sys.argv) != 2 or sys.argv[1] not in befehle:
         print('Aufruf: python3 -u werkzeuge/todo.py %s' % '|'.join(befehle))
         return 2
