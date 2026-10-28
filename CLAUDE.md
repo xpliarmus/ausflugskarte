@@ -97,7 +97,7 @@ python3 -m http.server 8899      # im Repo-Ordner
 
 - **Mit Playwright** (Chromium) gegen `http://127.0.0.1:8899/` prüfen:
   - Desktop 1440×900, Dark Mode und ein iPhone-Profil
-  - so viele Karten und Pins wie Einträge in `ausfluege.json` (Ende Oktober 2026: 85); Filter, Suche und „nur offene“
+  - so viele Karten und Pins wie Einträge in `ausfluege.json` (Ende Oktober 2026: 107); Filter, Suche und „nur offene“
   - Haken bleibt nach Neuladen erhalten; Popup-Haken und Listen-Haken bleiben abgeglichen
   - Hover-Ring; Nach-oben-Knopf
   - Mein-Stand-Link:
@@ -123,7 +123,7 @@ python3 -m http.server 8899      # im Repo-Ordner
    - Vor dem Übernehmen fragt die Seite „Erledigte Ziele übernehmen?“. Wer einen Link versehentlich öffnet, muss so nichts zurücksetzen (Wunsch des Besitzers).
    - Nach dem Übernehmen wird das Fragment aus der Adresszeile entfernt, und ein kurzer Hinweis zeigt, wie viele Haken neu dazukamen.
    - Familienmitglieder haben keinen automatisch gemeinsamen Stand, sondern gleichen nur über diesen Link ab. Das ist so gewollt.
-3. ✅ **Microsoft To Do als Quelle der Einträge** (Oktober 2026). Umsetzung siehe „Microsoft To Do“. **Als Nächstes:** die 22 neuen Ziele aus `daten/offen.json` ergänzen (eigener PR, siehe „Neue Ziele ergänzen“). Entscheidungen des Besitzers:
+3. ✅ **Microsoft To Do als Quelle der Einträge** (Oktober 2026). Umsetzung siehe „Microsoft To Do“. Die 22 Ideen, die beim Umstieg noch fehlten, sind Ende Oktober 2026 ergänzt worden. Entscheidungen des Besitzers:
    - To Do liefert **nur die Einträge** (id und Titel), nicht deren Erledigt-Status. Notizen werden nie gelesen oder veröffentlicht.
    - **Schlüssel bleibt die Slug-`id`.** Die To-Do-Aufgaben-IDs stehen nur in `todo`. Keine Migration von Haken oder Links nötig.
    - **Neue Aufgaben erscheinen erst, wenn die Angaben ergänzt sind**, nicht vorher ohne Pin.
