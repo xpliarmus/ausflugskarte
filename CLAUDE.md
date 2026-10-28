@@ -72,7 +72,8 @@ Die Website selbst ist bewusst flach und ohne Build-Schritt. So lassen sich Date
 - **localStorage** (nur im Browser des Besuchers):
   - `ausflugsideen.erledigt.v1`: JSON-Array mit den `id`s der erledigten Einträge
   - `ausflugsideen.karte`: zuletzt gewählte Karte (`osm` oder `swisstopo`)
-- **Mein-Stand-Link** (Knopf „Mein Stand teilen“ `#teilenKnopf` / `.teilen-knopf` neben dem Zähler):
+- **Mein-Stand-Link** (Knopf „Erledigte Ziele teilen“ `#teilenKnopf` / `.teilen-knopf` neben dem Zähler):
+  - Der Knopf hiess bis Oktober 2026 „Mein Stand teilen“. Umbenannt, weil Besucher dachten, es werde der Standort geteilt. „Mein-Stand-Link“ bleibt nur der interne Name, und das Link-Format `#stand=1.` bleibt, damit verschickte Links gültig bleiben. In sichtbaren Texten nicht mehr „Stand“ für die Haken verwenden.
   - Format: `…/#stand=1.<Codes>`. `1` ist die Formatversion. Danach folgt pro erledigtem Eintrag ein Kurzcode aus 4 Zeichen (`0-9A-Za-z`), sortiert und ohne Trennzeichen.
   - Kurzcode = FNV-1a (32 Bit) über die `id`, reduziert auf 62⁴ Werte (`kurzcode()` in `app.js`). Haben zwei `id`s denselben Code, warnt die Konsole, und der Code wird beim Übernehmen ignoriert. Beim Hinzufügen von Einträgen prüfen, dass alle Codes verschieden sind.
   - Teilen: Auf Touch-Geräten (`pointer: coarse`) öffnet `navigator.share` das Teilen-Menü, sonst wird kopiert (`navigator.clipboard`). Klappt das nicht, erscheint ein Fenster mit dem Link.
