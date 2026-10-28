@@ -1,12 +1,24 @@
-# Liest die To-Do-Liste «Ausflugsideen» (nur id und Titel) und erneuert dabei die Microsoft-Anmeldung.
-# Vorerst nur von Hand startbar (Actions → „To-Do-Abruf“ → „Run workflow“) und ohne Änderung an der Website.
+# Liest die To-Do-Liste «Ausflugsideen» (nur id und Titel), erneuert dabei die Microsoft-Anmeldung und baut
+# aus daten/ziele.json die Website-Daten ausfluege.json sowie daten/offen.json (Aufgaben ohne Angaben).
+# Änderungen speichert die Action direkt auf main; die Website ist danach nach 1–2 Minuten aktuell.
+# Läuft vorerst nur von Hand (Actions → „To-Do-Abruf“ → „Run workflow“).
 name: To-Do-Abruf
 
 on:
   workflow_dispatch:
+    inputs:
+      probelauf:
+        description: 'Probelauf: nur prüfen, nichts speichern'
+        type: boolean
+        default: false
+      trotzdem:
+        description: 'Trotzdem speichern, auch wenn viele Ziele auf einmal verschwinden'
+        type: boolean
+        default: false
 
 permissions:
-  contents: read
+  contents: write  # ausfluege.json und daten/offen.json speichern
+  pages: write     # neue Veröffentlichung der Website anfordern
 
 concurrency:
   group: microsoft-todo  # Anmeldung und Abruf nie gleichzeitig (beide schreiben MS_REFRESH_TOKEN)
@@ -17,9 +29,30 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v5
-      - name: Liste abrufen
+      - name: Liste abrufen und Website-Daten zusammenbauen
         env:
           MS_CLIENT_ID: ${{ secrets.MS_CLIENT_ID }}
           MS_REFRESH_TOKEN: ${{ secrets.MS_REFRESH_TOKEN }}
           GH_TOKEN: ${{ secrets.GH_SECRETS_TOKEN }}
-        run: python3 -u werkzeuge/todo.py abrufen
+          PROBELAUF: ${{ inputs.probelauf }}
+          TROTZDEM: ${{ inputs.trotzdem }}
+        run: python3 -u werkzeuge/todo.py aktualisieren
+      - name: Änderungen speichern und veröffentlichen
+        if: ${{ !inputs.probelauf }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -z "$(git status --porcelain -- ausfluege.json daten/offen.json)" ]; then
+            echo "Keine Änderungen."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add ausfluege.json daten/offen.json
+          git commit -m "Daten aus To Do aktualisiert"
+          git push || { git pull --rebase && git push; }
+          if gh api -X POST "repos/$GITHUB_REPOSITORY/pages/builds" > /dev/null; then
+            echo "Neue Veröffentlichung der Website angefordert."
+          else
+            echo "::warning::Veröffentlichung konnte nicht angefordert werden. Die Website aktualisiert sich trotzdem beim nächsten Speichern."
+          fi
