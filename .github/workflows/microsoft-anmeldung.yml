@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: microsoft-anmeldung
+  group: microsoft-todo  # Anmeldung und Abruf nie gleichzeitig (beide schreiben MS_REFRESH_TOKEN)
 
 jobs:
   anmelden:

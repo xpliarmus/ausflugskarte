@@ -1,0 +1,25 @@
+# Liest die To-Do-Liste «Ausflugsideen» (nur id und Titel) und erneuert dabei die Microsoft-Anmeldung.
+# Vorerst nur von Hand startbar (Actions → „To-Do-Abruf“ → „Run workflow“) und ohne Änderung an der Website.
+name: To-Do-Abruf
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: microsoft-todo  # Anmeldung und Abruf nie gleichzeitig (beide schreiben MS_REFRESH_TOKEN)
+
+jobs:
+  abrufen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - name: Liste abrufen
+        env:
+          MS_CLIENT_ID: ${{ secrets.MS_CLIENT_ID }}
+          MS_REFRESH_TOKEN: ${{ secrets.MS_REFRESH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_SECRETS_TOKEN }}
+        run: python3 -u werkzeuge/todo.py abrufen

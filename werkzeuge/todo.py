@@ -5,7 +5,13 @@
       Einmalige Anmeldung per Code (microsoft.com/link). Speichert die Anmeldung
       (Refresh-Token) als Secret MS_REFRESH_TOKEN und prüft, ob die Liste da ist.
 
+  python3 -u werkzeuge/todo.py abrufen
+      Erneuert die Anmeldung (Microsoft liefert bei jedem Abruf eine neue, die alte
+      läuft nach 90 Tagen ab) und gibt id und Titel aller Aufgaben der Liste als
+      JSON-Zeilen aus. Notizen und Erledigt-Status werden nicht ausgegeben.
+
 Umgebung: MS_CLIENT_ID (Anwendungs-ID der App bei Microsoft),
+          MS_REFRESH_TOKEN (nur für «abrufen»),
           GH_TOKEN (GitHub-Schlüssel, der Secrets dieses Repos schreiben darf),
           GITHUB_REPOSITORY (setzt GitHub selbst).
 
@@ -17,6 +23,7 @@ import os
 import subprocess
 import sys
 import time
+import unicodedata
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -105,12 +112,27 @@ def secret_speichern(wert):
         raise Fehler('Die Anmeldung konnte nicht als Secret %s gespeichert werden: %s' % (SECRET, r.stderr.strip()))
 
 
-def anmelden():
+def umgebung():
     client = os.environ.get('MS_CLIENT_ID', '').strip()
     if not client:
         raise Fehler('Das Secret MS_CLIENT_ID fehlt.')
     if not os.environ.get('GH_TOKEN'):
         raise Fehler('Das Secret GH_SECRETS_TOKEN fehlt.')
+    return client
+
+
+def tokens_uebernehmen(t):
+    """Antwort von Microsoft: Tokens maskieren, neue Anmeldung speichern, Zugriffs-Token zurückgeben."""
+    maskieren(t.get('access_token'))
+    maskieren(t.get('refresh_token'))
+    if not t.get('refresh_token'):
+        raise Fehler('Microsoft hat keine dauerhafte Anmeldung geliefert (offline_access fehlt).')
+    secret_speichern(t['refresh_token'])
+    return t['access_token']
+
+
+def anmelden():
+    client = umgebung()
 
     d = post(LOGIN + '/devicecode', {'client_id': client, 'scope': SCOPE})
     if 'error' in d:
@@ -124,7 +146,7 @@ def anmelden():
     print('  3. Melde dich mit deinem To-Do-Konto an und erlaube den Zugriff.')
     print('  Der Code ist %d Minuten gültig.' % minuten)
     print('=' * 60 + '\n', flush=True)
-    print('::notice title=Code für %s::%s' % (uri, code), flush=True)
+    print('::notice title=Anmeldecode::Code %s auf %s eingeben' % (code, uri), flush=True)
 
     intervall = int(d.get('interval', 5))
     ende = time.time() + int(d.get('expires_in', 900))
@@ -148,20 +170,49 @@ def anmelden():
         if fehler:
             raise Fehler('Anmeldung fehlgeschlagen: %s (%s)' % (kurz(t.get('error_description')), fehler))
 
-        maskieren(t.get('access_token'))
-        maskieren(t.get('refresh_token'))
-        if not t.get('refresh_token'):
-            raise Fehler('Microsoft hat keine dauerhafte Anmeldung geliefert (offline_access fehlt).')
-        secret_speichern(t['refresh_token'])
+        token = tokens_uebernehmen(t)
         print('✓ Anmeldung gespeichert (Secret %s).' % SECRET, flush=True)
-        liste = liste_finden(t['access_token'])
-        print('✓ Liste „%s“ gefunden: %d Aufgaben.' % (LISTE, len(aufgaben(t['access_token'], liste))), flush=True)
+        liste = liste_finden(token)
+        print('✓ Liste „%s“ gefunden: %d Aufgaben.' % (LISTE, len(aufgaben(token, liste))), flush=True)
         return
     raise Fehler('Der Code ist abgelaufen. Bitte die Action nochmals starten.')
 
 
+def erneuern():
+    """Mit der gespeicherten Anmeldung ein Zugriffs-Token holen und die neue Anmeldung speichern."""
+    client = umgebung()
+    alt = os.environ.get('MS_REFRESH_TOKEN', '').strip()
+    if not alt:
+        raise Fehler('Das Secret %s fehlt. Bitte zuerst die Action „Microsoft-Anmeldung“ starten.' % SECRET)
+    maskieren(alt)
+    t = post(LOGIN + '/token', {'grant_type': 'refresh_token', 'client_id': client, 'refresh_token': alt, 'scope': SCOPE})
+    if t.get('error') == 'invalid_grant':
+        raise Fehler('Die Anmeldung bei Microsoft ist nicht mehr gültig. Bitte die Action „Microsoft-Anmeldung“ nochmals starten. (%s)'
+                     % kurz(t.get('error_description')))
+    if t.get('error'):
+        raise Fehler('Anmeldung erneuern fehlgeschlagen: %s (%s)' % (kurz(t.get('error_description')), t['error']))
+    return tokens_uebernehmen(t)
+
+
+def sortierschluessel(text):
+    """Umlaute wie Grundbuchstaben einsortieren (Ä bei A)."""
+    return unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode().casefold()
+
+
+def abrufen():
+    token = erneuern()
+    print('✓ Anmeldung erneuert und gespeichert.', flush=True)
+    liste = aufgaben(token, liste_finden(token))
+    zeilen = sorted(({'id': a['id'], 'titel': (a.get('title') or '').strip()} for a in liste), key=lambda a: sortierschluessel(a['titel']))
+    print('✓ %d Aufgaben gelesen.' % len(zeilen))
+    print('---- AUFGABEN ----')
+    for z in zeilen:  # bewusst nur id und Titel: keine Notizen, kein Status
+        print(json.dumps(z, ensure_ascii=False))
+    print('---- ENDE ----', flush=True)
+
+
 def main():
-    befehle = {'anmelden': anmelden}
+    befehle = {'anmelden': anmelden, 'abrufen': abrufen}
     if len(sys.argv) != 2 or sys.argv[1] not in befehle:
         print('Aufruf: python3 -u werkzeuge/todo.py %s' % '|'.join(befehle))
         return 2
