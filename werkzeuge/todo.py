@@ -40,7 +40,7 @@ LISTE = 'Ausflugsideen'
 SECRET = 'MS_REFRESH_TOKEN'
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-ZIELE = os.path.join(REPO, 'daten', 'ziele.json')      # Angaben zu den Zielen + zugehörige To-Do-Aufgaben
+ZIELE = os.path.join(REPO, 'daten', 'ziele.json')      # Angaben zu den Zielen + zugehörige To-Do-Aufgaben + „kein Ausflugsziel“
 OFFEN = os.path.join(REPO, 'daten', 'offen.json')      # Aufgaben ohne Angaben (noch zu ergänzen)
 WEBSITE = os.path.join(REPO, 'ausfluege.json')         # wird erzeugt, nicht von Hand bearbeiten
 GRENZE = 10  # verschwinden mehr Ziele auf einmal, wird zur Sicherheit nichts geändert
@@ -228,11 +228,22 @@ def ohne_stand(daten):
     return {k: v for k, v in (daten or {}).items() if k != 'stand'}
 
 
+def titel_schluessel(titel):
+    return (titel or '').strip().casefold()
+
+
+def kein_ziel(quelle, aufgabe):
+    """Steht der Titel in „keinAusflugsziel“? Bewusst über den Titel, nicht die id:
+    Solche Aufgaben tauchten nach dem Löschen schon mit neuer id wieder auf."""
+    return titel_schluessel(aufgabe.get('title')) in {titel_schluessel(t) for t in quelle.get('keinAusflugsziel', [])}
+
+
 def zusammenbauen(quelle, liste, alt, heute, trotzdem=False):
     """Website-Daten und offene Aufgaben aus den Angaben und der To-Do-Liste (ohne Netz).
 
     Ein Ziel erscheint, solange mindestens eine seiner Aufgaben in To Do steht. So schadet
     es nicht, wenn bei Duplikaten die eine oder andere Aufgabe gelöscht wird.
+    Aufgaben aus „keinAusflugsziel“ erscheinen weder auf der Website noch in den offenen.
     Gibt (neue Website-Daten, offene Aufgaben, verschwundene Ziele) zurück.
     """
     vorhanden = {a['id'] for a in liste}
@@ -243,7 +254,8 @@ def zusammenbauen(quelle, liste, alt, heute, trotzdem=False):
         zugeordnet.update(todo)
         if any(t in vorhanden for t in todo):
             ausfluege.append({k: v for k, v in z.items() if k != 'todo'})
-    offen = sorted(({'id': a['id'], 'titel': (a.get('title') or '').strip()} for a in liste if a['id'] not in zugeordnet),
+    offen = sorted(({'id': a['id'], 'titel': (a.get('title') or '').strip()} for a in liste
+                    if a['id'] not in zugeordnet and not kein_ziel(quelle, a)),
                    key=lambda a: sortierschluessel(a['titel']))
     sichtbar = {z['id'] for z in ausfluege}
     weg = [z for z in (alt or {}).get('ausfluege', []) if z['id'] not in sichtbar]
@@ -268,8 +280,9 @@ def aktualisieren():
         raise Fehler('Die Liste „%s“ ist leer. Zur Sicherheit wurde nichts geändert.' % LISTE)
 
     alt = lesen(WEBSITE)
+    quelle = lesen(ZIELE)
     heute = datetime.now(ZoneInfo('Europe/Zurich')).date().isoformat()
-    neu, offen, weg = zusammenbauen(lesen(ZIELE), liste, alt, heute, trotzdem)
+    neu, offen, weg = zusammenbauen(quelle, liste, alt, heute, trotzdem)
     bisher = {z['id'] for z in (alt or {}).get('ausfluege', [])}
     print('✓ %d Ziele auf der Website.' % len(neu['ausfluege']))
     for z in neu['ausfluege']:
@@ -277,6 +290,9 @@ def aktualisieren():
             print('  + kommt dazu: %s' % z['titel'])
     for z in weg:
         print('  − verschwindet (Aufgabe in To Do gelöscht): %s' % z['titel'])
+    uebergangen = sum(1 for a in liste if kein_ziel(quelle, a))
+    if uebergangen:
+        print('✓ %d Aufgabe(n) als „kein Ausflugsziel“ übergangen.' % uebergangen)
     print('✓ %d Aufgaben noch ohne Angaben (daten/offen.json):' % len(offen))
     for a in offen:
         print('  · %s' % a['titel'])
