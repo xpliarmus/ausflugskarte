@@ -51,6 +51,23 @@
  ],
  "ziele": [
   {
+   "id": "adventure-arena-zurich",
+   "titel": "Adventure Arena Zürich",
+   "ort": "Dübendorf (Stettbach)",
+   "region": "Zürich",
+   "land": "Schweiz",
+   "lat": 47.3975,
+   "lon": 8.5975,
+   "kat": "park",
+   "beschreibung": "Indoor-Abenteuer mit 20 Missionen für Teams von 2 bis 5 Personen",
+   "hinweis": "Liegt in Dübendorf beim Bahnhof Stettbach; ab 6 Jahren in Begleitung Erwachsener",
+   "website": "https://www.adventure-arena.ch/",
+   "ungefaehr": true,
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJqacQpQAAAA=="
+   ]
+  },
+  {
    "id": "affenberg-salem",
    "titel": "Affenberg Salem",
    "ort": "Salem (Mendlishausen)",
@@ -158,6 +175,23 @@
    ]
   },
   {
+   "id": "balloon-museum-london",
+   "titel": "Balloon Museum London",
+   "ort": "London (Immerse LDN, Royal Docks)",
+   "region": "England",
+   "land": "Vereinigtes Königreich",
+   "lat": 51.5083,
+   "lon": 0.02,
+   "kat": "museum",
+   "beschreibung": "Begehbare Kunstausstellung aus riesigen aufblasbaren Installationen",
+   "hinweis": "Wanderausstellung: ab 24.10.2026 «Euphoria» bei Immerse LDN (ExCeL) – Ort und Dauer vorher prüfen",
+   "website": "https://balloonmuseum.world/",
+   "ungefaehr": true,
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJr-D78QAAAA=="
+   ]
+  },
+  {
    "id": "barfusspark-dornstetten-schwarzwald",
    "titel": "Barfusspark Dornstetten, Schwarzwald",
    "ort": "Dornstetten-Hallwangen",
@@ -204,6 +238,22 @@
    ]
   },
   {
+   "id": "bolderhof-hemishofen",
+   "titel": "Bolderhof Hemishofen",
+   "ort": "Hemishofen",
+   "region": "Schaffhausen",
+   "land": "Schweiz",
+   "lat": 47.682,
+   "lon": 8.823,
+   "kat": "tier",
+   "beschreibung": "Bio-Erlebnisbauernhof mit Kuhreiten und Kuhtrekking an den Rhein",
+   "website": "https://www.bolderhof.ch/",
+   "ungefaehr": true,
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJr00YZQAAAA=="
+   ]
+  },
+  {
    "id": "bosch-la-bova-kugelbahnweg",
    "titel": "Bosch la Bova (Kugelbahnweg)",
    "ort": "Flims (Foppa)",
@@ -217,6 +267,23 @@
    "website": "https://www.graubuenden.ch/en/tours/marble-run-botsch-la-bova",
    "todo": [
     "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJQXjx8AAAAA=="
+   ]
+  },
+  {
+   "id": "bouncelab-belp",
+   "titel": "Bouncelab Belp",
+   "ort": "Belp",
+   "region": "Bern",
+   "land": "Schweiz",
+   "lat": 46.9195,
+   "lon": 7.5035,
+   "kat": "park",
+   "beschreibung": "Trampolinhalle beim Flughafen Bern-Belp",
+   "hinweis": "Reservation empfohlen",
+   "website": "https://www.bouncelab.ch/",
+   "ungefaehr": true,
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJr-D78gAAAA=="
    ]
   },
   {
@@ -297,6 +364,23 @@
    ]
   },
   {
+   "id": "chugalirond-weg-fislisbach",
+   "titel": "Chugälirond-Weg Fislisbach",
+   "ort": "Fislisbach",
+   "region": "Aargau",
+   "land": "Schweiz",
+   "lat": 47.439,
+   "lon": 8.296,
+   "kat": "kugel",
+   "beschreibung": "Kugelbahnweg mit 11 Stationen, Rundweg 6 km oder Kurzroute 2,5 km",
+   "hinweis": "In To Do als «Chogelirond … Fisibach» – gemeint ist wohl dieser Weg in Fislisbach",
+   "website": "https://www.kinderwanderwege.ch/wanderweg/chugaelirond-weg-fislisbach-ag/",
+   "ungefaehr": true,
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJqGfemgAAAA=="
+   ]
+  },
+  {
    "id": "connbachli-flims",
    "titel": "Connbächli Flims",
    "ort": "Flims (Caumasee-Conn)",
@@ -327,6 +411,22 @@
    ]
   },
   {
+   "id": "erdmannshohle-hasel",
+   "titel": "Erdmannshöhle Hasel",
+   "ort": "Hasel",
+   "region": "Baden-Württemberg",
+   "land": "Deutschland",
+   "lat": 47.6492,
+   "lon": 7.8958,
+   "kat": "wasser",
+   "beschreibung": "Eine der ältesten Schauhöhlen Deutschlands mit Tropfsteinen, Führung rund 45 Minuten",
+   "hinweis": "Auch im Sommer kühl, warme Kleidung mitnehmen",
+   "website": "https://www.gemeinde-hasel.de/",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJqacQpgAAAA=="
+   ]
+  },
+  {
    "id": "erlebnisweg-brenzikofen",
    "titel": "Erlebnisweg Brenzikofen",
    "ort": "Brenzikofen",
@@ -339,6 +439,22 @@
    "website": "https://www.erlebnisweg-brenzikofen.ch/",
    "todo": [
     "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJUnQFcAAAAA=="
+   ]
+  },
+  {
+   "id": "feuerwehrerlebniswelt-augsburg",
+   "titel": "Feuerwehrerlebniswelt Augsburg",
+   "ort": "Augsburg",
+   "region": "Bayern",
+   "land": "Deutschland",
+   "lat": 48.38,
+   "lon": 10.914,
+   "kat": "museum",
+   "beschreibung": "Mitmach-Ausstellung rund um Feuer, Feuerwehr und Brandschutz, ab etwa 6 Jahren",
+   "website": "https://feuerwehrerlebniswelt.de/",
+   "ungefaehr": true,
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJr-D79AAAAA=="
    ]
   },
   {
@@ -388,6 +504,23 @@
    ]
   },
   {
+   "id": "giessbachfalle",
+   "titel": "Giessbachfälle",
+   "ort": "Brienz (Giessbach)",
+   "region": "Bern",
+   "land": "Schweiz",
+   "lat": 46.733,
+   "lon": 8.023,
+   "kat": "wasser",
+   "beschreibung": "Wasserfall in 14 Stufen über dem Brienzersee, der Weg führt hinter dem Wasser durch",
+   "hinweis": "Schön mit Schiff und historischer Standseilbahn; Weg nicht kinderwagentauglich",
+   "website": "https://www.interlaken.swiss/erlebnisse/poi/giessbach-wasserfall",
+   "ungefaehr": true,
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJlDjeQQAAAA=="
+   ]
+  },
+  {
    "id": "gletscherschlucht-grindelwald",
    "titel": "Gletscherschlucht Grindelwald",
    "ort": "Grindelwald",
@@ -430,6 +563,39 @@
    "website": "https://www.hausderkunst.de/en/",
    "todo": [
     "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAInOJKswAAAA=="
+   ]
+  },
+  {
+   "id": "heidipfad-pizol",
+   "titel": "Heidipfad Pizol",
+   "ort": "Bad Ragaz (Pardiel)",
+   "region": "St. Gallen",
+   "land": "Schweiz",
+   "lat": 46.988,
+   "lon": 9.462,
+   "kat": "wandern",
+   "beschreibung": "4 km Rundweg ab Pardiel mit Kneippanlage, Barfussweg und Suche nach Peters Ziegen",
+   "hinweis": "Gondel ab Bad Ragaz; bis Alp Schwarzbüel kinderwagentauglich",
+   "website": "https://pizol.com/en/hiking-trails/heidipfad/",
+   "ungefaehr": true,
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJky6ScgAAAA=="
+   ]
+  },
+  {
+   "id": "holzweg-waldstatt",
+   "titel": "Holzweg Waldstatt",
+   "ort": "Waldstatt",
+   "region": "Appenzell Ausserrhoden",
+   "land": "Schweiz",
+   "lat": 47.3561,
+   "lon": 9.282,
+   "kat": "wandern",
+   "beschreibung": "Rundweg von gut 6 km mit dem Holzwurm Sämi rund ums Thema Holz",
+   "website": "https://www.kinderwanderwege.ch/wanderweg/holzweg-waldstatt-ar/",
+   "ungefaehr": true,
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJmzGq5AAAAA=="
    ]
   },
   {
@@ -508,6 +674,39 @@
    "website": "https://familienverein.ch/kugelbahnweg/",
    "todo": [
     "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAILkRa4AAAAA=="
+   ]
+  },
+  {
+   "id": "konigsweg-emmentaler-schaukaserei",
+   "titel": "Königsweg Emmentaler Schaukäserei",
+   "ort": "Affoltern im Emmental",
+   "region": "Bern",
+   "land": "Schweiz",
+   "lat": 47.0653,
+   "lon": 7.7355,
+   "kat": "museum",
+   "beschreibung": "Erlebnisrundgang durch Käserei und Reifekeller mit Degustation, Kinder bis 11 gratis",
+   "website": "https://www.emmentaler-schaukaeserei.ch/de/entdecken/koenigsweg.php",
+   "ungefaehr": true,
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJn1SRngAAAA=="
+   ]
+  },
+  {
+   "id": "lebrickgo-museum",
+   "titel": "LEbrickGO Museum",
+   "ort": "Binningen",
+   "region": "Basel-Landschaft",
+   "land": "Schweiz",
+   "lat": 47.541,
+   "lon": 7.573,
+   "kat": "museum",
+   "beschreibung": "LEGO-Museum mit grossen Modellen und Star-Wars-Raum",
+   "hinweis": "Keine Parkplätze; Tram 2 bis Binningen Kronenplatz",
+   "website": "https://www.lebrickgo.ch/",
+   "ungefaehr": true,
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJlWfX2wAAAA=="
    ]
   },
   {
@@ -604,6 +803,22 @@
    ]
   },
   {
+   "id": "melchsee-rundweg",
+   "titel": "Melchsee-Rundweg",
+   "ort": "Melchsee-Frutt (Kerns)",
+   "region": "Obwalden",
+   "land": "Schweiz",
+   "lat": 46.7725,
+   "lon": 8.2725,
+   "kat": "wandern",
+   "beschreibung": "Flacher Rundweg um den Bergsee auf 1900 m, dazu der Fruttli-Pfad für Kinder",
+   "hinweis": "Anfahrt mit der Gondelbahn ab Stöckalp",
+   "website": "https://www.melchsee-frutt.ch/",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJkdXicAAAAA=="
+   ]
+  },
+  {
    "id": "munggeweg-amden",
    "titel": "Munggeweg Amden",
    "ort": "Amden",
@@ -664,6 +879,21 @@
    ]
   },
   {
+   "id": "naturhistorisches-museum-basel",
+   "titel": "Naturhistorisches Museum Basel",
+   "ort": "Basel",
+   "region": "Basel-Stadt",
+   "land": "Schweiz",
+   "lat": 47.5575,
+   "lon": 7.5906,
+   "kat": "museum",
+   "beschreibung": "Dinosaurier-Ausstellung mit Allosaurus-Skelett und Grabungs-Sandkasten, Kinder bis 12 gratis",
+   "website": "https://www.nmbs.ch/",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJroLGRgAAAA=="
+   ]
+  },
+  {
    "id": "papiliorama-kerzers",
    "titel": "Papiliorama Kerzers",
    "ort": "Kerzers",
@@ -676,6 +906,22 @@
    "website": "https://www.papiliorama.ch/",
    "todo": [
     "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJflcJlQAAAA=="
+   ]
+  },
+  {
+   "id": "parc-du-petit-prince",
+   "titel": "Parc du Petit Prince",
+   "ort": "Ungersheim",
+   "region": "Elsass",
+   "land": "Frankreich",
+   "lat": 47.8614,
+   "lon": 7.2977,
+   "kat": "park",
+   "beschreibung": "Freizeitpark rund um den Kleinen Prinzen mit Fesselballon, Labyrinthen und Tieren",
+   "hinweis": "Saison etwa April bis Anfang November",
+   "website": "https://www.parcdupetitprince.com/",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJirVYNgAAAA=="
    ]
   },
   {
@@ -830,6 +1076,40 @@
    ]
   },
   {
+   "id": "rauber-kasimir-weg",
+   "titel": "Räuber-Kasimir-Weg",
+   "ort": "Weiler im Allgäu",
+   "region": "Bayern",
+   "land": "Deutschland",
+   "lat": 47.5818,
+   "lon": 9.9145,
+   "kat": "kugel",
+   "beschreibung": "Kinder-Erlebnispfad durch die Hausbachklamm mit Kugelbahnen, Wasserspiel und Räuberdiplom",
+   "hinweis": "50-Cent-Stücke für die Kugeln mitnehmen; nicht kinderwagentauglich",
+   "website": "https://www.weiler-simmerberg.de/tourismus-freizeit/wandern-auf-premiumwegen/raeuber-kasimir-weg",
+   "ungefaehr": true,
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJhkyz5AAAAA=="
+   ]
+  },
+  {
+   "id": "salina-helvetica-schweizerhalle",
+   "titel": "Salina Helvetica Schweizerhalle",
+   "ort": "Pratteln (Schweizerhalle)",
+   "region": "Basel-Landschaft",
+   "land": "Schweiz",
+   "lat": 47.5315,
+   "lon": 7.6845,
+   "kat": "museum",
+   "beschreibung": "Erlebniswelt der Schweizer Salinen mit Salzbergen, Rundgang und Museum Salzkammer",
+   "hinweis": "Rundgänge nur zu bestimmten Zeiten, vorher reservieren",
+   "website": "https://www.salina-helvetica.ch/",
+   "ungefaehr": true,
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJmCa_VgAAAA=="
+   ]
+  },
+  {
    "id": "saurierfunde-trossingen",
    "titel": "Saurierfunde Trossingen",
    "ort": "Trossingen",
@@ -873,6 +1153,22 @@
    "website": "https://www.schlaufensteg.ch/",
    "todo": [
     "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJRpdljwAAAA=="
+   ]
+  },
+  {
+   "id": "schlossgeischtli-weg-schlossrued",
+   "titel": "Schlossgeischtli-Weg Schlossrued",
+   "ort": "Schlossrued",
+   "region": "Aargau",
+   "land": "Schweiz",
+   "lat": 47.2915,
+   "lon": 8.088,
+   "kat": "wandern",
+   "beschreibung": "Vier Rundwege von 1 bis 7,5 km mit Geschichten über Geister, Natur und Dorfleben",
+   "website": "https://www.kinderwanderwege.ch/wanderweg/schlossgeischtliweg-schlossrued-ag/",
+   "ungefaehr": true,
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJmzGq4wAAAA=="
    ]
   },
   {
@@ -967,6 +1263,40 @@
    ]
   },
   {
+   "id": "spatz-manni-erlebnisweg-atzmannig",
+   "titel": "Spatz-Männi-Erlebnisweg Atzmännig",
+   "ort": "Goldingen (Atzmännig)",
+   "region": "St. Gallen",
+   "land": "Schweiz",
+   "lat": 47.279,
+   "lon": 8.972,
+   "kat": "wandern",
+   "beschreibung": "Bilderbuch-Weg von der Bergstation hinunter, für Kinder von 2 bis 10 Jahren",
+   "hinweis": "Geöffnet etwa Mitte April bis Anfang November",
+   "website": "https://www.atzmaennig.ch/",
+   "ungefaehr": true,
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJmCa_VwAAAA=="
+   ]
+  },
+  {
+   "id": "sternwarte-schaffhausen",
+   "titel": "Sternwarte Schaffhausen",
+   "ort": "Schaffhausen",
+   "region": "Schaffhausen",
+   "land": "Schweiz",
+   "lat": 47.705,
+   "lon": 8.625,
+   "kat": "museum",
+   "beschreibung": "Sternwarte mit Planetarium, Kinderfilmen und Blick durchs Teleskop",
+   "hinweis": "Öffentliche Abende und Kinderanlässe nur an bestimmten Daten",
+   "website": "https://www.sternwarte-schaffhausen.ch/",
+   "ungefaehr": true,
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJroLGRQAAAA=="
+   ]
+  },
+  {
    "id": "stockacher-heidenhohlen",
    "titel": "Stockacher Heidenhöhlen",
    "ort": "Stockach-Zizenhausen",
@@ -979,6 +1309,22 @@
    "website": "https://www.stockach.de/tourismus-kultur/de/freizeit-uebernachten/aktiv-in-und-um-stockach/heidenhoehlen",
    "todo": [
     "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJInrR0wAAAA=="
+   ]
+  },
+  {
+   "id": "stupfis-familien-ratselweg-schwellbrunn",
+   "titel": "Stüpfis Familien-Rätselweg Schwellbrunn",
+   "ort": "Schwellbrunn",
+   "region": "Appenzell Ausserrhoden",
+   "land": "Schweiz",
+   "lat": 47.3528,
+   "lon": 9.2483,
+   "kat": "wandern",
+   "beschreibung": "Rätsel-Rundweg von rund 5 km ab dem Dorfparkplatz",
+   "website": "https://www.kinderwanderwege.ch/wanderweg/stuepfis-familien-raetselweg-schwellbrunn-ar/",
+   "ungefaehr": true,
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJmzGq5QAAAA=="
    ]
   },
   {
@@ -1085,6 +1431,22 @@
    "website": "https://www.trauffer.ch/en/world-of-adventure/fussball-muhnigolf",
    "todo": [
     "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJbkSiZgAAAA=="
+   ]
+  },
+  {
+   "id": "trummelbachfalle",
+   "titel": "Trümmelbachfälle",
+   "ort": "Lauterbrunnen",
+   "region": "Bern",
+   "land": "Schweiz",
+   "lat": 46.5691,
+   "lon": 7.915,
+   "kat": "wasser",
+   "beschreibung": "Zehn Gletscherwasserfälle im Berginnern, erreichbar mit einem Tunnellift",
+   "hinweis": "Erst ab 4 Jahren, nicht mit Kinderwagen; offen etwa April bis Anfang November",
+   "website": "https://www.interlaken.swiss/erlebnisse/poi/truemmelbachfaelle",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJmO043gAAAA=="
    ]
   },
   {
