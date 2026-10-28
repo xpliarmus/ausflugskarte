@@ -1,5 +1,5 @@
 {
- "stand": "2026-10-21",
+ "stand": "2026-10-28",
  "kategorien": [
   {
    "key": "tier",
@@ -354,19 +354,6 @@
    "kat": "museum",
    "beschreibung": "Bedeutendes Museum für zeitgenössische Kunst",
    "website": "https://www.hausderkunst.de/en/"
-  },
-  {
-   "id": "holzkugelpfad-brunni",
-   "titel": "Holzkugelpfad Brunni",
-   "ort": "Engelberg (Brunni-Gebiet)",
-   "region": "Obwalden",
-   "land": "Schweiz",
-   "lat": 46.8167,
-   "lon": 8.3944,
-   "kat": "kugel",
-   "beschreibung": "Holzkugelbahnen entlang des Wanderwegs im Brunni-Gebiet",
-   "hinweis": "Brunni bei Engelberg OW (nicht Alpthal SZ)",
-   "website": "https://brunni.ch/223/de/holzkugelpfad"
   },
   {
    "id": "honigweg-runenberg",
