@@ -3,47 +3,56 @@
   {
    "key": "tier",
    "label": "Tierpark/Zoo",
-   "farbe": "#E63946"
+   "farbe": "#E63946",
+   "symbol": "🦁"
   },
   {
    "key": "kugel",
    "label": "Kugelbahn/Kinderweg",
-   "farbe": "#E9A800"
+   "farbe": "#E9A800",
+   "symbol": "🎱"
   },
   {
    "key": "sonst",
    "label": "Sonstiges",
-   "farbe": "#7F8C8D"
+   "farbe": "#7F8C8D",
+   "symbol": "✨"
   },
   {
    "key": "wandern",
    "label": "Wanderung/Themenweg",
-   "farbe": "#2A9D47"
+   "farbe": "#2A9D47",
+   "symbol": "🥾"
   },
   {
    "key": "wasser",
    "label": "Wasser (Schlucht, Bad, Höhle)",
-   "farbe": "#00A8CC"
+   "farbe": "#00A8CC",
+   "symbol": "💧"
   },
   {
    "key": "berg",
    "label": "Bergbahn/Seilbahn/Aussicht",
-   "farbe": "#3A5BD9"
+   "farbe": "#3A5BD9",
+   "symbol": "🚠"
   },
   {
    "key": "museum",
    "label": "Museum",
-   "farbe": "#8E44AD"
+   "farbe": "#8E44AD",
+   "symbol": "🏛️"
   },
   {
    "key": "spiel",
    "label": "Spielplatz/Erlebnispark",
-   "farbe": "#E84393"
+   "farbe": "#E84393",
+   "symbol": "🛝"
   },
   {
    "key": "park",
    "label": "Freizeitpark/Funpark",
-   "farbe": "#F77F00"
+   "farbe": "#F77F00",
+   "symbol": "🎢"
   }
  ],
  "keinAusflugsziel": [

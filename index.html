@@ -12,7 +12,7 @@
 <link rel="preload" href="karla.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fredoka.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="leaflet.css">
-<link rel="stylesheet" href="style.css?v=4">
+<link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
 
@@ -36,6 +36,7 @@
         <h2>Kategorie filtern</h2>
         <button type="button" class="reset-link" id="resetFilters">zurücksetzen</button>
       </div>
+      <button type="button" class="filter-knopf" id="filterKnopf" aria-haspopup="dialog"><span class="fk-titel">Filter</span><span class="fk-wert" id="filterWert">Alle Kategorien</span><span class="fk-pfeil" aria-hidden="true">›</span></button>
       <div class="chips" id="chipRow"></div>
       <div class="search-row">
         <input type="search" id="searchInput" placeholder="Suchen (Ort, Titel …)" aria-label="Einträge durchsuchen" autocomplete="off">
@@ -70,11 +71,23 @@
   </form>
 </dialog>
 
+<dialog class="filterblatt" id="filterBlatt" aria-labelledby="filterBlattTitel" tabindex="-1">
+  <div class="fb-innen">
+    <div class="fb-griff" aria-hidden="true"></div>
+    <h2 id="filterBlattTitel">Kategorien</h2>
+    <div class="fb-liste" id="filterListe"></div>
+    <div class="fb-fuss">
+      <button type="button" class="knopf-zweit" id="filterZurueck">Zurücksetzen</button>
+      <button type="button" class="knopf-haupt" id="filterFertig">Fertig</button>
+    </div>
+  </div>
+</dialog>
+
 <p class="meldung" id="meldung" role="status" aria-live="polite"></p>
 
 <button type="button" class="hochknopf" id="hochKnopf" aria-label="Nach oben scrollen" title="Nach oben">↑</button>
 
 <script src="leaflet.js"></script>
-<script src="app.js?v=4"></script>
+<script src="app.js?v=5"></script>
 </body>
 </html>

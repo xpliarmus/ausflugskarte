@@ -21,8 +21,9 @@
   var mqHover = window.matchMedia('(hover: hover)');
   var mqTouch = window.matchMedia('(pointer: coarse)');
   var frageBox = $('frageFenster'), frageCb = null, meldungTimer = null;
+  var filterBlatt = $('filterBlatt');
 
-  var items = [], byId = {}, cats = {}, catOrder = [];
+  var items = [], byId = {}, cats = {}, catOrder = [], katZahl = {};
   var cards = {}, markers = {}, hay = {}, codeMap = Object.create(null);
   var done = new Set(), activeCats = new Set(), query = '', hideDone = false;
   var map, markerLayer, mainBounds, hlHalo, hlRing, hlId = null;
@@ -224,13 +225,28 @@
     listEl.appendChild(frag);
   }
 
+  // Kategorien mit Einträgen, alphabetisch; «Sonstiges» zuletzt
+  function katReihenfolge() {
+    return catOrder.filter(function (k) { return katZahl[k]; }).sort(function (a, b) {
+      if (a === 'sonst') return 1;
+      if (b === 'sonst') return -1;
+      return cats[a].label.localeCompare(cats[b].label, 'de');
+    });
+  }
+  function kurzname(label) { return String(label).split(/[\/(]/)[0].trim(); } // «Wanderung/Themenweg» → «Wanderung»
+
   function buildChips() {
-    var counts = {};
-    items.forEach(function (a) { counts[a.kat] = (counts[a.kat] || 0) + 1; });
-    chipRow.innerHTML = catOrder.filter(function (k) { return counts[k]; }).map(function (k) {
+    items.forEach(function (a) { katZahl[a.kat] = (katZahl[a.kat] || 0) + 1; });
+    chipRow.innerHTML = katReihenfolge().map(function (k) {
       return '<button type="button" class="filter-chip" data-cat="' + esc(k) + '" style="--chip-color:' + esc(cats[k].farbe) + '">' +
-        '<span class="chip-dot"></span>' + esc(cats[k].label) + ' <span class="chip-n">' + counts[k] + '</span></button>';
+        '<span class="chip-dot"></span>' + esc(cats[k].label) + ' <span class="chip-n">' + katZahl[k] + '</span></button>';
     }).join('');
+  }
+
+  function toggleKat(k) {
+    if (activeCats.has(k)) activeCats.delete(k); else activeCats.add(k);
+    updateChips();
+    applyFilters();
   }
 
   function updateChips() {
@@ -241,6 +257,21 @@
       chip.classList.toggle('dimmed', any && !on);
       chip.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
+    // Handy: Knopf «Filter» zeigt die Auswahl, das offene Fenster wird nachgeführt
+    var namen = katReihenfolge().filter(function (k) { return activeCats.has(k); }).map(function (k) { return kurzname(cats[k].label); });
+    $('filterWert').textContent = namen.length === 0 ? 'Alle Kategorien' : namen.length <= 2 ? namen.join(', ') : namen.length + ' Kategorien';
+    $('filterKnopf').classList.toggle('hat-wahl', namen.length > 0);
+    if (filterBlatt && filterBlatt.open) filterListe();
+  }
+
+  // ---------- Filter auf dem Handy: Fenster von unten ----------
+  function filterListe() {
+    $('filterListe').innerHTML = katReihenfolge().map(function (k) {
+      var c = cats[k], on = activeCats.has(k);
+      return '<button type="button" class="fb-zeile' + (on ? ' an' : '') + '" data-cat="' + esc(k) + '" aria-pressed="' + on + '" style="--chip-color:' + esc(c.farbe) + '">' +
+        '<span class="fb-sym" aria-hidden="true">' + esc(c.symbol || '') + '</span><span class="fb-name">' + esc(c.label) + '</span>' +
+        '<span class="fb-n">' + katZahl[k] + '</span><span class="fb-haken" aria-hidden="true"></span></button>';
+    }).join('');
   }
 
   function applyFilters() {
@@ -404,12 +435,25 @@
   function wireUi() {
     chipRow.addEventListener('click', function (e) {
       var chip = e.target.closest('.filter-chip');
-      if (!chip) return;
-      var k = chip.dataset.cat;
-      if (activeCats.has(k)) activeCats.delete(k); else activeCats.add(k);
-      updateChips();
-      applyFilters();
+      if (chip) toggleKat(chip.dataset.cat);
     });
+
+    // Handy: Kategorien in einem Fenster von unten (ohne <dialog> bleiben die Chips)
+    if (filterBlatt && typeof filterBlatt.showModal === 'function') {
+      document.querySelector('.filterbar').classList.add('mit-filterblatt');
+      $('filterKnopf').addEventListener('click', function () {
+        filterListe();
+        filterBlatt.showModal();
+        filterBlatt.focus(); // keine Zeile vorausgewählt
+      });
+      $('filterListe').addEventListener('click', function (e) {
+        var z = e.target.closest('.fb-zeile');
+        if (z) toggleKat(z.dataset.cat);
+      });
+      $('filterZurueck').addEventListener('click', function () { activeCats.clear(); updateChips(); applyFilters(); });
+      $('filterFertig').addEventListener('click', function () { filterBlatt.close(); });
+      filterBlatt.addEventListener('click', function (e) { if (e.target === filterBlatt) filterBlatt.close(); }); // Tipp daneben
+    }
     $('resetFilters').addEventListener('click', function () {
       activeCats.clear(); query = ''; hideDone = false;
       searchInput.value = ''; hideDoneToggle.checked = false;
