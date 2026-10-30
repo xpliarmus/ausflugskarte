@@ -38,7 +38,7 @@ Die Website selbst ist bewusst flach und ohne Build-Schritt. So lassen sich Date
 ```json
 {
   "stand": "2026-10-21",
-  "kategorien": [{ "key": "tier", "label": "Tierpark/Zoo", "farbe": "#ba3636" }],
+  "kategorien": [{ "key": "tier", "label": "Tierpark/Zoo", "farbe": "#E63946", "symbol": "🦁" }],
   "ausfluege": [{
     "id": "affenberg-salem", "titel": "Affenberg Salem",
     "ort": "Salem (Mendlishausen)", "region": "Baden-Württemberg", "land": "Deutschland",
@@ -49,7 +49,7 @@ Die Website selbst ist bewusst flach und ohne Build-Schritt. So lassen sich Date
 }
 ```
 
-- **Kategorien (9):** `tier, kugel, sonst, wandern, wasser, berg, museum, spiel, park`.
+- **Kategorien (9):** `tier, kugel, sonst, wandern, wasser, berg, museum, spiel, park`. `symbol` ist das Emoji im Filter-Fenster auf dem Handy (optional, fehlt es, bleibt der Platz leer). Auf der Seite stehen die Kategorien alphabetisch nach `label`, „Sonstiges“ (`sonst`) immer zuletzt (`katReihenfolge()` in `app.js`); die Reihenfolge in der Datei spielt keine Rolle.
 - **`land`** wird in der Liste nur angezeigt, wenn es nicht „Schweiz“ ist.
 - **`ungefaehr: true`** heisst, dass die Koordinaten nur geschätzt sind. In der Liste erscheint dann ein „~“.
 - **`id`** ist der Schlüssel für die Erledigt-Haken der Besucher. **Eine bestehende `id` nie ändern**, sonst verlieren die Besucher ihre Haken. Für neue Einträge wird die `id` so gebildet: Titel in Kleinbuchstaben, Unicode-NFKD und auf ASCII reduzieren (ä→a), alles ausser `a-z0-9` durch `-` ersetzen, `-` am Rand entfernen.
@@ -62,6 +62,7 @@ Die Website selbst ist bewusst flach und ohne Build-Schritt. So lassen sich Date
 - **Startansicht:** alle Einträge im Umkreis von 300 km um den Median-Punkt (`CLUSTER_KM`). Weit entfernte Ziele wie die Steiermark sieht man erst beim Herauszoomen. Der Knopf ⟲ setzt die Ansicht zurück.
 - **Liste:**
   - Kategorie-Chips mit Anzahl, leicht in ihrer Kategorie-Farbe getönt
+  - **Handy (bis 880 px):** statt der Chips ein Knopf „Filter“ (`#filterKnopf` / `.filter-knopf`), der die Auswahl zeigt („Alle Kategorien“, bis zu zwei Kurznamen wie „Tierpark, Wanderung“, sonst „3 Kategorien“). Er öffnet das Fenster von unten `<dialog id="filterBlatt">` (`.filterblatt`) mit allen Kategorien (Symbol, Name, Anzahl, Haken), „Zurücksetzen“ (nur Kategorien) und „Fertig“. Antippen filtert sofort; Escape, „Fertig“ und Tippen daneben schliessen. Bewusst kompakt, damit es auch auf dem iPhone SE ohne Scrollen passt. Ohne `<dialog>`-Unterstützung bleiben die Chips (Klasse `.mit-filterblatt` an `.filterbar` fehlt dann).
   - Jeder Eintrag hat links einen Streifen in seiner Kategorie-Farbe (`--kat-farbe`, gesetzt in `buildCards()`)
   - Suche, die Umlaute ignoriert („zurich“ findet „Zürich“)
   - „nur offene“
@@ -94,9 +95,9 @@ Vom Besitzer gewählt aus mehreren Entwürfen („hell und ruhig“ plus „Berg
 
 ### Stolperfallen
 
-- **Cache:** GitHub Pages liefert Dateien mit `max-age=600`. **Bei jeder Änderung an `style.css` oder `app.js` die Zahl `?v=N` in `index.html` erhöhen** (aktuell `v=4`). Sonst mischt der Browser bis zu 10 Minuten lang alte und neue Dateien.
+- **Cache:** GitHub Pages liefert Dateien mit `max-age=600`. **Bei jeder Änderung an `style.css` oder `app.js` die Zahl `?v=N` in `index.html` erhöhen** (aktuell `v=5`). Sonst mischt der Browser bis zu 10 Minuten lang alte und neue Dateien.
 - **Inhaltsblocker (Safari):** Sie blenden Elemente mit Namen wie `back-to-top`, `scroll-top` oder `to-top` aus. Darum heisst der Knopf `hochknopf`. Teilen-Knöpfe (`share`, `social`) werden ebenfalls oft ausgeblendet, darum `teilen-knopf`. Bei neuen schwebenden Elementen ebenfalls neutrale, deutsche Namen wählen.
-- **Mobile:** Die Seite scrollt als Ganzes (keine Höhen-Tricks mit `100vh` in der Liste). Horizontales Scrollen muss ausgeschlossen bleiben (`overflow-x: hidden` auf `html`/`body`), die Chips scrollen horizontal für sich.
+- **Mobile:** Die Seite scrollt als Ganzes (keine Höhen-Tricks mit `100vh` in der Liste). Horizontales Scrollen muss ausgeschlossen bleiben (`overflow-x: hidden` auf `html`/`body`). Lange Titel brechen notfalls mitten im Wort um (`overflow-wrap: anywhere` an `.card-title`), sonst ragen sie auf 320 px Breite hinaus. Die Chips scrollen horizontal für sich, sind auf dem Handy aber nur noch ohne Filter-Fenster zu sehen.
 - **Leaflet-Stile:** Leaflet setzt eigene Regeln mit höherer Spezifität (z.B. `.leaflet-popup-content p`). Eigene Popup-Regeln darum mit `.leaflet-popup-content …` präfixen.
 
 ## Testen
@@ -108,6 +109,8 @@ python3 -m http.server 8899      # im Repo-Ordner
 - **Mit Playwright** (Chromium) gegen `http://127.0.0.1:8899/` prüfen:
   - Desktop 1440×900, Dark Mode und ein iPhone-Profil
   - so viele Karten und Pins wie Einträge in `ausfluege.json` (Ende Oktober 2026: 107); Filter, Suche und „nur offene“
+  - Kategorien alphabetisch, „Sonstiges“ zuletzt (Chips und Filter-Fenster)
+  - Filter-Fenster auf iPhone 13 und iPhone SE (320×568): passt ohne inneres Scrollen, „Fertig“ im Bild; Antippen, Knopf-Text, „Zurücksetzen“, „Fertig“, Escape, Tippen daneben; Dunkel-Modus; ohne `showModal` bleiben die Chips
   - Haken bleibt nach Neuladen erhalten; Popup-Haken und Listen-Haken bleiben abgeglichen
   - Hover-Ring; Nach-oben-Knopf
   - Mein-Stand-Link:

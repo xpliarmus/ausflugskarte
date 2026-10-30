@@ -121,7 +121,7 @@ h1,h2{font-family:var(--font-display); margin:0; text-wrap:balance;}
 @keyframes flash{ 0%{background:transparent;} 30%{background:color-mix(in srgb, var(--accent) 22%, transparent);} 100%{background:transparent;} }
 .card-check{display:flex; align-items:flex-start; gap:9px; cursor:pointer;}
 .card-check input{width:17px; height:17px; margin:2px 0 0; accent-color:var(--accent); flex:0 0 auto; cursor:pointer;}
-.card-title{font-weight:700; font-size:.94rem; line-height:1.3;}
+.card-title{font-weight:700; font-size:.94rem; line-height:1.3; overflow-wrap:anywhere;}
 .approx{color:var(--ink-soft); font-weight:400; font-size:.8em;}
 .card-meta{display:flex; align-items:center; gap:6px; margin:4px 0 3px 26px; font-size:.75rem; color:var(--ink-soft); min-width:0;}
 .cat-dot{width:7px; height:7px; border-radius:50%; flex:0 0 auto;}
@@ -215,6 +215,46 @@ h1,h2{font-family:var(--font-display); margin:0; text-wrap:balance;}
 }
 .meldung.sichtbar{opacity:1; transform:translate(-50%, 0);}
 
+/* ---------- Filter auf dem Handy: Knopf und Fenster von unten (kompakt, passt auch aufs iPhone SE) ---------- */
+.filter-knopf{
+  display:none; align-items:center; gap:8px; width:100%; margin:0 0 10px; padding:10px 14px;
+  font-family:var(--font-body); font-size:.9rem; color:var(--ink); cursor:pointer;
+  background:var(--surface-2); border:1px solid var(--line); border-radius:12px;
+}
+.filter-knopf .fk-titel{font-weight:700;}
+.filter-knopf .fk-wert{flex:1; text-align:left; color:var(--ink-soft); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.filter-knopf.hat-wahl .fk-wert{color:var(--accent); font-weight:600;}
+.filter-knopf .fk-pfeil{color:var(--ink-soft); font-size:1.1rem; line-height:1;}
+
+.filterblatt{
+  margin:auto 0 0; width:100%; max-width:100%; max-height:88vh; padding:0; border:none;
+  border-radius:18px 18px 0 0; background:var(--surface); color:var(--ink); box-shadow:0 -8px 30px rgba(0,0,0,.18);
+}
+.filterblatt:focus{outline:none;}
+.filterblatt::backdrop{background:rgba(15,18,25,.45);}
+.filterblatt[open]{animation:blatt-hoch .22s ease-out;}
+@keyframes blatt-hoch{from{transform:translateY(40%); opacity:.4;} to{transform:none; opacity:1;}}
+.fb-innen{padding:6px 14px 0;}
+.fb-griff{width:40px; height:5px; border-radius:3px; background:var(--line); margin:4px auto 6px;}
+.filterblatt h2{font-size:1.05rem; font-weight:600; margin:0 0 6px;}
+.fb-zeile{
+  display:flex; align-items:center; gap:10px; width:100%; padding:7px 10px; margin:0 0 5px; cursor:pointer;
+  font-family:var(--font-body); font-size:.86rem; color:var(--ink); text-align:left; border-radius:10px;
+  background:color-mix(in srgb, var(--chip-color) 7%, var(--surface)); border:1px solid color-mix(in srgb, var(--chip-color) 25%, var(--line));
+}
+.fb-zeile.an{background:color-mix(in srgb, var(--chip-color) 20%, var(--surface)); border-color:var(--chip-color);}
+.fb-sym{font-size:1.05rem; width:1.4em; text-align:center;}
+.fb-name{flex:1;}
+.fb-n{color:var(--ink-soft); font-size:.8rem; font-variant-numeric:tabular-nums;}
+.fb-haken{width:20px; height:20px; border-radius:6px; border:1.5px solid var(--line); display:inline-flex; align-items:center; justify-content:center; flex:0 0 auto;}
+.fb-zeile.an .fb-haken{background:var(--chip-color); border-color:var(--chip-color);}
+.fb-zeile.an .fb-haken::after{content:"✓"; color:#fff; font-weight:800; font-size:.75rem;}
+.fb-fuss{
+  position:sticky; bottom:0; display:flex; gap:10px; margin:4px -14px 0; padding:8px 14px calc(10px + env(safe-area-inset-bottom));
+  background:var(--surface); border-top:1px solid var(--line);
+}
+.fb-fuss button{flex:1; padding:10px; border-radius:12px; font-family:var(--font-body); font-weight:700; font-size:.92rem; cursor:pointer;}
+
 /* ---------- Mobile: normale Seite, die als Ganzes scrollt ---------- */
 @media (max-width: 880px){
   html{overflow-x:hidden;}
@@ -225,6 +265,9 @@ h1,h2{font-family:var(--font-display); margin:0; text-wrap:balance;}
   .mapwrap{order:1; flex:none; height:380px; height:min(58svh, 470px);}
   .sidebar{order:2; width:100%; flex:none; overflow:visible; border-right:none; border-top:1px solid var(--line);}
   .filterbar{padding:12px 16px 10px;}
+  .mit-filterblatt .filter-knopf{display:flex;}
+  .mit-filterblatt .chips, .mit-filterblatt .filterbar-row h2{display:none;}
+  .mit-filterblatt .filterbar-row{justify-content:flex-end; margin-bottom:4px;}
   .chips{flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; padding-bottom:6px; margin-bottom:6px; scrollbar-width:thin;}
   .filter-chip{flex:0 0 auto;}
   .list{padding:4px 8px 12px;}
