@@ -108,7 +108,7 @@ python3 -m http.server 8899      # im Repo-Ordner
 
 - **Mit Playwright** (Chromium) gegen `http://127.0.0.1:8899/` prüfen:
   - Desktop 1440×900, Dark Mode und ein iPhone-Profil
-  - so viele Karten und Pins wie Einträge in `ausfluege.json` (Ende Oktober 2026: 107); Filter, Suche und „nur offene“
+  - so viele Karten und Pins wie Einträge in `ausfluege.json` (Ende Oktober 2026: 156); Filter, Suche und „nur offene“
   - Kategorien alphabetisch, „Sonstiges“ zuletzt (Chips und Filter-Fenster)
   - Filter-Fenster auf iPhone 13 und iPhone SE (320×568): passt ohne inneres Scrollen, „Fertig“ im Bild; Antippen, Knopf-Text, „Zurücksetzen“, „Fertig“, Escape, Tippen daneben; Zeile „zurücksetzen“ auf dem Handy unsichtbar; Dunkel-Modus; ohne `showModal` bleiben die Chips
   - Haken bleibt nach Neuladen erhalten; Popup-Haken und Listen-Haken bleiben abgeglichen

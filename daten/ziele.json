@@ -77,6 +77,23 @@
    ]
   },
   {
+   "id": "adventure-park-rheinfall",
+   "titel": "Adventure Park Rheinfall",
+   "ort": "Neuhausen am Rheinfall",
+   "region": "Schaffhausen",
+   "land": "Schweiz",
+   "lat": 47.6787,
+   "lon": 8.617,
+   "kat": "park",
+   "beschreibung": "Seilpark im Wald direkt beim Rheinfall mit Parcours für Kinder und Erwachsene",
+   "hinweis": "Saison etwa März bis Oktober; ab Bahnhof Neuhausen Rheinfall rund 10 Minuten zu Fuss",
+   "website": "https://www.ap-rheinfall.ch/",
+   "ungefaehr": true,
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksHQAAAA=="
+   ]
+  },
+  {
    "id": "affenberg-salem",
    "titel": "Affenberg Salem",
    "ort": "Salem (Mendlishausen)",
@@ -154,6 +171,23 @@
    ]
   },
   {
+   "id": "appenzeller-park-herisau",
+   "titel": "Appenzeller Park Herisau",
+   "ort": "Herisau",
+   "region": "Appenzell Ausserrhoden",
+   "land": "Schweiz",
+   "lat": 47.388,
+   "lon": 9.283,
+   "kat": "spiel",
+   "beschreibung": "Grosser Indoor-Spielpark mit Holzburg, Rutschen und Karussell für Kinder bis 12 Jahre",
+   "hinweis": "Ab 16 Uhr günstigerer Eintritt",
+   "website": "https://www.appenzellerpark.ch/",
+   "ungefaehr": true,
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksBwAAAA=="
+   ]
+  },
+  {
    "id": "appenzeller-scheibenweg-schwagalp",
    "titel": "Appenzeller Scheibenweg, Schwägalp",
    "ort": "Schwägalp",
@@ -166,6 +200,54 @@
    "website": "https://naturerlebnispark.ch/erlebnis/appenzeller-scheibenweg/",
    "todo": [
     "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJn1SRnwAAAA=="
+   ]
+  },
+  {
+   "id": "aquatis-lausanne",
+   "titel": "Aquatis Lausanne",
+   "ort": "Lausanne (Vennes)",
+   "region": "Waadt",
+   "land": "Schweiz",
+   "lat": 46.5409,
+   "lon": 6.6573,
+   "kat": "tier",
+   "beschreibung": "Grosses Süsswasser-Aquarium und Vivarium mit Fischen, Reptilien und Amphibien aus aller Welt",
+   "hinweis": "Metro M2 bis Haltestelle Vennes",
+   "website": "https://www.aquatis.ch/",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksJgAAAA=="
+   ]
+  },
+  {
+   "id": "asphaltminen-travers",
+   "titel": "Asphaltminen Travers",
+   "ort": "Travers (La Presta)",
+   "region": "Neuenburg",
+   "land": "Schweiz",
+   "lat": 46.9311,
+   "lon": 6.6569,
+   "kat": "museum",
+   "beschreibung": "Geführte Tour mit Helm und Lampe durch die alten Asphaltstollen im Val-de-Travers",
+   "hinweis": "Nur mit Führung (rund 1½ Stunden); Bahnhaltestelle La Presta Mines d'asphalte",
+   "website": "https://www.mines-asphalte.ch/",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksKAAAAA=="
+   ]
+  },
+  {
+   "id": "bachtel-aussichtsturm",
+   "titel": "Bachtel (Aussichtsturm)",
+   "ort": "Hinwil/Wald (Bachtel Kulm)",
+   "region": "Zürich",
+   "land": "Schweiz",
+   "lat": 47.2947,
+   "lon": 8.8863,
+   "kat": "berg",
+   "beschreibung": "Aussichtsturm auf dem Hausberg des Zürcher Oberlands mit Weitblick bis zu den Alpen",
+   "hinweis": "Nur zu Fuss erreichbar, z.B. ab Hinwil oder Wald",
+   "website": "https://www.zvv.ch/zvv/de/freizeit-und-events/freizeittipps/wandern/wanderung-auf-den-bachtel.html",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksIAAAAA=="
    ]
   },
   {
@@ -213,6 +295,22 @@
    "website": "https://www.dornstetten.de/barfusspark/ausflug/erleben-sie-den-barfusspark-alle-informationen-auf-einen-klick-id_392/",
    "todo": [
     "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJXdDvogAAAA=="
+   ]
+  },
+  {
+   "id": "barfussweg-jakobsbadgontenbad",
+   "titel": "Barfussweg Jakobsbad–Gontenbad",
+   "ort": "Jakobsbad–Gontenbad",
+   "region": "Appenzell Innerrhoden",
+   "land": "Schweiz",
+   "lat": 47.3201,
+   "lon": 9.3282,
+   "kat": "wandern",
+   "beschreibung": "Rund 5 km barfuss über Wiesen, Moor und Bachläufe, am Ziel ein Fussbad",
+   "hinweis": "Zurück mit der Appenzeller Bahn; grosser Spielplatz bei der Kronberg-Talstation in Jakobsbad",
+   "website": "https://en.kronberg.ch/erlebnisse/sommer/wandern/barfussweg.html",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksEgAAAA=="
    ]
   },
   {
@@ -373,6 +471,23 @@
    ]
   },
   {
+   "id": "chugeli-trail-aeschi",
+   "titel": "Chugeli-Trail Aeschi",
+   "ort": "Aeschiried (Aeschi bei Spiez)",
+   "region": "Bern",
+   "land": "Schweiz",
+   "lat": 46.65,
+   "lon": 7.723,
+   "kat": "kugel",
+   "beschreibung": "Rund zehn Kugelbahnen auf dem Weg von Aeschiried ins Dorf Aeschi, mit eigener Holzkugel",
+   "hinweis": "Kugel am Automaten in Aeschiried (5-Franken-Stück) oder bei Partnerbetrieben; April bis Oktober; nicht kinderwagentauglich",
+   "website": "https://www.interlaken.swiss/erlebnisse/poi/chugeli-trail-aeschi",
+   "ungefaehr": true,
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksEAAAAA=="
+   ]
+  },
+  {
    "id": "chugalirond-weg-fislisbach",
    "titel": "Chugälirond-Weg Fislisbach",
    "ort": "Fislisbach",
@@ -402,6 +517,37 @@
    "website": "https://www.flimslaax.com/en/hiking/connbaechli-flims-laax-falera",
    "todo": [
     "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJSttzuQAAAA=="
+   ]
+  },
+  {
+   "id": "conny-land-lipperswil",
+   "titel": "Conny-Land Lipperswil",
+   "ort": "Lipperswil",
+   "region": "Thurgau",
+   "land": "Schweiz",
+   "lat": 47.6145,
+   "lon": 9.057,
+   "kat": "park",
+   "beschreibung": "Freizeitpark mit Achterbahnen, Wasserbahnen und Spielbereichen für Kinder",
+   "website": "https://www.connyland.ch/",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsukr-QAAAA=="
+   ]
+  },
+  {
+   "id": "dampfbahn-zurcher-oberland-baumahinwil",
+   "titel": "Dampfbahn Zürcher Oberland (Bauma–Hinwil)",
+   "ort": "Bauma–Hinwil",
+   "region": "Zürich",
+   "land": "Schweiz",
+   "lat": 47.3688,
+   "lon": 8.8782,
+   "kat": "museum",
+   "beschreibung": "Fahrten mit historischen Dampfzügen durchs Zürcher Oberland, Depot mit Lokomotiven in Bauma",
+   "hinweis": "Fahrten nur an bestimmten Sonntagen im Sommerhalbjahr, Fahrplan auf der Website",
+   "website": "https://www.dvzo.ch/",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksAgAAAA=="
    ]
   },
   {
@@ -448,6 +594,22 @@
    "website": "https://www.erlebnisweg-brenzikofen.ch/",
    "todo": [
     "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJUnQFcAAAAA=="
+   ]
+  },
+  {
+   "id": "europa-park-rust",
+   "titel": "Europa-Park Rust",
+   "ort": "Rust",
+   "region": "Baden-Württemberg",
+   "land": "Deutschland",
+   "lat": 48.2683,
+   "lon": 7.7208,
+   "kat": "park",
+   "beschreibung": "Grösster Freizeitpark Deutschlands mit Themenbereichen aus ganz Europa und vielen Bahnen für Kinder",
+   "hinweis": "Gleich daneben die Wasserwelt Rulantica",
+   "website": "https://www.europapark.de/",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksFQAAAA=="
    ]
   },
   {
@@ -530,6 +692,21 @@
    ]
   },
   {
+   "id": "gletschergarten-luzern",
+   "titel": "Gletschergarten Luzern",
+   "ort": "Luzern",
+   "region": "Luzern",
+   "land": "Schweiz",
+   "lat": 47.0589,
+   "lon": 8.3103,
+   "kat": "museum",
+   "beschreibung": "Riesige Gletschertöpfe aus der Eiszeit, Museum und Spiegellabyrinth",
+   "website": "https://www.gletschergarten.ch/",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksIgAAAA=="
+   ]
+  },
+  {
    "id": "gletscherschlucht-grindelwald",
    "titel": "Gletscherschlucht Grindelwald",
    "ort": "Grindelwald",
@@ -592,6 +769,22 @@
    ]
   },
   {
+   "id": "heidiweg-maienfeld",
+   "titel": "Heidiweg Maienfeld",
+   "ort": "Maienfeld (Heididorf)",
+   "region": "Graubünden",
+   "land": "Schweiz",
+   "lat": 47.0173,
+   "lon": 9.5433,
+   "kat": "wandern",
+   "beschreibung": "Rundweg von rund 6,5 km ab Bahnhof Maienfeld durch die Weinberge zum Heididorf mit Heidihaus",
+   "hinweis": "Nur der erste Teil bis zum Heididorf ist kinderwagentauglich",
+   "website": "https://www.graubuenden.ch/de/touren/heidiweg",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksFAAAAA=="
+   ]
+  },
+  {
    "id": "holzweg-waldstatt",
    "titel": "Holzweg Waldstatt",
    "ort": "Waldstatt",
@@ -638,6 +831,21 @@
    ]
   },
   {
+   "id": "juckerhof-seegraben",
+   "titel": "Juckerhof Seegräben",
+   "ort": "Seegräben",
+   "region": "Zürich",
+   "land": "Schweiz",
+   "lat": 47.3433,
+   "lon": 8.7733,
+   "kat": "spiel",
+   "beschreibung": "Erlebnisbauernhof am Pfäffikersee mit Spielplatz, Tieren und Kürbisausstellung im Herbst",
+   "website": "https://www.juckerfarm.ch/",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksHwAAAA=="
+   ]
+  },
+  {
    "id": "kamelhof-olmerswil",
    "titel": "Kamelhof Olmerswil",
    "ort": "Neukirch an der Thur (Olmerswil)",
@@ -655,6 +863,38 @@
    ]
   },
   {
+   "id": "klangweg-toggenburg",
+   "titel": "Klangweg Toggenburg",
+   "ort": "Alt St. Johann (Sellamatt)–Wildhaus (Oberdorf)",
+   "region": "St. Gallen",
+   "land": "Schweiz",
+   "lat": 47.1822,
+   "lon": 9.2963,
+   "kat": "wandern",
+   "beschreibung": "Rund 25 Klanginstrumente zum Ausprobieren auf dem Weg von der Alp Sellamatt über Iltios nach Oberdorf",
+   "hinweis": "Teilstück Sellamatt–Iltios kinderwagentauglich; Saison etwa Juni bis Oktober",
+   "website": "https://www.klangwelt.ch/",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksEwAAAA=="
+   ]
+  },
+  {
+   "id": "knies-kinderzoo-rapperswil",
+   "titel": "Knies Kinderzoo Rapperswil",
+   "ort": "Rapperswil",
+   "region": "St. Gallen",
+   "land": "Schweiz",
+   "lat": 47.2241,
+   "lon": 8.822,
+   "kat": "tier",
+   "beschreibung": "Zoo zum Anfassen mit Streichelgehegen, Elefanten und Seelöwen, wenige Minuten vom Bahnhof",
+   "hinweis": "Nur im Sommerhalbjahr geöffnet",
+   "website": "https://www.knieskinderzoo.ch/",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsukr-AAAAA=="
+   ]
+  },
+  {
    "id": "kronberg-zipline-park",
    "titel": "Kronberg Zipline Park",
    "ort": "Gonten/Jakobsbad",
@@ -668,6 +908,22 @@
    "website": "https://www.appenzell.ch/en/hiking-and-being-active/families/zipline-park.html",
    "todo": [
     "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAIt1KQ4AAAAA=="
+   ]
+  },
+  {
+   "id": "kugelbahnen-rundweg-oberiberg",
+   "titel": "Kugelbahnen-Rundweg Oberiberg",
+   "ort": "Oberiberg",
+   "region": "Schwyz",
+   "land": "Schweiz",
+   "lat": 47.0389,
+   "lon": 8.7808,
+   "kat": "kugel",
+   "beschreibung": "Rundweg von gut 4 km mit mehreren Kugelbahnen für Wettrennen, Start beim Parkplatz Skilift Roggen",
+   "website": "https://www.luzern.com/de/tour/kugelbahn-oberiberg",
+   "ungefaehr": true,
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksDwAAAA=="
    ]
   },
   {
@@ -699,6 +955,22 @@
    "ungefaehr": true,
    "todo": [
     "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJn1SRngAAAA=="
+   ]
+  },
+  {
+   "id": "labyrinthe-aventure-evionnaz",
+   "titel": "Labyrinthe Aventure Evionnaz",
+   "ort": "Evionnaz",
+   "region": "Wallis",
+   "land": "Schweiz",
+   "lat": 46.1648,
+   "lon": 7.0287,
+   "kat": "spiel",
+   "beschreibung": "Riesiges Heckenlabyrinth mit versteckten Schätzen, dazu Minigolf und Spielbereich für Kleine",
+   "hinweis": "Rund 7 Minuten zu Fuss ab Bahnhof Evionnaz; vor dem Besuch Öffnungszeiten prüfen",
+   "website": "https://famigros.migros.ch/de/ausfluege-und-freizeit/ausflugsziele/labyrinth-adventure-evionnaz",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksJwAAAA=="
    ]
   },
   {
@@ -747,6 +1019,21 @@
    "website": "https://www.madrisa.ch/en/summer",
    "todo": [
     "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJdRtbXgAAAA=="
+   ]
+  },
+  {
+   "id": "maestrani-chocolarium-flawil",
+   "titel": "Maestrani Chocolarium Flawil",
+   "ort": "Flawil",
+   "region": "St. Gallen",
+   "land": "Schweiz",
+   "lat": 47.4131,
+   "lon": 9.1649,
+   "kat": "museum",
+   "beschreibung": "Schokoladen-Erlebnis mit Blick in die Produktion und eigener Schoggi zum Verzieren",
+   "website": "https://www.chocolarium.ch/",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksAAAB"
    ]
   },
   {
@@ -828,6 +1115,22 @@
    ]
   },
   {
+   "id": "monte-tamaro-rodelbahn-seilpark",
+   "titel": "Monte Tamaro (Rodelbahn & Seilpark)",
+   "ort": "Rivera (Alpe Foppa)",
+   "region": "Tessin",
+   "land": "Schweiz",
+   "lat": 46.1177,
+   "lon": 8.894,
+   "kat": "berg",
+   "beschreibung": "Gondelbahn zur Alpe Foppa mit Sommerrodelbahn, Seilpark und der Kirche von Mario Botta",
+   "hinweis": "Talstation in Rivera",
+   "website": "https://www.montetamaro.ch/",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksJQAAAA=="
+   ]
+  },
+  {
    "id": "munggeweg-amden",
    "titel": "Munggeweg Amden",
    "ort": "Amden",
@@ -840,6 +1143,38 @@
    "website": "https://www.amden-weesen.ch/en/poi/detail/munggeweg-fun-and-games-with-amdo-mungg-08c7b01435",
    "todo": [
     "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAHYF2XBgAAAA=="
+   ]
+  },
+  {
+   "id": "munot-schaffhausen",
+   "titel": "Munot Schaffhausen",
+   "ort": "Schaffhausen",
+   "region": "Schaffhausen",
+   "land": "Schweiz",
+   "lat": 47.6969,
+   "lon": 8.6397,
+   "kat": "sonst",
+   "beschreibung": "Runde Festung über der Altstadt mit Wendelrampe, Turm und Aussicht, Damhirsche im Graben",
+   "hinweis": "Eintritt frei",
+   "website": "https://www.munot.ch/",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksHAAAAA=="
+   ]
+  },
+  {
+   "id": "murmelweg-faschina",
+   "titel": "Murmelweg Faschina",
+   "ort": "Faschina (Fontanella)",
+   "region": "Vorarlberg",
+   "land": "Österreich",
+   "lat": 47.272,
+   "lon": 9.91,
+   "kat": "kugel",
+   "beschreibung": "Familienweg mit sieben Stationen rund um das Murmeltier und eine Holzkugel, Start bei der Passhöhe",
+   "website": "https://www.walsertal.at/walsertal/en/marble-trail-faschina_vc8054",
+   "ungefaehr": true,
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksGQAAAA=="
    ]
   },
   {
@@ -873,6 +1208,22 @@
    ]
   },
   {
+   "id": "natur-und-tierpark-goldau",
+   "titel": "Natur- und Tierpark Goldau",
+   "ort": "Goldau",
+   "region": "Schwyz",
+   "land": "Schweiz",
+   "lat": 47.0503,
+   "lon": 8.5531,
+   "kat": "tier",
+   "beschreibung": "Tierpark im Bergsturzgebiet mit frei laufendem Damwild zum Füttern, Bären und Wölfen",
+   "hinweis": "Wenige Minuten vom Bahnhof Arth-Goldau",
+   "website": "https://www.tierpark.ch/",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsukr_wAAAA=="
+   ]
+  },
+  {
    "id": "naturena-kugelwaldpfad",
    "titel": "Naturena Kugelwaldpfad",
    "ort": "Ühlingen-Birkendorf",
@@ -900,6 +1251,22 @@
    "website": "https://www.nmbs.ch/",
    "todo": [
     "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJroLGRgAAAA=="
+   ]
+  },
+  {
+   "id": "naturmuseum-st-gallen",
+   "titel": "Naturmuseum St. Gallen",
+   "ort": "St. Gallen (Neudorf)",
+   "region": "St. Gallen",
+   "land": "Schweiz",
+   "lat": 47.439,
+   "lon": 9.408,
+   "kat": "museum",
+   "beschreibung": "Naturmuseum mit Tieren, Mineralien und Mitmach-Stationen, gegenüber dem Botanischen Garten",
+   "website": "https://www.naturmuseumsg.ch/",
+   "ungefaehr": true,
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksBQAAAA=="
    ]
   },
   {
@@ -946,6 +1313,21 @@
    "website": "https://www.partnachklamm.de/de",
    "todo": [
     "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAI2pG-XQAAAA=="
+   ]
+  },
+  {
+   "id": "pfahlbauten-unteruhldingen",
+   "titel": "Pfahlbauten Unteruhldingen",
+   "ort": "Uhldingen-Mühlhofen",
+   "region": "Baden-Württemberg",
+   "land": "Deutschland",
+   "lat": 47.7261,
+   "lon": 9.2278,
+   "kat": "museum",
+   "beschreibung": "Nachgebaute Pfahlbaudörfer aus Stein- und Bronzezeit direkt im Bodensee",
+   "website": "https://www.pfahlbauten.de/",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksFgAAAA=="
    ]
   },
   {
@@ -1054,6 +1436,36 @@
    ]
   },
   {
+   "id": "ravensburger-spieleland",
+   "titel": "Ravensburger Spieleland",
+   "ort": "Meckenbeuren",
+   "region": "Baden-Württemberg",
+   "land": "Deutschland",
+   "lat": 47.7114,
+   "lon": 9.5953,
+   "kat": "park",
+   "beschreibung": "Freizeitpark rund um Ravensburger Spiele und Figuren, ideal für jüngere Kinder",
+   "website": "https://www.spieleland.de/",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsukr-gAAAA=="
+   ]
+  },
+  {
+   "id": "rigi",
+   "titel": "Rigi",
+   "ort": "Rigi Kulm (ab Vitznau, Weggis oder Arth-Goldau)",
+   "region": "Schwyz/Luzern",
+   "land": "Schweiz",
+   "lat": 47.0559,
+   "lon": 8.484,
+   "kat": "berg",
+   "beschreibung": "Mit der Zahnradbahn auf den Aussichtsberg zwischen Vierwaldstätter-, Zuger- und Lauerzersee",
+   "website": "https://www.rigi.ch/",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksDQAAAA=="
+   ]
+  },
+  {
    "id": "rivella-erlebnisweg-rothrist",
    "titel": "Rivella Erlebnisweg Rothrist",
    "ort": "Rothrist",
@@ -1066,6 +1478,22 @@
    "website": "https://rivella-group.com/erlebnisweg-rothrist/",
    "todo": [
     "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAHYF2XDQAAAA=="
+   ]
+  },
+  {
+   "id": "rohan-rothirsch-erlebnisweg-flumserberg",
+   "titel": "Rohan-Rothirsch-Erlebnisweg Flumserberg",
+   "ort": "Flumserberg (Prodkamm–Prodalp)",
+   "region": "St. Gallen",
+   "land": "Schweiz",
+   "lat": 47.0802,
+   "lon": 9.2895,
+   "kat": "wandern",
+   "beschreibung": "Erlebnisweg von rund 3 km vom Prodkamm hinunter zur Prodalp mit Stationen rund um den Rothirsch Rohan",
+   "hinweis": "Mit Gondel und Sesselbahn ab Tannenheim; nicht kinderwagentauglich",
+   "website": "https://www.flumserberg.ch/en/tour/Rohan-Red-Deer-Adventure-Trail_23429974",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksGgAAAA=="
    ]
   },
   {
@@ -1134,6 +1562,21 @@
    ]
   },
   {
+   "id": "sauriermuseum-aathal",
+   "titel": "Sauriermuseum Aathal",
+   "ort": "Aathal-Seegräben",
+   "region": "Zürich",
+   "land": "Schweiz",
+   "lat": 47.3388,
+   "lon": 8.7619,
+   "kat": "museum",
+   "beschreibung": "Museum mit echten Dinosaurier-Skeletten und Saurier-Modellen im Garten",
+   "website": "https://www.sauriermuseum.ch/",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksBAAAAA=="
+   ]
+  },
+  {
    "id": "scharmoin-murmelibahn",
    "titel": "Scharmoin Murmelibahn",
    "ort": "Lenzerheide (Vaz/Obervaz)",
@@ -1162,6 +1605,39 @@
    "website": "https://www.schlaufensteg.ch/",
    "todo": [
     "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJRpdljwAAAA=="
+   ]
+  },
+  {
+   "id": "schlittelweg-rotenflueratigs",
+   "titel": "Schlittelweg Rotenflue–Rätigs",
+   "ort": "Rickenbach bei Schwyz (Rotenflue)",
+   "region": "Schwyz",
+   "land": "Schweiz",
+   "lat": 47.0147,
+   "lon": 8.6693,
+   "kat": "berg",
+   "beschreibung": "Rund 4 km lange Schlittelabfahrt von der Bergstation Rotenflue bis zur Mittelstation Rätigs",
+   "hinweis": "Nur im Winter bei genug Schnee; Schlitten an der Bergstation mietbar",
+   "website": "https://www.luzern.com/de/tour/rotenflue-schlittelweg",
+   "ungefaehr": true,
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksGwAAAA=="
+   ]
+  },
+  {
+   "id": "schloss-lenzburg",
+   "titel": "Schloss Lenzburg",
+   "ort": "Lenzburg",
+   "region": "Aargau",
+   "land": "Schweiz",
+   "lat": 47.3874,
+   "lon": 8.1855,
+   "kat": "museum",
+   "beschreibung": "Mittelalterliches Schloss mit Kindermuseum zum Verkleiden als Ritter oder Prinzessin und dem Drachen Fauchi",
+   "hinweis": "April bis Oktober, montags geschlossen",
+   "website": "https://www.museumaargau.ch/schloss-lenzburg",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksIQAAAA=="
    ]
   },
   {
@@ -1227,6 +1703,23 @@
    ]
   },
   {
+   "id": "seeburgpark-kreuzlingen",
+   "titel": "Seeburgpark Kreuzlingen",
+   "ort": "Kreuzlingen",
+   "region": "Thurgau",
+   "land": "Schweiz",
+   "lat": 47.651,
+   "lon": 9.188,
+   "kat": "spiel",
+   "beschreibung": "Grosser Park am Bodensee mit Abenteuerspielplatz, kleinem Tierpark und Seemuseum",
+   "hinweis": "Eintritt frei; ab Bahnhof Kreuzlingen Hafen",
+   "website": "https://en.thurgau-bodensee.ch/maps/seeburgpark-11ba513c-8cce-4ff9-befc-09429ddafaaf.html",
+   "ungefaehr": true,
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksCAAAAA=="
+   ]
+  },
+  {
    "id": "senda-dil-dragun",
    "titel": "Senda dil Dragun",
    "ort": "Laax",
@@ -1272,6 +1765,23 @@
    ]
   },
   {
+   "id": "smilestones-neuhausen",
+   "titel": "Smilestones Neuhausen",
+   "ort": "Neuhausen am Rheinfall (Rhyfall Village)",
+   "region": "Schaffhausen",
+   "land": "Schweiz",
+   "lat": 47.6805,
+   "lon": 8.613,
+   "kat": "museum",
+   "beschreibung": "Grosse Indoor-Miniaturwelt mit Rheinfall, Matterhorn und vielen bewegten Szenen",
+   "hinweis": "Seit Frühling 2026 am neuen Standort im Rhyfall Village",
+   "website": "https://www.smilestones.ch/",
+   "ungefaehr": true,
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksAQAAAA=="
+   ]
+  },
+  {
    "id": "spatz-manni-erlebnisweg-atzmannig",
    "titel": "Spatz-Männi-Erlebnisweg Atzmännig",
    "ort": "Goldingen (Atzmännig)",
@@ -1286,6 +1796,38 @@
    "ungefaehr": true,
    "todo": [
     "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJmCa_VwAAAA=="
+   ]
+  },
+  {
+   "id": "st-beatus-hohlen",
+   "titel": "St. Beatus-Höhlen",
+   "ort": "Sundlauenen (Beatenberg)",
+   "region": "Bern",
+   "land": "Schweiz",
+   "lat": 46.6847,
+   "lon": 7.7823,
+   "kat": "wasser",
+   "beschreibung": "Tropfsteinhöhle mit Wasserfällen und Drachen-Legende hoch über dem Thunersee",
+   "website": "https://www.beatushoehlen.swiss/",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksCQAAAA=="
+   ]
+  },
+  {
+   "id": "stanserhorn-cabrio",
+   "titel": "Stanserhorn CabriO",
+   "ort": "Stans",
+   "region": "Nidwalden",
+   "land": "Schweiz",
+   "lat": 46.9575,
+   "lon": 8.3655,
+   "kat": "berg",
+   "beschreibung": "Nostalgische Standseilbahn und die offene Doppelstock-Seilbahn CabriO auf den Aussichtsberg",
+   "hinweis": "Talstation nahe beim Bahnhof Stans",
+   "website": "https://www.stanserhorn.ch/",
+   "ungefaehr": true,
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksDgAAAA=="
    ]
   },
   {
@@ -1321,6 +1863,21 @@
    ]
   },
   {
+   "id": "stoosbahn",
+   "titel": "Stoosbahn",
+   "ort": "Schwyz (Schlattli)–Stoos",
+   "region": "Schwyz",
+   "land": "Schweiz",
+   "lat": 46.9913,
+   "lon": 8.6735,
+   "kat": "berg",
+   "beschreibung": "Steilste Standseilbahn der Welt hinauf ins autofreie Stoos",
+   "website": "https://www.stoos.ch/",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksDAAAAA=="
+   ]
+  },
+  {
    "id": "stupfis-familien-ratselweg-schwellbrunn",
    "titel": "Stüpfis Familien-Rätselweg Schwellbrunn",
    "ort": "Schwellbrunn",
@@ -1352,6 +1909,36 @@
    ]
   },
   {
+   "id": "swiss-holiday-park-morschach",
+   "titel": "Swiss Holiday Park Morschach",
+   "ort": "Morschach",
+   "region": "Schwyz",
+   "land": "Schweiz",
+   "lat": 46.981,
+   "lon": 8.6179,
+   "kat": "wasser",
+   "beschreibung": "Ferienresort mit Erlebnisbad, Rutschen und Spielbereichen für Kinder",
+   "website": "https://www.swissholidaypark.ch/",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsukr-wAAAA=="
+   ]
+  },
+  {
+   "id": "swiss-vapeur-parc-le-bouveret",
+   "titel": "Swiss Vapeur Parc, Le Bouveret",
+   "ort": "Le Bouveret",
+   "region": "Wallis",
+   "land": "Schweiz",
+   "lat": 46.3848,
+   "lon": 6.8572,
+   "kat": "park",
+   "beschreibung": "Park mit kleinen Dampfzügen zum Mitfahren am Ufer des Genfersees",
+   "website": "https://www.swissvapeur.ch/",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksKQAAAA=="
+   ]
+  },
+  {
    "id": "samis-saumerpfad",
    "titel": "Sämis Säumerpfad",
    "ort": "Innertkirchen",
@@ -1364,6 +1951,53 @@
    "website": "https://www.grimselwelt.ch/ausfluege/themenweg-saemis-saeumerpfad/",
    "todo": [
     "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAHYF2XCwAAAA=="
+   ]
+  },
+  {
+   "id": "santispark-abtwil",
+   "titel": "Säntispark Abtwil",
+   "ort": "Abtwil (Gaiserwald)",
+   "region": "St. Gallen",
+   "land": "Schweiz",
+   "lat": 47.4181,
+   "lon": 9.316,
+   "kat": "wasser",
+   "beschreibung": "Erlebnisbad mit Rutschenwelt und Kinderbereich",
+   "website": "https://www.saentispark.ch/",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksCgAAAA=="
+   ]
+  },
+  {
+   "id": "taminaschlucht-altes-bad-pfafers",
+   "titel": "Taminaschlucht (Altes Bad Pfäfers)",
+   "ort": "Pfäfers (ab Bad Ragaz)",
+   "region": "St. Gallen",
+   "land": "Schweiz",
+   "lat": 46.979,
+   "lon": 9.496,
+   "kat": "wasser",
+   "beschreibung": "Wilde Schlucht mit warmer Thermalquelle, dazu das historische Bad mit kleinem Museum",
+   "hinweis": "Mitte April bis Mitte Oktober; keine Zufahrt mit dem Auto, Bus ab Bahnhof Bad Ragaz oder zu Fuss durch die Schlucht",
+   "website": "https://www.altes-bad-pfaefers.ch/",
+   "ungefaehr": true,
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksCwAAAA=="
+   ]
+  },
+  {
+   "id": "technorama-winterthur",
+   "titel": "Technorama Winterthur",
+   "ort": "Winterthur",
+   "region": "Zürich",
+   "land": "Schweiz",
+   "lat": 47.5134,
+   "lon": 8.7636,
+   "kat": "museum",
+   "beschreibung": "Science Center mit über 500 Experimenten zum Anfassen und Ausprobieren",
+   "website": "https://www.technorama.ch/",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksAwAAAA=="
    ]
   },
   {
@@ -1395,6 +2029,23 @@
    "website": "https://www.titlis.ch/de/aktivitaeten/gletschergrotte",
    "todo": [
     "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJWD0kHAAAAA=="
+   ]
+  },
+  {
+   "id": "trampolino-dietikon",
+   "titel": "Trampolino Dietikon",
+   "ort": "Dietikon",
+   "region": "Zürich",
+   "land": "Schweiz",
+   "lat": 47.408,
+   "lon": 8.394,
+   "kat": "spiel",
+   "beschreibung": "Grosses Indoor-Kinderparadies mit Trampolinen, Rutschen und Klettergerüsten",
+   "hinweis": "Bus 309 ab Bahnhof Dietikon bis Lerzenstrasse",
+   "website": "https://www.trampolino.info/",
+   "ungefaehr": true,
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksBgAAAA=="
    ]
   },
   {
@@ -1489,6 +2140,21 @@
    ]
   },
   {
+   "id": "verenaschlucht-solothurn",
+   "titel": "Verenaschlucht Solothurn",
+   "ort": "Rüttenen (bei Solothurn)",
+   "region": "Solothurn",
+   "land": "Schweiz",
+   "lat": 47.2244,
+   "lon": 7.5341,
+   "kat": "wasser",
+   "beschreibung": "Kurze, schattige Schlucht mit Bach, am Ende die Einsiedelei mit zwei Kapellen",
+   "website": "https://www.myswitzerland.com/de-at/erlebnisse/verenaschlucht/",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksJAAAAA=="
+   ]
+  },
+  {
    "id": "verkehrshaus-luzern",
    "titel": "Verkehrshaus Luzern",
    "ort": "Luzern",
@@ -1516,6 +2182,22 @@
    "website": "https://bobosco.ch/en/home",
    "todo": [
     "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsb3JfgAAAA=="
+   ]
+  },
+  {
+   "id": "vogelwarte-sempach",
+   "titel": "Vogelwarte Sempach",
+   "ort": "Sempach",
+   "region": "Luzern",
+   "land": "Schweiz",
+   "lat": 47.1298,
+   "lon": 8.1928,
+   "kat": "tier",
+   "beschreibung": "Besuchszentrum der Vogelwarte mit Mitmach-Ausstellung über einheimische Vögel am Sempachersee",
+   "website": "https://www.vogelwarte.ch/",
+   "ungefaehr": true,
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksIwAAAA=="
    ]
   },
   {
@@ -1564,6 +2246,21 @@
    ]
   },
   {
+   "id": "walter-zoo-gossau",
+   "titel": "Walter Zoo Gossau",
+   "ort": "Gossau (Neuchlen)",
+   "region": "St. Gallen",
+   "land": "Schweiz",
+   "lat": 47.419,
+   "lon": 9.2852,
+   "kat": "tier",
+   "beschreibung": "Familienzoo mit Schimpansen, Tigern, Streichelzoo und grossem Abenteuerspielplatz",
+   "website": "https://www.walterzoo.ch/",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsukr_gAAAA=="
+   ]
+  },
+  {
    "id": "walters-maislabyrinth-absberg",
    "titel": "Walters Maislabyrinth Absberg",
    "ort": "Absberg",
@@ -1596,6 +2293,22 @@
    ]
   },
   {
+   "id": "weg-der-1000-lichter-am-blausee",
+   "titel": "Weg der 1000 Lichter am Blausee",
+   "ort": "Kandergrund (Blausee)",
+   "region": "Bern",
+   "land": "Schweiz",
+   "lat": 46.5325,
+   "lon": 7.6647,
+   "kat": "wandern",
+   "beschreibung": "Laternenweg durch den Naturpark Blausee mit Lichtern zwischen moosigen Felsen und alten Bäumen",
+   "hinweis": "Nur im Winter, etwa Mitte November bis Anfang Januar, abends; nicht kinderwagentauglich",
+   "website": "https://www.blausee.ch/de/events/",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsn4ONwAAAA=="
+   ]
+  },
+  {
    "id": "wengen-kugelbahn-challenge",
    "titel": "Wengen Kugelbahn-Challenge",
    "ort": "Wengen",
@@ -1623,6 +2336,22 @@
    "website": "https://www.wildnispark.ch/en/the-park/langenberg-wildlife-park",
    "todo": [
     "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJJaHQ2gAAAA=="
+   ]
+  },
+  {
+   "id": "wildpark-bruderhaus-winterthur",
+   "titel": "Wildpark Bruderhaus Winterthur",
+   "ort": "Winterthur (Eschenberg)",
+   "region": "Zürich",
+   "land": "Schweiz",
+   "lat": 47.4772,
+   "lon": 8.7262,
+   "kat": "tier",
+   "beschreibung": "Wildpark im Wald mit Wisenten, Wölfen, Luchsen und Przewalski-Pferden",
+   "hinweis": "Eintritt frei",
+   "website": "https://www.zuerich.com/de/besuchen/natur/wildpark-bruderhaus",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksHgAAAA=="
    ]
   },
   {
@@ -1686,6 +2415,22 @@
    ]
   },
   {
+   "id": "zoo-basel",
+   "titel": "Zoo Basel",
+   "ort": "Basel",
+   "region": "Basel-Stadt",
+   "land": "Schweiz",
+   "lat": 47.5473,
+   "lon": 7.5788,
+   "kat": "tier",
+   "beschreibung": "Ältester Zoo der Schweiz mitten in der Stadt, mit Elefanten und Kinderzoo",
+   "hinweis": "Wenige Minuten vom Bahnhof SBB",
+   "website": "https://www.zoobasel.ch/",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksFwAAAA=="
+   ]
+  },
+  {
    "id": "zugiblubbi-erlebnisweg",
    "titel": "Zugiblubbi Erlebnisweg",
    "ort": "Zugerberg",
@@ -1713,6 +2458,38 @@
    "website": "https://glarnerland.ch/de/map/detail/zwerg-bartli-erlebnisweg-9ff632fe-5eaf-45d9-a6ea-4d743635148f.html",
    "todo": [
     "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAIK5ilNAAAAA=="
+   ]
+  },
+  {
+   "id": "zwergenweg-sonnenberg",
+   "titel": "Zwergenweg Sonnenberg",
+   "ort": "Kriens (Sonnenberg)",
+   "region": "Luzern",
+   "land": "Schweiz",
+   "lat": 47.0439,
+   "lon": 8.2725,
+   "kat": "wandern",
+   "beschreibung": "Rundweg von gut 2,5 km zum Kinderbuch vom Sonnenzwerg, ab der Bergstation der Sonnenbergbahn",
+   "hinweis": "Lange Treppe in die Wolfsschlucht, mit Kinderwagen Umweg nötig",
+   "website": "https://www.luzern.com/de/tour/zwergenweg-auf-dem-sonnenberg",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksEQAAAA=="
+   ]
+  },
+  {
+   "id": "zwargliweg-bannalp",
+   "titel": "Zwärgliweg Bannalp",
+   "ort": "Oberrickenbach (Chrüzhütte–Bannalp)",
+   "region": "Nidwalden",
+   "land": "Schweiz",
+   "lat": 46.8719,
+   "lon": 8.4353,
+   "kat": "wandern",
+   "beschreibung": "Kinderwanderweg mit sieben Stationen zur Geschichte vom funkelnden Stein, von der Chrüzhütte zum Bannalpsee",
+   "hinweis": "Mit der Seilbahn Fell–Chrüzhütte ab Oberrickenbach",
+   "website": "https://www.luzern.com/de/tour/zwaergliweg-bannalp",
+   "todo": [
+    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksGAAAAA=="
    ]
   }
  ]
