@@ -266,8 +266,7 @@ h1,h2{font-family:var(--font-display); margin:0; text-wrap:balance;}
   .sidebar{order:2; width:100%; flex:none; overflow:visible; border-right:none; border-top:1px solid var(--line);}
   .filterbar{padding:12px 16px 10px;}
   .mit-filterblatt .filter-knopf{display:flex;}
-  .mit-filterblatt .chips, .mit-filterblatt .filterbar-row h2{display:none;}
-  .mit-filterblatt .filterbar-row{justify-content:flex-end; margin-bottom:4px;}
+  .mit-filterblatt .chips, .mit-filterblatt .filterbar-row{display:none;} /* Zurücksetzen gibt es im Fenster */
   .chips{flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; padding-bottom:6px; margin-bottom:6px; scrollbar-width:thin;}
   .filter-chip{flex:0 0 auto;}
   .list{padding:4px 8px 12px;}
