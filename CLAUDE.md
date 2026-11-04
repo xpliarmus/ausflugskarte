@@ -50,8 +50,8 @@ Die Website selbst ist bewusst flach und ohne Build-Schritt. So lassen sich Date
 ```
 
 - **Kategorien (10):** `tier, kugel, sonst, wandern, wasser, berg, museum, spiel, park, schnee`. `schnee` = «Schnee & Eis» (Gletscherblau `#7FB8E6`, 🛷) für Schlitteln, Eisbahnen, Kinder-Skigebiete und Winterwege, seit November 2026. `symbol` ist das Emoji im Filter-Fenster auf dem Handy (optional, fehlt es, bleibt der Platz leer). Auf der Seite stehen die Kategorien alphabetisch nach `label`, „Sonstiges“ (`sonst`) immer zuletzt (`katReihenfolge()` in `app.js`); die Reihenfolge in der Datei spielt keine Rolle.
-- **`saison`** (Pflicht): `sommer` (ca. April–Oktober), `winter` (ca. November–März) oder `ganzjaehrig`. Ganzjährig heisst: offen und sinnvoll in beiden Jahreshälften. Faustregeln: drinnen, Zoos, Städte und Themenwege im Flachland meist `ganzjaehrig`; Wege und Bahnen in den Bergen, Barfuss-, Wasser- und Kugelbahnwege, Freibäder, Maislabyrinthe und Saisonparks `sommer`.
-- **`regentag`** (Pflicht, `true`/`false`): taugt auch bei Regen, also drinnen, unterirdisch (Höhlen, Grotten) oder grösstenteils gedeckt.
+- **`saison`** (Pflicht): `sommer` (ca. April–Oktober), `winter` (ca. November–März) oder `ganzjaehrig`. Ganzjährig heisst: offen und sinnvoll in beiden Jahreshälften. **Regel des Besitzers: Saison = Hauptattraktion.** Wege ohne Bahn oder Anlage mit Winterpause sind ganzjährig, ausser Barfuss- oder Wasserwegen und Höhenwegen ohne Winterweg. Hat die Hauptattraktion eine Winterpause (Bergbahn, Saisonpark, Freibad, Maislabyrinth), gilt `sommer`; einzelne Wintertage gehören dann in den `hinweis`.
+- **`regentag`** (Pflicht, `true`/`false`): **Regel des Besitzers: nur `true`, wenn sich der ganze Ausflug drinnen, unterirdisch (Höhlen, Grotten) oder gedeckt lohnt.** Darum z.B. nicht bei der Titlis Eisgrotte (Bergfahrt) oder einem Hotel.
 - **Fehlen `saison` oder `regentag`** oder sind sie ungültig, gilt das Ziel als ganzjährig und als nicht regentauglich. Es erscheint also trotzdem, nur nie im Regentag-Filter. Der To-Do-Abruf schreibt dann pro Ziel eine gelbe Warnung (`::warning::`) ins Protokoll und bleibt grün (`fehlende_angaben()` in `werkzeuge/todo.py`).
 - **`land`** wird in der Liste nur angezeigt, wenn es nicht „Schweiz“ ist.
 - **`ungefaehr: true`** heisst, dass die Koordinaten nur geschätzt sind. In der Liste erscheint dann ein „~“.
@@ -149,7 +149,7 @@ python3 -m http.server 8899      # im Repo-Ordner
 4. **Automatische Anreicherung** neuer Einträge (vom Besitzer vorerst zurückgestellt) (Ort, Koordinaten, Kategorie, Beschreibung, Website) über die Claude-API. Neue Einträge werden mit „bitte prüfen“ markiert. Dabei auch auf Duplikate prüfen (siehe „Neue Ziele ergänzen“).
 
 5. **Jahreszeit, Regentag und «Schnee & Eis»** (November 2026), in zwei Schritten mit je einem PR:
-   - Schritt 1 (Daten): Kategorie `schnee`, `saison` und `regentag` für alle Ziele, Warnung im To-Do-Abruf. Schlittelweg Rotenflue–Rätigs und Skigebiet Arvenbüel Amden sind von `berg` zu `schnee` gewechselt.
+   - Schritt 1 (Daten): Kategorie `schnee`, `saison` und `regentag` für alle Ziele, Warnung im To-Do-Abruf. Schlittelweg Rotenflue–Rätigs und Skigebiet Arvenbüel Amden sind von `berg` zu `schnee` gewechselt. Die Einordnung hat der Besitzer in Cowork geprüft und korrigiert; daraus stammen die zwei Regeln unter „Datenformat“.
    - Schritt 2 (Website), noch offen. Entscheidungen des Besitzers:
      - Schalter «Alle | ☀️ Sommer | ❄️ Winter», gut sichtbar über dem Filter. Ganzjährige Ziele erscheinen in beiden Jahreszeiten. Beim Öffnen steht er auf der aktuellen Jahreszeit (November–März Winter, April–Oktober Sommer) und wird nicht gespeichert.
      - Filter «☔ Regentag», kombinierbar mit Jahreszeit, Kategorien, Suche und «nur offene».
