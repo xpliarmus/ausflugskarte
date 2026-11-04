@@ -102,8 +102,19 @@ h1,h2{font-family:var(--font-display); margin:0; text-wrap:balance;}
   background:var(--surface-2); color:var(--ink); font-family:var(--font-body); font-size:.9rem;
 }
 #searchInput:focus{outline:2px solid color-mix(in srgb, var(--accent) 55%, transparent); outline-offset:1px;}
-.toggle-done{display:flex; align-items:center; gap:6px; font-size:.8rem; color:var(--ink-soft); white-space:nowrap; cursor:pointer;}
-.toggle-done input{accent-color:var(--accent);}
+/* Jahreszeit (Alle | Sommer | Winter), Regentag und «nur offene» */
+.saison-wahl{display:flex; margin:0 0 12px; padding:3px; background:var(--surface-2); border:1px solid var(--line); border-radius:12px;}
+.saison-wahl button{flex:1; padding:7px 6px; border:none; background:none; border-radius:9px; font-family:var(--font-body); font-size:.86rem; font-weight:700; color:var(--ink-soft); cursor:pointer;}
+.saison-wahl button.an{background:var(--surface); color:var(--accent); box-shadow:0 1px 3px rgba(0,0,0,.12);}
+.schalter-zeile{display:flex; align-items:center; gap:8px; margin-top:10px;}
+.schalter{
+  display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border:1px solid var(--line); border-radius:999px;
+  background:var(--surface); color:var(--ink); font-family:var(--font-body); font-size:.8rem; font-weight:600; white-space:nowrap; cursor:pointer;
+}
+.schalter.an{background:color-mix(in srgb, var(--accent) 14%, var(--surface)); border-color:var(--accent); color:var(--accent);}
+.schalter input{margin:0; accent-color:var(--accent);}
+.treffer{margin-left:auto; font-size:.78rem; color:var(--ink-soft); white-space:nowrap; font-variant-numeric:tabular-nums;}
+.filter-chip.leer, .fb-zeile.leer{opacity:.45;} /* keine Ziele in dieser Jahreszeit */
 
 /* ---------- Liste ---------- */
 .list{flex:1 0 auto; padding:6px 12px 12px;}

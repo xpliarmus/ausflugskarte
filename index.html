@@ -12,7 +12,7 @@
 <link rel="preload" href="karla.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fredoka.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="leaflet.css">
-<link rel="stylesheet" href="style.css?v=7">
+<link rel="stylesheet" href="style.css?v=8">
 </head>
 <body>
 
@@ -32,6 +32,9 @@
 <div class="layout">
   <aside class="sidebar">
     <div class="filterbar">
+      <div class="saison-wahl" id="saisonWahl" role="group" aria-label="Jahreszeit">
+        <button type="button" data-saison="alle">Alle</button><button type="button" data-saison="sommer">☀️ Sommer</button><button type="button" data-saison="winter">❄️ Winter</button>
+      </div>
       <div class="filterbar-row">
         <h2>Kategorie filtern</h2>
         <button type="button" class="reset-link" id="resetFilters">zurücksetzen</button>
@@ -40,7 +43,11 @@
       <div class="chips" id="chipRow"></div>
       <div class="search-row">
         <input type="search" id="searchInput" placeholder="Suchen (Ort, Titel …)" aria-label="Einträge durchsuchen" autocomplete="off">
-        <label class="toggle-done"><input type="checkbox" id="hideDoneToggle"> nur offene</label>
+      </div>
+      <div class="schalter-zeile">
+        <button type="button" class="schalter" id="regenKnopf" aria-pressed="false">☔ Regentag</button>
+        <label class="schalter"><input type="checkbox" id="hideDoneToggle"> nur offene</label>
+        <span class="treffer" id="treffer" aria-live="polite"></span>
       </div>
     </div>
 
@@ -88,6 +95,6 @@
 <button type="button" class="hochknopf" id="hochKnopf" aria-label="Nach oben scrollen" title="Nach oben">↑</button>
 
 <script src="leaflet.js"></script>
-<script src="app.js?v=7"></script>
+<script src="app.js?v=8"></script>
 </body>
 </html>
