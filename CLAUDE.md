@@ -63,6 +63,14 @@ Die Website selbst ist bewusst flach und ohne Build-Schritt. So lassen sich Date
 
 - **Karte:** Grundkarte sind die OpenStreetMap-Kacheln (`tile.openstreetmap.org`). Der Umschalter „Landeskarte CH“ lädt die swisstopo-Karte (`https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg`, maxNativeZoom 18). Die Quellenangaben (Attribution) müssen bleiben.
 - **Startansicht:** alle Einträge im Umkreis von 300 km um den Median-Punkt (`CLUSTER_KM`). Weit entfernte Ziele wie die Steiermark sieht man erst beim Herauszoomen. Der Knopf ⟲ setzt die Ansicht zurück.
+- **Jahreszeit und Regentag** (seit November 2026):
+  - Schalter «Alle | ☀️ Sommer | ❄️ Winter» (`#saisonWahl` / `.saison-wahl`, Knöpfe mit `data-saison`) ganz oben in der Filterleiste. Ganzjährige Ziele erscheinen in beiden Jahreszeiten. Beim Öffnen steht er auf der aktuellen Jahreszeit nach dem Datum im Browser (November–März Winter, April–Oktober Sommer) und wird nicht gespeichert.
+  - Knopf «☔ Regentag» (`#regenKnopf`) zeigt nur Ziele mit `regentag: true`. Er lässt sich mit Jahreszeit, Kategorien, Suche und «nur offene» kombinieren (`passtZeit()` in `app.js`).
+  - Knopfzeile `.schalter-zeile` unter dem Suchfeld: «☔ Regentag», «nur offene» (beide `.schalter`, aktiv `.an`) und rechts die Anzahl passender Ziele (`#treffer`).
+  - Die Anzahlen bei Chips und im Filter-Fenster richten sich nach Jahreszeit und Regentag (nicht nach Suche). Kategorien ohne Ziel werden blass (`.leer`), bleiben aber wählbar.
+  - Hinweise in der grauen Zeile hinter Kategorie und Ort, in der Liste und im Popup (`zeitHinweis()`): «☀️ nur Sommer», «❄️ nur Winter», «☔ auch bei Regen». Ganzjährige Ziele ohne Regentag bekommen keinen.
+  - «zurücksetzen» setzt Kategorien, Suche, Regentag und «nur offene» zurück, die Jahreszeit bleibt. Ist die Liste leer und eine Jahreszeit gewählt, rät die Meldung zu «Alle».
+  - Haken, Zähler («x von N erledigt») und Mein-Stand-Link zählen weiterhin alle Ziele, auch ausgeblendete.
 - **Liste:**
   - Kategorie-Chips mit Anzahl, leicht in ihrer Kategorie-Farbe getönt
   - **Handy (bis 880 px):** statt der Chips ein Knopf „Filter“ (`#filterKnopf` / `.filter-knopf`), der die Auswahl zeigt („Alle Kategorien“, bis zu zwei Kurznamen wie „Tierpark, Wanderung“, sonst „3 Kategorien“). Er öffnet das Fenster von unten `<dialog id="filterBlatt">` (`.filterblatt`) mit allen Kategorien (Symbol, Name, Anzahl, Haken), „Zurücksetzen“ (nur Kategorien) und „Fertig“. Die Zeile „Kategorie filtern / zurücksetzen“ ist auf dem Handy ausgeblendet (Wunsch des Besitzers: doppelt mit „Zurücksetzen“ im Fenster; die Suche leert das ✕ im Suchfeld). Antippen filtert sofort; Escape, „Fertig“ und Tippen daneben schliessen. Bewusst kompakt, damit es auch auf dem iPhone SE ohne Scrollen passt; auf niedrigen Bildschirmen (`max-height: 620px`) rücken die Zeilen noch enger zusammen, damit alle 10 Kategorien Platz haben. Ohne `<dialog>`-Unterstützung bleiben die Chips (Klasse `.mit-filterblatt` an `.filterbar` fehlt dann).
@@ -98,7 +106,7 @@ Vom Besitzer gewählt aus mehreren Entwürfen („hell und ruhig“ plus „Berg
 
 ### Stolperfallen
 
-- **Cache:** GitHub Pages liefert Dateien mit `max-age=600`. **Bei jeder Änderung an `style.css` oder `app.js` die Zahl `?v=N` in `index.html` erhöhen** (aktuell `v=7`). Sonst mischt der Browser bis zu 10 Minuten lang alte und neue Dateien.
+- **Cache:** GitHub Pages liefert Dateien mit `max-age=600`. **Bei jeder Änderung an `style.css` oder `app.js` die Zahl `?v=N` in `index.html` erhöhen** (aktuell `v=8`). Sonst mischt der Browser bis zu 10 Minuten lang alte und neue Dateien.
 - **Inhaltsblocker (Safari):** Sie blenden Elemente mit Namen wie `back-to-top`, `scroll-top` oder `to-top` aus. Darum heisst der Knopf `hochknopf`. Teilen-Knöpfe (`share`, `social`) werden ebenfalls oft ausgeblendet, darum `teilen-knopf`. Bei neuen schwebenden Elementen ebenfalls neutrale, deutsche Namen wählen.
 - **Mobile:** Die Seite scrollt als Ganzes (keine Höhen-Tricks mit `100vh` in der Liste). Horizontales Scrollen muss ausgeschlossen bleiben (`overflow-x: hidden` auf `html`/`body`). Lange Titel brechen notfalls mitten im Wort um (`overflow-wrap: anywhere` an `.card-title`), sonst ragen sie auf 320 px Breite hinaus. Die Chips scrollen horizontal für sich, sind auf dem Handy aber nur noch ohne Filter-Fenster zu sehen.
 - **Leaflet-Stile:** Leaflet setzt eigene Regeln mit höherer Spezifität (z.B. `.leaflet-popup-content p`). Eigene Popup-Regeln darum mit `.leaflet-popup-content …` präfixen.
@@ -111,7 +119,11 @@ python3 -m http.server 8899      # im Repo-Ordner
 
 - **Mit Playwright** (Chromium) gegen `http://127.0.0.1:8899/` prüfen:
   - Desktop 1440×900, Dark Mode und ein iPhone-Profil
-  - so viele Karten und Pins wie Einträge in `ausfluege.json` (Ende Oktober 2026: 156); Filter, Suche und „nur offene“
+  - so viele Karten und Pins wie Einträge in `ausfluege.json` (Anfang November 2026: 154); Filter, Suche und „nur offene“. Achtung: Die Seite startet auf der aktuellen Jahreszeit. Für Zählungen über alle Ziele zuerst «Alle» wählen (auch bei offenem Fenster per `page.evaluate(() => document.querySelector('[data-saison="alle"]').click())`), für die Jahreszeit das Datum mit `page.clock.setFixedTime()` festlegen.
+  - Jahreszeit: Startmonat (31.3. Winter, 1.4. Sommer, 31.10. Sommer, 1.11. Winter), Karten und Pins je Jahreszeit, Anzahlen bei Chips und im Filter-Fenster, blasse leere Kategorien
+  - Regentag allein und kombiniert mit Jahreszeit, Kategorie, Suche und «nur offene»; «zurücksetzen» lässt die Jahreszeit stehen
+  - Hinweise in Liste und Popup; fehlende oder ungültige `saison`/`regentag` (per `page.route` auf `ausfluege.json`): ganzjährig, kein Regentag
+  - Handy: Reihenfolge Schalter, Filter-Knopf, Suchfeld, Knopfzeile; Knopfzeile passt auf 320 px
   - Kategorien alphabetisch, „Sonstiges“ zuletzt (Chips und Filter-Fenster)
   - Filter-Fenster auf iPhone 13 und iPhone SE (320×568): passt ohne inneres Scrollen, „Fertig“ im Bild; Antippen, Knopf-Text, „Zurücksetzen“, „Fertig“, Escape, Tippen daneben; Zeile „zurücksetzen“ auf dem Handy unsichtbar; Dunkel-Modus; ohne `showModal` bleiben die Chips
   - Haken bleibt nach Neuladen erhalten; Popup-Haken und Listen-Haken bleiben abgeglichen
@@ -148,9 +160,9 @@ python3 -m http.server 8899      # im Repo-Ordner
    - **Regel „kein Ausflugsziel“:** Aufgaben, die keine Ziele sind (z.B. „Interaktive Karte (Link)“), stehen in `keinAusflugsziel` in `daten/ziele.json` und erscheinen nirgends.
 4. **Automatische Anreicherung** neuer Einträge (vom Besitzer vorerst zurückgestellt) (Ort, Koordinaten, Kategorie, Beschreibung, Website) über die Claude-API. Neue Einträge werden mit „bitte prüfen“ markiert. Dabei auch auf Duplikate prüfen (siehe „Neue Ziele ergänzen“).
 
-5. **Jahreszeit, Regentag und «Schnee & Eis»** (November 2026), in zwei Schritten mit je einem PR:
+5. ✅ **Jahreszeit, Regentag und «Schnee & Eis»** (November 2026), in zwei Schritten mit je einem PR:
    - Schritt 1 (Daten): Kategorie `schnee`, `saison` und `regentag` für alle Ziele, Warnung im To-Do-Abruf. Schlittelweg Rotenflue–Rätigs und Skigebiet Arvenbüel Amden sind von `berg` zu `schnee` gewechselt. Die Einordnung hat der Besitzer in Cowork geprüft und korrigiert; daraus stammen die zwei Regeln unter „Datenformat“.
-   - Schritt 2 (Website), noch offen. Entscheidungen des Besitzers:
+   - Schritt 2 (Website), November 2026. Umsetzung siehe „Verhalten der Seite“. Entscheidungen des Besitzers:
      - Schalter «Alle | ☀️ Sommer | ❄️ Winter», gut sichtbar über dem Filter. Ganzjährige Ziele erscheinen in beiden Jahreszeiten. Beim Öffnen steht er auf der aktuellen Jahreszeit (November–März Winter, April–Oktober Sommer) und wird nicht gespeichert.
      - Filter «☔ Regentag», kombinierbar mit Jahreszeit, Kategorien, Suche und «nur offene».
      - Handy: Schalter, dann Filter-Knopf, Suchfeld (volle Breite) und eine Zeile mit «☔ Regentag», «nur offene» und der Anzahl passender Ziele. Die Anzahlen bei den Kategorien richten sich nach Jahreszeit und Regentag, leere Kategorien werden blass.

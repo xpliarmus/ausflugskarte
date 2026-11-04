@@ -26,6 +26,9 @@
   var items = [], byId = {}, cats = {}, catOrder = [], katZahl = {};
   var cards = {}, markers = {}, hay = {}, codeMap = Object.create(null);
   var done = new Set(), activeCats = new Set(), query = '', hideDone = false;
+  // Jahreszeit: startet auf der aktuellen (November–März Winter, April–Oktober Sommer), wird nicht gespeichert
+  var monat = new Date().getMonth() + 1;
+  var saison = monat >= 4 && monat <= 10 ? 'sommer' : 'winter', regen = false, katZeit = {};
   var map, markerLayer, mainBounds, hlHalo, hlRing, hlId = null;
 
   // ---------- Hilfsfunktionen ----------
@@ -42,6 +45,14 @@
   }
   function place(a) {
     return a.ort + ', ' + a.region + (a.land !== 'Schweiz' ? ' (' + a.land + ')' : '');
+  }
+  // Hinweis hinter Kategorie und Ort; ganzjährige Ziele ohne Regentag bekommen keinen
+  function zeitHinweis(a) {
+    return (a.saison === 'sommer' ? ' · ☀️ nur Sommer' : a.saison === 'winter' ? ' · ❄️ nur Winter' : '') +
+      (a.regentag ? ' · ☔ auch bei Regen' : '');
+  }
+  function passtZeit(a) {
+    return (saison === 'alle' || a.saison === 'ganzjaehrig' || a.saison === saison) && (!regen || a.regentag);
   }
   function gmaps(a) {
     return 'https://www.google.com/maps/search/?api=1&query=' + a.lat.toFixed(5) + ',' + a.lon.toFixed(5);
@@ -215,7 +226,7 @@
         '<span class="card-title">' + esc(a.titel) +
         (a.ungefaehr ? ' <span class="approx" title="Koordinaten ungefähr">~</span>' : '') + '</span></label>' +
         '<div class="card-meta"><span class="cat-dot" style="background:' + esc(c.farbe) + '"></span>' +
-        esc(c.label) + ' · ' + esc(place(a)) + '</div>' +
+        esc(c.label) + ' · ' + esc(place(a)) + esc(zeitHinweis(a)) + '</div>' +
         '<p class="card-desc">' + esc(a.beschreibung) + '</p>' +
         (a.hinweis ? '<p class="card-note">' + esc(a.hinweis) + '</p>' : '') +
         '<div class="card-links">' + linksHtml(a, true) + '</div>';
@@ -268,16 +279,16 @@
   function filterListe() {
     $('filterListe').innerHTML = katReihenfolge().map(function (k) {
       var c = cats[k], on = activeCats.has(k);
-      return '<button type="button" class="fb-zeile' + (on ? ' an' : '') + '" data-cat="' + esc(k) + '" aria-pressed="' + on + '" style="--chip-color:' + esc(c.farbe) + '">' +
+      return '<button type="button" class="fb-zeile' + (on ? ' an' : '') + (katZeit[k] ? '' : ' leer') + '" data-cat="' + esc(k) + '" aria-pressed="' + on + '" style="--chip-color:' + esc(c.farbe) + '">' +
         '<span class="fb-sym" aria-hidden="true">' + esc(c.symbol || '') + '</span><span class="fb-name">' + esc(c.label) + '</span>' +
-        '<span class="fb-n">' + katZahl[k] + '</span><span class="fb-haken" aria-hidden="true"></span></button>';
+        '<span class="fb-n">' + (katZeit[k] || 0) + '</span><span class="fb-haken" aria-hidden="true"></span></button>';
     }).join('');
   }
 
   function applyFilters() {
     var q = norm(query.trim()), shown = 0;
     items.forEach(function (a) {
-      var vis = (activeCats.size === 0 || activeCats.has(a.kat)) &&
+      var vis = passtZeit(a) && (activeCats.size === 0 || activeCats.has(a.kat)) &&
         (!q || hay[a.id].indexOf(q) !== -1) &&
         !(hideDone && done.has(a.id));
       cards[a.id].hidden = !vis;
@@ -288,8 +299,18 @@
     });
     items.forEach(function (a) { if (done.has(a.id) && markerLayer.hasLayer(markers[a.id])) markers[a.id].bringToBack(); });
     if (hlId && !markerLayer.hasLayer(markers[hlId])) setHighlight(null);
+    // Anzahlen bei den Kategorien richten sich nach Jahreszeit und Regentag
+    katZeit = {};
+    items.forEach(function (a) { if (passtZeit(a)) katZeit[a.kat] = (katZeit[a.kat] || 0) + 1; });
+    chipRow.querySelectorAll('.filter-chip').forEach(function (chip) {
+      var n = katZeit[chip.dataset.cat] || 0;
+      chip.querySelector('.chip-n').textContent = n;
+      chip.classList.toggle('leer', !n);
+    });
+    if (filterBlatt && filterBlatt.open) filterListe();
+    $('treffer').textContent = shown === 1 ? '1 Ziel' : shown + ' Ziele';
     listMsg.hidden = shown > 0;
-    listMsg.textContent = 'Keine Einträge passen zu Suche und Filter.';
+    listMsg.textContent = 'Keine Einträge passen zu Suche und Filter.' + (saison !== 'alle' ? ' Tipp: «Alle» zeigt alle Jahreszeiten.' : '');
   }
 
   function flashCard(id) {
@@ -306,7 +327,7 @@
     var c = cats[a.kat];
     return '<div class="pop">' +
       '<p class="pop-title">' + esc(a.titel) + (a.ungefaehr ? ' <span class="approx" title="Koordinaten ungefähr">~</span>' : '') + '</p>' +
-      '<p class="pop-meta">' + esc(c.label) + ' · ' + esc(place(a)) + '</p>' +
+      '<p class="pop-meta">' + esc(c.label) + ' · ' + esc(place(a)) + esc(zeitHinweis(a)) + '</p>' +
       '<p class="pop-desc">' + esc(a.beschreibung) + '</p>' +
       '<label class="pop-check"><input type="checkbox" class="pop-done" data-id="' + esc(a.id) + '"' + (done.has(a.id) ? ' checked' : '') + '> erledigt</label>' +
       '<div class="pop-links">' + linksHtml(a, false) + '</div></div>';
@@ -454,13 +475,34 @@
       $('filterFertig').addEventListener('click', function () { filterBlatt.close(); });
       filterBlatt.addEventListener('click', function (e) { if (e.target === filterBlatt) filterBlatt.close(); }); // Tipp daneben
     }
-    $('resetFilters').addEventListener('click', function () {
-      activeCats.clear(); query = ''; hideDone = false;
+    // Jahreszeit und Regentag
+    var saisonWahl = $('saisonWahl'), regenKnopf = $('regenKnopf');
+    function malSchalter() {
+      saisonWahl.querySelectorAll('button').forEach(function (b) {
+        var on = b.dataset.saison === saison;
+        b.classList.toggle('an', on);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      regenKnopf.classList.toggle('an', regen);
+      regenKnopf.setAttribute('aria-pressed', regen ? 'true' : 'false');
+      hideDoneToggle.parentNode.classList.toggle('an', hideDone);
+    }
+    saisonWahl.addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b) return;
+      saison = b.dataset.saison;
+      malSchalter(); applyFilters();
+    });
+    regenKnopf.addEventListener('click', function () { regen = !regen; malSchalter(); applyFilters(); });
+    malSchalter();
+
+    $('resetFilters').addEventListener('click', function () { // die Jahreszeit bleibt
+      activeCats.clear(); query = ''; hideDone = false; regen = false;
       searchInput.value = ''; hideDoneToggle.checked = false;
-      updateChips(); applyFilters();
+      malSchalter(); updateChips(); applyFilters();
     });
     searchInput.addEventListener('input', function () { query = searchInput.value; applyFilters(); });
-    hideDoneToggle.addEventListener('change', function () { hideDone = hideDoneToggle.checked; applyFilters(); });
+    hideDoneToggle.addEventListener('change', function () { hideDone = hideDoneToggle.checked; malSchalter(); applyFilters(); });
 
     listEl.addEventListener('change', function (e) {
       var t = e.target;
@@ -525,6 +567,9 @@
     if (!cats.sonst) { cats.sonst = { key: 'sonst', label: 'Sonstiges', farbe: '#888888' }; catOrder.push('sonst'); }
     items.forEach(function (a) {
       if (!cats[a.kat]) a.kat = 'sonst';
+      // fehlt die Angabe oder ist sie ungültig: ganzjährig, kein Regentag
+      if (a.saison !== 'sommer' && a.saison !== 'winter') a.saison = 'ganzjaehrig';
+      a.regentag = a.regentag === true;
       byId[a.id] = a;
       hay[a.id] = norm([a.titel, a.ort, a.region, a.land, a.beschreibung, a.hinweis, cats[a.kat].label].join(' '));
     });
