@@ -44,6 +44,7 @@ ZIELE = os.path.join(REPO, 'daten', 'ziele.json')      # Angaben zu den Zielen +
 OFFEN = os.path.join(REPO, 'daten', 'offen.json')      # Aufgaben ohne Angaben (noch zu ergänzen)
 WEBSITE = os.path.join(REPO, 'ausfluege.json')         # wird erzeugt, nicht von Hand bearbeiten
 GRENZE = 10  # verschwinden mehr Ziele auf einmal, wird zur Sicherheit nichts geändert
+SAISONS = ('sommer', 'winter', 'ganzjaehrig')  # Feld „saison“ pro Ziel; dazu „regentag“ (true/false)
 
 
 class Fehler(Exception):
@@ -269,6 +270,12 @@ def zusammenbauen(quelle, liste, alt, heute, trotzdem=False):
     return neu, offen, weg
 
 
+def fehlende_angaben(ausfluege):
+    """Ziele ohne gültige Angaben zu Saison oder Regentag. Die Website zeigt sie trotzdem
+    (fehlende Saison gilt als ganzjährig, fehlender Regentag als „nein“), der Lauf bleibt grün."""
+    return [z for z in ausfluege if z.get('saison') not in SAISONS or not isinstance(z.get('regentag'), bool)]
+
+
 def aktualisieren():
     probelauf = os.environ.get('PROBELAUF') == 'true'
     trotzdem = os.environ.get('TROTZDEM') == 'true'
@@ -296,6 +303,9 @@ def aktualisieren():
     print('✓ %d Aufgaben noch ohne Angaben (daten/offen.json):' % len(offen))
     for a in offen:
         print('  · %s' % a['titel'])
+    for z in fehlende_angaben(neu['ausfluege']):
+        print('::warning::Saison oder Regentag fehlt oder ist ungültig bei „%s“ (gilt als ganzjährig, kein Regentag). '
+              'Bitte in daten/ziele.json ergänzen.' % z['titel'], flush=True)
 
     if probelauf:
         print('Probelauf: nichts gespeichert.', flush=True)

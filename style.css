@@ -255,6 +255,18 @@ h1,h2{font-family:var(--font-display); margin:0; text-wrap:balance;}
 }
 .fb-fuss button{flex:1; padding:10px; border-radius:12px; font-family:var(--font-body); font-weight:700; font-size:.92rem; cursor:pointer;}
 
+/* Kleine Handys (iPhone SE): alle Kategorien ohne Scrollen im Fenster */
+@media (max-height: 620px){
+  .filterblatt{max-height:94vh;}
+  .fb-griff{margin:2px auto 4px;}
+  .filterblatt h2{margin:0 0 4px; font-size:1rem;}
+  .fb-zeile{padding:5px 10px; margin:0 0 4px; font-size:.82rem;}
+  .fb-sym{font-size:.95rem;}
+  .fb-haken{width:18px; height:18px;}
+  .fb-fuss{padding-top:6px;}
+  .fb-fuss button{padding:8px;}
+}
+
 /* ---------- Mobile: normale Seite, die als Ganzes scrollt ---------- */
 @media (max-width: 880px){
   html{overflow-x:hidden;}

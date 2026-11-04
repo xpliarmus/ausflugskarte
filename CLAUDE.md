@@ -42,14 +42,17 @@ Die Website selbst ist bewusst flach und ohne Build-Schritt. So lassen sich Date
   "ausfluege": [{
     "id": "affenberg-salem", "titel": "Affenberg Salem",
     "ort": "Salem (Mendlishausen)", "region": "Baden-Württemberg", "land": "Deutschland",
-    "lat": 47.767, "lon": 9.2295, "kat": "tier",
+    "lat": 47.767, "lon": 9.2295, "kat": "tier", "saison": "sommer", "regentag": false,
     "beschreibung": "…", "hinweis": "… (optional)", "website": "https://… (optional)",
     "ungefaehr": true
   }]
 }
 ```
 
-- **Kategorien (9):** `tier, kugel, sonst, wandern, wasser, berg, museum, spiel, park`. `symbol` ist das Emoji im Filter-Fenster auf dem Handy (optional, fehlt es, bleibt der Platz leer). Auf der Seite stehen die Kategorien alphabetisch nach `label`, „Sonstiges“ (`sonst`) immer zuletzt (`katReihenfolge()` in `app.js`); die Reihenfolge in der Datei spielt keine Rolle.
+- **Kategorien (10):** `tier, kugel, sonst, wandern, wasser, berg, museum, spiel, park, schnee`. `schnee` = «Schnee & Eis» (Gletscherblau `#7FB8E6`, 🛷) für Schlitteln, Eisbahnen, Kinder-Skigebiete und Winterwege, seit November 2026. `symbol` ist das Emoji im Filter-Fenster auf dem Handy (optional, fehlt es, bleibt der Platz leer). Auf der Seite stehen die Kategorien alphabetisch nach `label`, „Sonstiges“ (`sonst`) immer zuletzt (`katReihenfolge()` in `app.js`); die Reihenfolge in der Datei spielt keine Rolle.
+- **`saison`** (Pflicht): `sommer` (ca. April–Oktober), `winter` (ca. November–März) oder `ganzjaehrig`. Ganzjährig heisst: offen und sinnvoll in beiden Jahreshälften. **Regel des Besitzers: Saison = Hauptattraktion.** Wege ohne Bahn oder Anlage mit Winterpause sind ganzjährig, ausser Barfuss- oder Wasserwegen und Höhenwegen ohne Winterweg. Hat die Hauptattraktion eine Winterpause (Bergbahn, Saisonpark, Freibad, Maislabyrinth), gilt `sommer`; einzelne Wintertage gehören dann in den `hinweis`.
+- **`regentag`** (Pflicht, `true`/`false`): **Regel des Besitzers: nur `true`, wenn sich der ganze Ausflug drinnen, unterirdisch (Höhlen, Grotten) oder gedeckt lohnt.** Darum z.B. nicht bei der Titlis Eisgrotte (Bergfahrt) oder einem Hotel.
+- **Fehlen `saison` oder `regentag`** oder sind sie ungültig, gilt das Ziel als ganzjährig und als nicht regentauglich. Es erscheint also trotzdem, nur nie im Regentag-Filter. Der To-Do-Abruf schreibt dann pro Ziel eine gelbe Warnung (`::warning::`) ins Protokoll und bleibt grün (`fehlende_angaben()` in `werkzeuge/todo.py`).
 - **`land`** wird in der Liste nur angezeigt, wenn es nicht „Schweiz“ ist.
 - **`ungefaehr: true`** heisst, dass die Koordinaten nur geschätzt sind. In der Liste erscheint dann ein „~“.
 - **`id`** ist der Schlüssel für die Erledigt-Haken der Besucher. **Eine bestehende `id` nie ändern**, sonst verlieren die Besucher ihre Haken. Für neue Einträge wird die `id` so gebildet: Titel in Kleinbuchstaben, Unicode-NFKD und auf ASCII reduzieren (ä→a), alles ausser `a-z0-9` durch `-` ersetzen, `-` am Rand entfernen.
@@ -62,7 +65,7 @@ Die Website selbst ist bewusst flach und ohne Build-Schritt. So lassen sich Date
 - **Startansicht:** alle Einträge im Umkreis von 300 km um den Median-Punkt (`CLUSTER_KM`). Weit entfernte Ziele wie die Steiermark sieht man erst beim Herauszoomen. Der Knopf ⟲ setzt die Ansicht zurück.
 - **Liste:**
   - Kategorie-Chips mit Anzahl, leicht in ihrer Kategorie-Farbe getönt
-  - **Handy (bis 880 px):** statt der Chips ein Knopf „Filter“ (`#filterKnopf` / `.filter-knopf`), der die Auswahl zeigt („Alle Kategorien“, bis zu zwei Kurznamen wie „Tierpark, Wanderung“, sonst „3 Kategorien“). Er öffnet das Fenster von unten `<dialog id="filterBlatt">` (`.filterblatt`) mit allen Kategorien (Symbol, Name, Anzahl, Haken), „Zurücksetzen“ (nur Kategorien) und „Fertig“. Die Zeile „Kategorie filtern / zurücksetzen“ ist auf dem Handy ausgeblendet (Wunsch des Besitzers: doppelt mit „Zurücksetzen“ im Fenster; die Suche leert das ✕ im Suchfeld). Antippen filtert sofort; Escape, „Fertig“ und Tippen daneben schliessen. Bewusst kompakt, damit es auch auf dem iPhone SE ohne Scrollen passt. Ohne `<dialog>`-Unterstützung bleiben die Chips (Klasse `.mit-filterblatt` an `.filterbar` fehlt dann).
+  - **Handy (bis 880 px):** statt der Chips ein Knopf „Filter“ (`#filterKnopf` / `.filter-knopf`), der die Auswahl zeigt („Alle Kategorien“, bis zu zwei Kurznamen wie „Tierpark, Wanderung“, sonst „3 Kategorien“). Er öffnet das Fenster von unten `<dialog id="filterBlatt">` (`.filterblatt`) mit allen Kategorien (Symbol, Name, Anzahl, Haken), „Zurücksetzen“ (nur Kategorien) und „Fertig“. Die Zeile „Kategorie filtern / zurücksetzen“ ist auf dem Handy ausgeblendet (Wunsch des Besitzers: doppelt mit „Zurücksetzen“ im Fenster; die Suche leert das ✕ im Suchfeld). Antippen filtert sofort; Escape, „Fertig“ und Tippen daneben schliessen. Bewusst kompakt, damit es auch auf dem iPhone SE ohne Scrollen passt; auf niedrigen Bildschirmen (`max-height: 620px`) rücken die Zeilen noch enger zusammen, damit alle 10 Kategorien Platz haben. Ohne `<dialog>`-Unterstützung bleiben die Chips (Klasse `.mit-filterblatt` an `.filterbar` fehlt dann).
   - Jeder Eintrag hat links einen Streifen in seiner Kategorie-Farbe (`--kat-farbe`, gesetzt in `buildCards()`)
   - Suche, die Umlaute ignoriert („zurich“ findet „Zürich“)
   - „nur offene“
@@ -95,7 +98,7 @@ Vom Besitzer gewählt aus mehreren Entwürfen („hell und ruhig“ plus „Berg
 
 ### Stolperfallen
 
-- **Cache:** GitHub Pages liefert Dateien mit `max-age=600`. **Bei jeder Änderung an `style.css` oder `app.js` die Zahl `?v=N` in `index.html` erhöhen** (aktuell `v=6`). Sonst mischt der Browser bis zu 10 Minuten lang alte und neue Dateien.
+- **Cache:** GitHub Pages liefert Dateien mit `max-age=600`. **Bei jeder Änderung an `style.css` oder `app.js` die Zahl `?v=N` in `index.html` erhöhen** (aktuell `v=7`). Sonst mischt der Browser bis zu 10 Minuten lang alte und neue Dateien.
 - **Inhaltsblocker (Safari):** Sie blenden Elemente mit Namen wie `back-to-top`, `scroll-top` oder `to-top` aus. Darum heisst der Knopf `hochknopf`. Teilen-Knöpfe (`share`, `social`) werden ebenfalls oft ausgeblendet, darum `teilen-knopf`. Bei neuen schwebenden Elementen ebenfalls neutrale, deutsche Namen wählen.
 - **Mobile:** Die Seite scrollt als Ganzes (keine Höhen-Tricks mit `100vh` in der Liste). Horizontales Scrollen muss ausgeschlossen bleiben (`overflow-x: hidden` auf `html`/`body`). Lange Titel brechen notfalls mitten im Wort um (`overflow-wrap: anywhere` an `.card-title`), sonst ragen sie auf 320 px Breite hinaus. Die Chips scrollen horizontal für sich, sind auf dem Handy aber nur noch ohne Filter-Fenster zu sehen.
 - **Leaflet-Stile:** Leaflet setzt eigene Regeln mit höherer Spezifität (z.B. `.leaflet-popup-content p`). Eigene Popup-Regeln darum mit `.leaflet-popup-content …` präfixen.
@@ -143,7 +146,16 @@ python3 -m http.server 8899      # im Repo-Ordner
    - **Schöne Titel nur auf der Website** (Variante A): In To Do bleibt alles, wie es eingetippt wurde. Die App darf nur lesen.
    - Die Titel der Liste „Ausflugsideen“ sind öffentlich (Repo und Protokolle). Der Besitzer weiss das.
    - **Regel „kein Ausflugsziel“:** Aufgaben, die keine Ziele sind (z.B. „Interaktive Karte (Link)“), stehen in `keinAusflugsziel` in `daten/ziele.json` und erscheinen nirgends.
-4. **Automatische Anreicherung** neuer Einträge (Ort, Koordinaten, Kategorie, Beschreibung, Website) über die Claude-API. Neue Einträge werden mit „bitte prüfen“ markiert. Dabei auch auf Duplikate prüfen (siehe „Neue Ziele ergänzen“).
+4. **Automatische Anreicherung** neuer Einträge (vom Besitzer vorerst zurückgestellt) (Ort, Koordinaten, Kategorie, Beschreibung, Website) über die Claude-API. Neue Einträge werden mit „bitte prüfen“ markiert. Dabei auch auf Duplikate prüfen (siehe „Neue Ziele ergänzen“).
+
+5. **Jahreszeit, Regentag und «Schnee & Eis»** (November 2026), in zwei Schritten mit je einem PR:
+   - Schritt 1 (Daten): Kategorie `schnee`, `saison` und `regentag` für alle Ziele, Warnung im To-Do-Abruf. Schlittelweg Rotenflue–Rätigs und Skigebiet Arvenbüel Amden sind von `berg` zu `schnee` gewechselt. Die Einordnung hat der Besitzer in Cowork geprüft und korrigiert; daraus stammen die zwei Regeln unter „Datenformat“.
+   - Schritt 2 (Website), noch offen. Entscheidungen des Besitzers:
+     - Schalter «Alle | ☀️ Sommer | ❄️ Winter», gut sichtbar über dem Filter. Ganzjährige Ziele erscheinen in beiden Jahreszeiten. Beim Öffnen steht er auf der aktuellen Jahreszeit (November–März Winter, April–Oktober Sommer) und wird nicht gespeichert.
+     - Filter «☔ Regentag», kombinierbar mit Jahreszeit, Kategorien, Suche und «nur offene».
+     - Handy: Schalter, dann Filter-Knopf, Suchfeld (volle Breite) und eine Zeile mit «☔ Regentag», «nur offene» und der Anzahl passender Ziele. Die Anzahlen bei den Kategorien richten sich nach Jahreszeit und Regentag, leere Kategorien werden blass.
+     - Hinweise in den Einträgen in der grauen Zeile hinter Kategorie und Ort («☀️ nur Sommer», «❄️ nur Winter», «☔ auch bei Regen»), Variante A. Ganzjährige Ziele ohne Regentag bekommen keinen Hinweis.
+     - «zurücksetzen» lässt die Jahreszeit stehen.
 
 ## Microsoft To Do
 
@@ -167,6 +179,7 @@ python3 -m http.server 8899      # im Repo-Ordner
 - **Regeln beim Zusammenbau:**
   - Ein Ziel erscheint, solange **mindestens eine** Aufgabe aus seinem `todo` in To Do steht.
   - Aufgaben ohne Ziel landen in `daten/offen.json`, ausser ihr Titel steht in `keinAusflugsziel`. Der Vergleich läuft über den Titel, Gross-/Kleinschreibung zählt nicht. Über den Titel deshalb, weil die Aufgabe „Interaktive Karte (Link)“ nach dem Löschen mit neuer id wieder auftauchte.
+  - **Saison und Regentag:** Fehlen sie bei einem Ziel, warnt der Lauf (gelb) und baut trotzdem; siehe „Datenformat“.
   - **Sicherheitsgrenze:** Ist die Liste leer oder würden mehr als 10 Ziele auf einmal verschwinden, ändert die Action nichts, und der Lauf wird rot. War es Absicht, „Run workflow“ mit „trotzdem“ starten.
 - **Öffentliches Protokoll:** Nie Tokens, Notizen, Status oder die Namen anderer Listen ausgeben. Titel und Aufgaben-IDs dürfen erscheinen.
 - **Für Claude:** Läufe lassen sich über GitHub-MCP starten (`actions_run_trigger`, z.B. mit `inputs: {probelauf: true}`), Protokolle liest `get_job_logs`. Ein direkter Download aus der Sandbox ist nicht möglich.
@@ -174,9 +187,9 @@ python3 -m http.server 8899      # im Repo-Ordner
 ## Neue Ziele ergänzen
 
 1. `daten/offen.json` vom aktuellen `main` lesen. Falls nötig, vorher den „To-Do-Abruf“ laufen lassen.
-2. Pro Aufgabe recherchieren: genauer Ort, Koordinaten, passende Kategorie, kurze Beschreibung mit Kinderbezug, offizielle Website und ein schöner Titel im Stil der bestehenden.
+2. Pro Aufgabe recherchieren: genauer Ort, Koordinaten, passende Kategorie, **Saison und Regentag** (siehe „Datenformat“), kurze Beschreibung mit Kinderbezug, offizielle Website und ein schöner Titel im Stil der bestehenden.
 3. **Duplikat?** Gibt es das Ziel schon (gleicher Ort oder gleiche Website), kein neues Ziel anlegen. Stattdessen die Aufgaben-ID im `todo` des bestehenden Ziels ergänzen und im PR erwähnen: „X ist doppelt zu Y, eine davon kann in To Do gelöscht werden.“ Welche gelöscht wird, spielt keine Rolle.
-4. Neues Ziel in `daten/ziele.json` ergänzen: `id` nach der Regel oben, `"todo": ["<id aus offen.json>"]`. Prüfen, dass alle Kurzcodes verschieden bleiben.
+4. Neues Ziel in `daten/ziele.json` ergänzen: `id` nach der Regel oben, `saison` und `regentag` direkt nach `kat`, `"todo": ["<id aus offen.json>"]`. Im PR Saison und Regentag pro Ziel nennen, unsichere Fälle markieren. Prüfen, dass alle Kurzcodes verschieden bleiben.
 5. **`ausfluege.json` nicht anfassen.** Zum Testen eine Kopie lokal erzeugen, z.B. mit `todo.zusammenbauen()` und allen `todo`-IDs als Liste, und nicht committen.
 6. PR erstellen. Nach dem Merge startet der „To-Do-Abruf“ von selbst und baut die Website-Daten neu. Das Ziel ist nach 1–2 Minuten live.
 7. Ist eine Aufgabe kein Ausflugsziel, ihren Titel in `keinAusflugsziel` eintragen und im PR erwähnen.
