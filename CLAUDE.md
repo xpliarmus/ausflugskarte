@@ -29,6 +29,8 @@ Die Website selbst ist bewusst flach und ohne Build-Schritt. So lassen sich Date
 | `daten/startorte.json` | 181 Startorte in der Schweiz (Name, Kanton, Lage) für die Fahrzeiten, siehe „Fahrzeiten“. Hier werden Startorte ergänzt oder entfernt. |
 | `fahrzeiten.json` | Wird erzeugt: Fahrzeiten mit dem Auto in Minuten von jedem Startort zu jedem Ziel. **Nie von Hand bearbeiten.** |
 | `werkzeuge/fahrzeiten.py` | Berechnet fehlende Fahrzeiten über den Routenplaner der FOSSGIS (nur Python-Standardbibliothek). |
+| `orte.json` | 4009 Schweizer Orte mit Postleitzahlen und Lage für das Feld «📍 Von wo?» (GeoNames, CC BY 4.0). Einmalig erzeugt mit `werkzeuge/orte.py` aus `CH.zip` von GeoNames; nicht von Hand bearbeiten. Format: `[Name, Kanton, lat, lon, "PLZ PLZ …"]`, eine Zeile pro Ort. |
+| `werkzeuge/orte.py` | Baut `orte.json` aus der GeoNames-Datei (`python3 werkzeuge/orte.py CH.zip`). Nur nötig, wenn Orte fehlen. Aus der Sandbox ist geonames.org nicht erreichbar; die gleichen Daten stecken im npm-Paket `swiss-zipcodes` (`src/data_geonames.json`). |
 | `.github/workflows/` | `microsoft-anmeldung.yml` (einmalige Anmeldung) und `todo-abruf.yml` (Abruf, Zusammenbau und Fahrzeiten, siehe „Microsoft To Do“ und „Fahrzeiten“). |
 | `leaflet.js`, `leaflet.css` | Leaflet 1.9.4, lokal eingebunden (kein CDN). |
 | `fredoka.woff2`, `karla.woff2` | Schriften lokal (Fontsource, latin, variable): Fredoka für Titel und Überschriften (`--font-display`), Karla für alles andere. Keine Anfragen an Google Fonts. |
@@ -88,6 +90,8 @@ Die Website selbst ist bewusst flach und ohne Build-Schritt. So lassen sich Date
 - **localStorage** (nur im Browser des Besuchers):
   - `ausflugsideen.erledigt.v1`: JSON-Array mit den `id`s der erledigten Einträge
   - `ausflugsideen.karte`: zuletzt gewählte Karte (`osm` oder `swisstopo`)
+  - `ausflugsideen.start`: Startpunkt für die Fahrzeit als JSON `{lat, lon, name}`; unplausible Werte (ausserhalb Mitteleuropas) werden übergangen
+  - `ausflugsideen.umkreis`: `30`, `60`, `90`, `120` oder `alle`
 - **Mein-Stand-Link** (Knopf „Erledigte Ziele teilen“ `#teilenKnopf` / `.teilen-knopf` neben dem Zähler):
   - Der Knopf hiess bis Oktober 2026 „Mein Stand teilen“. Umbenannt, weil Besucher dachten, es werde der Standort geteilt. „Mein-Stand-Link“ bleibt nur der interne Name, und das Link-Format `#stand=1.` bleibt, damit verschickte Links gültig bleiben. In sichtbaren Texten nicht mehr „Stand“ für die Haken verwenden.
   - Format: `…/#stand=1.<Codes>`. `1` ist die Formatversion. Danach folgt pro erledigtem Eintrag ein Kurzcode aus 4 Zeichen (`0-9A-Za-z`), sortiert und ohne Trennzeichen.
@@ -96,6 +100,17 @@ Die Website selbst ist bewusst flach und ohne Build-Schritt. So lassen sich Date
   - Öffnen: Vorher fragt `<dialog id="frageFenster">` „Erledigte Ziele übernehmen?“ (ältere Browser: `confirm()`). Kein Knopf ist vorausgewählt. Bei „Übernehmen“ wird vereinigt. In jedem Fall wird das Fragment entfernt, und die Meldung `#meldung` / `.meldung` zeigt die Anzahl. Sind alle Haken schon da, erscheint keine Frage, nur ein Hinweis.
   - Unbekannte Codes werden übergangen. Andere Fragmente (`#irgendwas`) bleiben unangetastet. Bei einer unbekannten Formatversion bleibt das Fragment stehen, und die Seite bittet ums Neuladen.
   - Auch ein in einem offenen Tab eingefügter Link wirkt (`hashchange`).
+- **Fahrzeit ab dem eigenen Startpunkt** (seit November 2026):
+  - Feld «📍 Von wo?» (`#startFeld`, `.von-wo`) unter dem Jahreszeit-Schalter: Vorschläge beim Tippen (`#startVorschlaege`, höchstens 7) nach Ortsname oder Postleitzahl (auch nur die ersten Ziffern, auch «8404 stadel»). Umlaute und Satzzeichen zählen nicht («st gallen», «zurich»), grössere Orte (mehr Postleitzahlen) zuerst, deutsche Namen für Genève, Neuchâtel, Fribourg, Sion, Sierre, Delémont, Porrentruy (`DEUTSCH` in `app.js`). Pfeiltasten, Enter, Escape. Im Feld steht danach «Winterthur ZH», bei Suche nach Postleitzahl «8404 Stadel (Winterthur) ZH».
+  - Knopf 🗺️ (`#startKarte`, aktiv `.an`): Danach setzt ein Tipp auf die Karte (auch auf einen Pin) den Startpunkt, benannt nach dem nächsten Ort («Punkt bei Wil SG»). Bewusst nicht jedes Tippen (Wunsch des Besitzers). Mobil scrollt der Knopf zur Karte; Escape oder nochmals 🗺️ bricht ab. Der Startpunkt erscheint als dunkle Stecknadel (`.start-pin`).
+  - Mit Startpunkt erscheinen ✕ im Feld (`#startWeg`, entfernt ihn) und darunter `#umkreisBox`: Umkreis «30 Min | 1 h | 1½ h | 2 h | alle» (`#umkreisWahl`, Knöpfe mit `data-umkreis`) und die Zeile «🚗 Geschätzt, Auto ohne Stau · Daten © OpenStreetMap» (`#umkreisInfo`). Nach dem ersten Wählen gilt «alle» (Wunsch des Besitzers), ein neuer Startpunkt behält den Umkreis, nach ✕ wieder «alle». Wahl eines Umkreises zoomt die Karte auf Startpunkt und passende Ziele.
+  - Liste nach Fahrzeit sortiert (gleiche Zeit: nach Titel), in Einträgen und Popup «· 🚗 ca. 50 Min.» bzw. «ca. 1 h 20 Min.» (`.fahrzeit`), gerundet auf 5 Minuten. Der Umkreis vergleicht mit dem gerundeten Wert, so passt die Anzeige immer zum Filter.
+  - Kombinierbar mit Jahreszeit, Regentag, Kategorien, Suche und «nur offene» (`passtUmkreis()`, `passtRahmen()`). Die Anzahlen bei den Kategorien zählen den Umkreis mit. «zurücksetzen» lässt Startpunkt und Umkreis stehen. Leere Liste: Tipp «grösseren Umkreis».
+  - **Schätzung** (`schaetzen()`): die drei nächsten Startorte mit Route; je Fahrzeit Startort → Ziel plus 1 Min. pro km, um den der Startpunkt in Luftlinie weiter vom Ziel liegt als der Startort (näher: minus), gewichtet mit 1/Abstand² zum Startort. Ziele bis 8 km Luftlinie zusätzlich direkt (2 Min. + 1,8 Min. pro km), der kleinere Wert zählt; nie weniger als 0,6 Min. pro km Luftlinie. Getestet, indem jeder Startort weggelassen und aus den übrigen geschätzt wurde (November 2026): liegt der Startpunkt höchstens 6 km vom nächsten Startort (der Normalfall), weichen die Hälfte der Zeiten höchstens 2 Min. ab, 80 % höchstens 4 Min., 95 % höchstens 8 Min. Geplant war zuerst «Zuschlag für den Weg zum Startort, der kleinste Wert zählt»; das war im selben Test ungenauer (80 % höchstens 6 Min., meist zu lang) und wurde darum im PR ersetzt.
+  - Ziele ohne Fahrzeit (noch nicht berechnet, Koordinaten seither um mehr als 1 km geändert, keine Route) zeigen keine Zeit, stehen zuletzt und fallen bei einem Umkreis weg. Mehr als 25 km vom nächsten Startort (`WEIT_KM`): Hinweis «Startpunkt weit weg: Zeiten sehr ungenau».
+  - `orte.json` lädt erst beim Antippen des Felds oder von 🗺️, `fahrzeiten.json` erst mit einem Startpunkt. Kann `fahrzeiten.json` nicht geladen werden, steht das in `#umkreisInfo`, und die Liste bleibt ungefiltert.
+  - Quellenangaben: `#umkreisInfo` und Fusszeile (OSRM/OpenStreetMap, GeoNames CC BY 4.0).
+  - Eingabefelder auf dem Handy 16 px gross, sonst zoomt das iPhone beim Antippen in die Seite.
 - **Nach-oben-Knopf:** `#hochKnopf` / `.hochknopf` / `.sichtbar`. Auf dem Desktop scrollt er die Liste (`.sidebar`), mobil die ganze Seite.
 - `<meta name="robots" content="noindex, nofollow">`: Die Seite soll nicht in Suchmaschinen erscheinen.
 
@@ -109,9 +124,10 @@ Vom Besitzer gewählt aus mehreren Entwürfen („hell und ruhig“ plus „Berg
 
 ### Stolperfallen
 
-- **Cache:** GitHub Pages liefert Dateien mit `max-age=600`. **Bei jeder Änderung an `style.css` oder `app.js` die Zahl `?v=N` in `index.html` erhöhen** (aktuell `v=8`). Sonst mischt der Browser bis zu 10 Minuten lang alte und neue Dateien.
+- **Cache:** GitHub Pages liefert Dateien mit `max-age=600`. **Bei jeder Änderung an `style.css` oder `app.js` die Zahl `?v=N` in `index.html` erhöhen** (aktuell `v=9`). Sonst mischt der Browser bis zu 10 Minuten lang alte und neue Dateien.
 - **Inhaltsblocker (Safari):** Sie blenden Elemente mit Namen wie `back-to-top`, `scroll-top` oder `to-top` aus. Darum heisst der Knopf `hochknopf`. Teilen-Knöpfe (`share`, `social`) werden ebenfalls oft ausgeblendet, darum `teilen-knopf`. Bei neuen schwebenden Elementen ebenfalls neutrale, deutsche Namen wählen.
 - **Mobile:** Die Seite scrollt als Ganzes (keine Höhen-Tricks mit `100vh` in der Liste). Horizontales Scrollen muss ausgeschlossen bleiben (`overflow-x: hidden` auf `html`/`body`). Lange Titel brechen notfalls mitten im Wort um (`overflow-wrap: anywhere` an `.card-title`), sonst ragen sie auf 320 px Breite hinaus. Die Chips scrollen horizontal für sich, sind auf dem Handy aber nur noch ohne Filter-Fenster zu sehen.
+- **Namen in `app.js`:** Alles liegt in einer Funktion. Eine Variable mit dem Namen einer Funktion überschreibt diese still (beim Bau der Fahrzeit hiess der Startpunkt zuerst `start` wie die Funktion `start(data)`, und die Liste blieb ohne Fehlermeldung leer). Darum heisst er `startpunkt`.
 - **Leaflet-Stile:** Leaflet setzt eigene Regeln mit höherer Spezifität (z.B. `.leaflet-popup-content p`). Eigene Popup-Regeln darum mit `.leaflet-popup-content …` präfixen.
 
 ## Testen
@@ -126,7 +142,7 @@ python3 -m http.server 8899      # im Repo-Ordner
   - Jahreszeit: Startmonat (31.3. Winter, 1.4. Sommer, 31.10. Sommer, 1.11. Winter), Karten und Pins je Jahreszeit, Anzahlen bei Chips und im Filter-Fenster, blasse leere Kategorien
   - Regentag allein und kombiniert mit Jahreszeit, Kategorie, Suche und «nur offene»; «zurücksetzen» lässt die Jahreszeit stehen
   - Hinweise in Liste und Popup; fehlende oder ungültige `saison`/`regentag` (per `page.route` auf `ausfluege.json`): ganzjährig, kein Regentag
-  - Handy: Reihenfolge Schalter, Filter-Knopf, Suchfeld, Knopfzeile; Knopfzeile passt auf 320 px
+  - Handy: Reihenfolge Schalter, Feld «Von wo?», Filter-Knopf, Suchfeld, Knopfzeile; Knopfzeile passt auf 320 px
   - Kategorien alphabetisch, „Sonstiges“ zuletzt (Chips und Filter-Fenster)
   - Filter-Fenster auf iPhone 13 und iPhone SE (320×568): passt ohne inneres Scrollen, „Fertig“ im Bild; Antippen, Knopf-Text, „Zurücksetzen“, „Fertig“, Escape, Tippen daneben; Zeile „zurücksetzen“ auf dem Handy unsichtbar; Dunkel-Modus; ohne `showModal` bleiben die Chips
   - Haken bleibt nach Neuladen erhalten; Popup-Haken und Listen-Haken bleiben abgeglichen
@@ -136,6 +152,15 @@ python3 -m http.server 8899      # im Repo-Ordner
     - in einem zweiten Kontext mit eigenen Haken öffnen: Frage, „Nicht übernehmen“, Escape, „Übernehmen“ (Vereinigung), Meldung, Fragment entfernt
     - unbekannte Codes; Link in offenem Tab
     - Wichtig: Vor jedem `goto` mit anderem `#` zuerst `about:blank` laden. Sonst gibt es nur einen `hashchange` und kein echtes Neuladen.
+  - Fahrzeit:
+    - ohne Startpunkt: nichts geladen, keine Zeiten, Reihenfolge nach Titel; Antippen des Felds lädt nur `orte.json`
+    - Vorschläge: Name, PLZ (auch Anfang), «zurich», «st gallen», «genf», Orte mit Kanton im Namen («Buchs SG»), Unsinn; Pfeiltasten, Enter, Escape, Feld verlassen ohne Wahl
+    - Zeiten in allen Einträgen gegen eine im Test nachgebaute Schätzung; Startpunkt genau auf einem Startort höchstens 5 Min. neben `fahrzeiten.json`
+    - Umkreis je Stufe: Karten, Pins, `#treffer`, Anzahlen bei Chips und im Filter-Fenster; kombiniert mit Jahreszeit, Regentag, Kategorie, Suche; «zurücksetzen» lässt den Startpunkt stehen; leere Liste
+    - Neuladen (Startpunkt und Umkreis aus dem Speicher), neuer Startpunkt behält den Umkreis, ✕ leert alles und den Speicher
+    - Karte: 🗺️, Escape, nochmals 🗺️, Klick ohne 🗺️ setzt nichts, Klick auf Karte und auf einen Pin; mobil `touchscreen.tap`
+    - Sonderfälle per `page.route`/`addInitScript`: `fahrzeiten.json` fehlt (404), Ziel fehlt/alte Koordinaten/keine Route, Startpunkt weit weg (München), kaputter oder unplausibler Speicher
+    - Handy: Reihenfolge Schalter, Feld, Umkreis, Filter-Knopf, Suche; Umkreis-Knöpfe und Vorschläge passen auf 320 px; Felder 16 px
   - Mobil kein horizontales Scrollen (`scrollWidth <= innerWidth`)
   - keine JS-Fehler
 - **Kachelserver** sind aus Sandboxes oft nicht erreichbar. Anfragen dann mit `page.route` abfangen und mit einem Platzhalter-PNG beantworten.
@@ -177,15 +202,15 @@ python3 -m http.server 8899      # im Repo-Ordner
      - Hinweise in den Einträgen in der grauen Zeile hinter Kategorie und Ort («☀️ nur Sommer», «❄️ nur Winter», «☔ auch bei Regen»), Variante A. Ganzjährige Ziele ohne Regentag bekommen keinen Hinweis.
      - «zurücksetzen» lässt die Jahreszeit stehen.
 
-6. **Umkreis nach Fahrzeit** (November 2026), in zwei Schritten mit je einem PR. Entscheidungen des Besitzers:
+6. ✅ **Umkreis nach Fahrzeit** (November 2026), in zwei Schritten mit je einem PR. Entscheidungen des Besitzers:
    - Variante «vorberechnet»: Fahrzeiten von festen Startorten werden im Voraus berechnet, die Website schätzt daraus die Zeit ab dem eingegebenen Ort. Kein Live-Routenplaner im Browser (Schlüssel wären öffentlich, Standort ginge an fremde Dienste).
    - Nur Auto, nur Startorte in der Schweiz. «Mein Standort» per Handy ist vorerst nicht nötig.
    - OpenRouteService war beim Start nicht erreichbar (Website abgeschaltet). Darum der freie Routenplaner der FOSSGIS, ohne Konto und ohne Schlüssel.
-   - Schritt 1 (Daten): `daten/startorte.json`, `werkzeuge/fahrzeiten.py`, `fahrzeiten.json` aus dem To-Do-Abruf. Auf der Website noch unsichtbar.
-   - Schritt 2 (Website), noch offen:
-     - Feld «📍 Von wo?» mit Vorschlägen beim Tippen (Ort oder Postleitzahl, Ortsliste von GeoNames lokal auf der Website, nichts wird verschickt), zusätzlich Startpunkt per Antippen der Karte. Gespeichert nur im Browser.
-     - Schätzung: die drei nächsten Startorte; je Fahrzeit Startort → Ziel plus Zuschlag für die Strecke Startpunkt → Startort aus der Luftlinie mit Umwegfaktor; der kleinste Wert zählt. Ganz nahe Ziele direkt über die Luftlinie.
-     - Umkreis «bis 30 Min | 1 h | 1½ h | 2 h | alle», kombinierbar mit Jahreszeit, Regentag und Kategorien; Liste nach Fahrzeit sortiert, in den Einträgen «🚗 ca. 50 Min.». Ohne Startpunkt bleibt alles wie heute.
+   - Schritt 1 (Daten): `daten/startorte.json`, `werkzeuge/fahrzeiten.py`, `fahrzeiten.json` aus dem To-Do-Abruf. Seit 6. November 2026 vollständig (181 Startorte × 154 Ziele, vier Läufe wegen der Zeitgrenze).
+   - Schritt 2 (Website), November 2026. Umsetzung siehe „Verhalten der Seite“. Entscheidungen des Besitzers:
+     - Feld «📍 Von wo?» mit Vorschlägen beim Tippen (Ort oder Postleitzahl, Ortsliste von GeoNames lokal auf der Website, nichts wird verschickt), zusätzlich Startpunkt auf der Karte über den Knopf 🗺️ (nicht jedes Tippen). Gespeichert nur im Browser.
+     - Schätzung aus den drei nächsten Startorten, ganz nahe Ziele direkt über die Luftlinie (genaue Formel siehe „Verhalten der Seite“).
+     - Umkreis «30 Min | 1 h | 1½ h | 2 h | alle», kombinierbar mit Jahreszeit, Regentag und Kategorien; nach dem ersten Wählen eines Startpunkts «alle». Liste nach Fahrzeit sortiert, in den Einträgen «🚗 ca. 50 Min.». Ohne Startpunkt bleibt alles wie vorher.
      - Quellenangabe für die Fahrzeiten (OpenStreetMap/OSRM) auf der Website.
 
 ## Microsoft To Do

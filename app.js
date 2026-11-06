@@ -7,8 +7,13 @@
   'use strict';
 
   var DATA_URL = 'ausfluege.json';
+  var ORTE_URL = 'orte.json', FAHRZEITEN_URL = 'fahrzeiten.json'; // erst geladen, wenn sie gebraucht werden
   var STORE_DONE = 'ausflugsideen.erledigt.v1';
   var STORE_LAYER = 'ausflugsideen.karte';
+  var STORE_START = 'ausflugsideen.start', STORE_UMKREIS = 'ausflugsideen.umkreis';
+  var UMKREISE = ['30', '60', '90', '120', 'alle']; // Minuten
+  var WEIT_KM = 25; // so weit weg vom nächsten Startort ist die Schätzung sehr ungenau
+  var DEUTSCH = { genf: 'Genève', neuenburg: 'Neuchâtel', freiburg: 'Fribourg', sitten: 'Sion', siders: 'Sierre', delsberg: 'Delémont', pruntrut: 'Porrentruy' };
   var CLUSTER_KM = 300; // Einträge weiter weg vom Median zählen nicht zur Startansicht
   var CODE_ZEICHEN = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
   var CODE_LAENGE = 4; // 62^4 ≈ 14,8 Mio. mögliche Kurzcodes
@@ -30,6 +35,9 @@
   var monat = new Date().getMonth() + 1;
   var saison = monat >= 4 && monat <= 10 ? 'sommer' : 'winter', regen = false, katZeit = {};
   var map, markerLayer, mainBounds, hlHalo, hlRing, hlId = null;
+  // Fahrzeit: Startpunkt und Umkreis bleiben nur im Browser gespeichert, nichts wird verschickt
+  var startpunkt = null, umkreis = 'alle', fz = null, fzLaden = null, fzFehler = false, fahrzeit = {}, weit = false;
+  var ortListe = null, orteLaden = null, startMarker = null, waehlen = false, vorschlaege = [], vsAktiv = -1;
 
   // ---------- Hilfsfunktionen ----------
   function esc(s) {
@@ -54,6 +62,16 @@
   function passtZeit(a) {
     return (saison === 'alle' || a.saison === 'ganzjaehrig' || a.saison === saison) && (!regen || a.regentag);
   }
+  // Umkreis nach Fahrzeit; solange die Fahrzeiten laden, passt alles
+  function passtUmkreis(a) {
+    return !startpunkt || !fz || umkreis === 'alle' || (fahrzeit[a.id] != null && fahrzeit[a.id] <= +umkreis);
+  }
+  function passtRahmen(a) { return passtZeit(a) && passtUmkreis(a); }
+  function dauer(m) {
+    if (m < 60) return 'ca. ' + m + ' Min.';
+    return 'ca. ' + Math.floor(m / 60) + ' h' + (m % 60 ? ' ' + (m % 60) + ' Min.' : '');
+  }
+  function fahrzeitText(a) { return fahrzeit[a.id] != null ? ' · 🚗 ' + dauer(fahrzeit[a.id]) : ''; }
   function gmaps(a) {
     return 'https://www.google.com/maps/search/?api=1&query=' + a.lat.toFixed(5) + ',' + a.lon.toFixed(5);
   }
@@ -66,7 +84,9 @@
     var s = arr.slice().sort(function (x, y) { return x - y; });
     return s[Math.floor(s.length / 2)];
   }
-  function store(key, val) { try { localStorage.setItem(key, val); } catch (e) { /* privates Fenster o. ä. */ } }
+  function store(key, val) {
+    try { if (val == null) localStorage.removeItem(key); else localStorage.setItem(key, val); } catch (e) { /* privates Fenster o. ä. */ }
+  }
   function load(key) { try { return localStorage.getItem(key); } catch (e) { return null; } }
 
   // ---------- Haken ----------
@@ -225,8 +245,8 @@
         '<label class="card-check"><input type="checkbox" class="done-check" data-id="' + esc(a.id) + '">' +
         '<span class="card-title">' + esc(a.titel) +
         (a.ungefaehr ? ' <span class="approx" title="Koordinaten ungefähr">~</span>' : '') + '</span></label>' +
-        '<div class="card-meta"><span class="cat-dot" style="background:' + esc(c.farbe) + '"></span>' +
-        esc(c.label) + ' · ' + esc(place(a)) + esc(zeitHinweis(a)) + '</div>' +
+        '<div class="card-meta"><span class="cat-dot" style="background:' + esc(c.farbe) + '"></span><span>' +
+        esc(c.label) + ' · ' + esc(place(a)) + esc(zeitHinweis(a)) + '<span class="fahrzeit"></span></span></div>' +
         '<p class="card-desc">' + esc(a.beschreibung) + '</p>' +
         (a.hinweis ? '<p class="card-note">' + esc(a.hinweis) + '</p>' : '') +
         '<div class="card-links">' + linksHtml(a, true) + '</div>';
@@ -288,7 +308,7 @@
   function applyFilters() {
     var q = norm(query.trim()), shown = 0;
     items.forEach(function (a) {
-      var vis = passtZeit(a) && (activeCats.size === 0 || activeCats.has(a.kat)) &&
+      var vis = passtRahmen(a) && (activeCats.size === 0 || activeCats.has(a.kat)) &&
         (!q || hay[a.id].indexOf(q) !== -1) &&
         !(hideDone && done.has(a.id));
       cards[a.id].hidden = !vis;
@@ -299,9 +319,9 @@
     });
     items.forEach(function (a) { if (done.has(a.id) && markerLayer.hasLayer(markers[a.id])) markers[a.id].bringToBack(); });
     if (hlId && !markerLayer.hasLayer(markers[hlId])) setHighlight(null);
-    // Anzahlen bei den Kategorien richten sich nach Jahreszeit und Regentag
+    // Anzahlen bei den Kategorien richten sich nach Jahreszeit, Regentag und Umkreis
     katZeit = {};
-    items.forEach(function (a) { if (passtZeit(a)) katZeit[a.kat] = (katZeit[a.kat] || 0) + 1; });
+    items.forEach(function (a) { if (passtRahmen(a)) katZeit[a.kat] = (katZeit[a.kat] || 0) + 1; });
     chipRow.querySelectorAll('.filter-chip').forEach(function (chip) {
       var n = katZeit[chip.dataset.cat] || 0;
       chip.querySelector('.chip-n').textContent = n;
@@ -310,7 +330,9 @@
     if (filterBlatt && filterBlatt.open) filterListe();
     $('treffer').textContent = shown === 1 ? '1 Ziel' : shown + ' Ziele';
     listMsg.hidden = shown > 0;
-    listMsg.textContent = 'Keine Einträge passen zu Suche und Filter.' + (saison !== 'alle' ? ' Tipp: «Alle» zeigt alle Jahreszeiten.' : '');
+    listMsg.textContent = 'Keine Einträge passen zu Suche und Filter.' +
+      (startpunkt && fz && umkreis !== 'alle' ? ' Tipp: Wähle einen grösseren Umkreis.' : '') +
+      (saison !== 'alle' ? ' Tipp: «Alle» zeigt alle Jahreszeiten.' : '');
   }
 
   function flashCard(id) {
@@ -327,7 +349,8 @@
     var c = cats[a.kat];
     return '<div class="pop">' +
       '<p class="pop-title">' + esc(a.titel) + (a.ungefaehr ? ' <span class="approx" title="Koordinaten ungefähr">~</span>' : '') + '</p>' +
-      '<p class="pop-meta">' + esc(c.label) + ' · ' + esc(place(a)) + esc(zeitHinweis(a)) + '</p>' +
+      '<p class="pop-meta">' + esc(c.label) + ' · ' + esc(place(a)) + esc(zeitHinweis(a)) +
+      (fahrzeit[a.id] != null ? '<span class="fahrzeit">' + esc(fahrzeitText(a)) + '</span>' : '') + '</p>' +
       '<p class="pop-desc">' + esc(a.beschreibung) + '</p>' +
       '<label class="pop-check"><input type="checkbox" class="pop-done" data-id="' + esc(a.id) + '"' + (done.has(a.id) ? ' checked' : '') + '> erledigt</label>' +
       '<div class="pop-links">' + linksHtml(a, false) + '</div></div>';
@@ -434,7 +457,10 @@
       m.bindPopup(function () { return popupHtml(a); }, { maxWidth: 290, autoPanPaddingTopLeft: [12, 60], autoPanPaddingBottomRight: [12, 30] });
       m.on('mouseover', function () { m.setRadius(9.5); });
       m.on('mouseout', function () { m.setRadius(7); });
-      m.on('click', function () { if (mqDesktop.matches) flashCard(a.id); });
+      m.on('click', function (e) {
+        if (waehlen) startVonKarte(e.latlng); // Startpunkt wählen: der Pin zählt wie die Karte
+        else if (mqDesktop.matches) flashCard(a.id);
+      });
       markers[a.id] = m;
     });
 
@@ -450,6 +476,305 @@
       var t = e.target;
       if (t.classList && t.classList.contains('pop-done')) setDone(t.dataset.id, t.checked);
     });
+  }
+
+  // ---------- Fahrzeit ab dem eigenen Startpunkt ----------
+  // Vorberechnet sind die Fahrzeiten von festen Startorten (fahrzeiten.json). Für den eigenen Startpunkt
+  // nimmt die Seite die drei nächsten Startorte: je Fahrzeit Startort → Ziel, korrigiert um den Unterschied
+  // der Luftlinie zum Ziel (1 Min. pro km), gewichtet mit 1/Abstand² zum Startort. Ganz nahe Ziele auch direkt
+  // aus der Luftlinie. Gerundet auf 5 Minuten.
+  function schaetzen() {
+    fahrzeit = {};
+    weit = false;
+    if (!startpunkt || !fz) return;
+    var S = fz.startorte;
+    var naechste = S.map(function (s, i) { return { i: i, d: km(startpunkt.lat, startpunkt.lon, s[1], s[2]) }; })
+      .sort(function (x, y) { return x.d - y.d; });
+    weit = !naechste.length || naechste[0].d > WEIT_KM;
+    items.forEach(function (a) {
+      var z = fz.ziele[a.id];
+      if (!z || !z.min || km(z.lat, z.lon, a.lat, a.lon) > 1) return; // noch nicht (neu) berechnet
+      var dz = km(startpunkt.lat, startpunkt.lon, a.lat, a.lon), summe = 0, gewicht = 0, n = 0;
+      for (var j = 0; j < naechste.length && n < 3; j++) {
+        var s = S[naechste[j].i], t = z.min[naechste[j].i];
+        if (typeof t !== 'number') continue; // keine Route von diesem Startort
+        var w = 1 / Math.pow(Math.max(naechste[j].d, 0.5), 2);
+        summe += w * (t + dz - km(s[1], s[2], a.lat, a.lon));
+        gewicht += w;
+        n++;
+      }
+      if (!n) return;
+      var m = summe / gewicht;
+      if (dz <= 8) m = Math.min(m, 2 + 1.8 * dz);
+      m = Math.max(m, 0.6 * dz);
+      fahrzeit[a.id] = Math.max(5, Math.round(m / 5) * 5);
+    });
+  }
+
+  function ladeFahrzeiten() {
+    if (!fzLaden) {
+      fzFehler = false;
+      fzLaden = fetch(FAHRZEITEN_URL, { cache: 'no-cache' })
+        .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+        .then(function (d) {
+          if (!d || !Array.isArray(d.startorte) || !d.ziele) throw new Error('unbekanntes Format');
+          fz = d;
+        })
+        .catch(function (e) {
+          fzFehler = true;
+          fzLaden = null; // beim nächsten Startpunkt neu versuchen
+          if (window.console) console.error(e);
+        });
+    }
+    return fzLaden;
+  }
+
+  function ladeOrte() {
+    if (!orteLaden) {
+      orteLaden = fetch(ORTE_URL)
+        .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+        .then(function (d) {
+          var alias = {};
+          Object.keys(DEUTSCH).forEach(function (k) { alias[DEUTSCH[k]] = k; });
+          ortListe = (d.orte || []).map(function (o) {
+            var name = String(o[0]), kt = String(o[1]);
+            return {
+              name: name, kt: kt, lat: +o[2], lon: +o[3], plz: String(o[4] || '').split(' '),
+              key: norm(name).replace(/[^a-z0-9]+/g, ' ').trim(), alias: alias[name] || '',
+              text: name + (name.slice(-kt.length - 1) === ' ' + kt ? '' : ' ' + kt) // «Buchs SG» steht schon so da
+            };
+          });
+        })
+        .catch(function (e) {
+          orteLaden = null;
+          if (window.console) console.error(e);
+        });
+    }
+    return orteLaden;
+  }
+
+  // Vorschläge: Postleitzahl (auch nur die ersten Ziffern) und/oder Ortsname; grössere Orte zuerst
+  function ortSuche(q) {
+    var t = norm(q).replace(/[^a-z0-9]+/g, ' ').trim();
+    if (!t || !ortListe) return [];
+    var m = /^(\d{1,4})\s*(.*)$/.exec(t), plz = m ? m[1] : '', wort = m ? m[2] : t, treffer = [];
+    ortListe.forEach(function (o) {
+      var p = '', rang = 0, i;
+      if (plz) {
+        for (i = 0; i < o.plz.length; i++) if (o.plz[i].indexOf(plz) === 0) { p = o.plz[i]; break; }
+        if (!p) return;
+      }
+      if (wort) {
+        if (o.key.indexOf(wort) === 0) rang = o.key === wort ? 0 : 1;
+        else if (o.alias && o.alias.indexOf(wort) === 0) rang = 1;
+        else if ((' ' + o.key).indexOf(' ' + wort) !== -1) rang = 2;
+        else return;
+      }
+      treffer.push({ o: o, plz: p || o.plz[0], rang: rang, mitPlz: !!plz });
+    });
+    treffer.sort(function (x, y) {
+      return x.rang - y.rang || (plz ? (x.plz < y.plz ? -1 : x.plz > y.plz ? 1 : 0) : y.o.plz.length - x.o.plz.length) ||
+        x.o.key.length - y.o.key.length || x.o.key.localeCompare(y.o.key);
+    });
+    return treffer.slice(0, 7);
+  }
+
+  function naechsterOrt(lat, lon) {
+    var best = null, bd = Infinity;
+    (ortListe || []).forEach(function (o) {
+      var d = km(lat, lon, o.lat, o.lon);
+      if (d < bd) { bd = d; best = o; }
+    });
+    return best;
+  }
+
+  function sortieren() {
+    var reihe = items.slice();
+    if (startpunkt && fz) {
+      reihe.sort(function (x, y) { // ohne Fahrzeit zuletzt, sonst bleibt die Reihenfolge nach Titel
+        var a = fahrzeit[x.id], b = fahrzeit[y.id];
+        return (a == null ? 1e9 : a) - (b == null ? 1e9 : b);
+      });
+    }
+    var frag = document.createDocumentFragment();
+    reihe.forEach(function (a) { frag.appendChild(cards[a.id]); });
+    listEl.appendChild(frag);
+  }
+
+  function malStart() {
+    var feld = $('startFeld'), box = $('umkreisBox'), info = $('umkreisInfo');
+    if (document.activeElement !== feld) feld.value = startpunkt ? startpunkt.name : '';
+    $('startWeg').hidden = !startpunkt;
+    box.hidden = !startpunkt;
+    $('umkreisWahl').querySelectorAll('button').forEach(function (b) {
+      var on = b.dataset.umkreis === umkreis;
+      b.classList.toggle('an', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    if (startpunkt && fz) {
+      info.innerHTML = '🚗 Geschätzt, Auto ohne Stau' +
+        (weit ? ' · <strong>Startpunkt weit weg: Zeiten sehr ungenau</strong>' : '') +
+        ' · Daten © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>';
+    } else info.textContent = fzFehler ? 'Die Fahrzeiten konnten nicht geladen werden. Bitte Seite neu laden.' : 'Fahrzeiten werden geladen …';
+    // Startpunkt auf der Karte
+    if (startpunkt) {
+      if (!startMarker) {
+        startMarker = L.marker([startpunkt.lat, startpunkt.lon], {
+          keyboard: false, zIndexOffset: 1000,
+          icon: L.divIcon({
+            className: 'start-pin', iconSize: [28, 34], iconAnchor: [14, 33], tooltipAnchor: [0, -30],
+            html: '<svg viewBox="0 0 32 38" aria-hidden="true"><path d="M16 1.5C9.4 1.5 4.5 6.5 4.5 12.9 4.5 21.3 16 36 16 36s11.5-14.7 11.5-23.1C27.5 6.5 22.6 1.5 16 1.5z"/><circle cx="16" cy="13" r="4.6"/></svg>'
+          })
+        });
+        startMarker.bindTooltip('', { direction: 'top' });
+      }
+      startMarker.setLatLng([startpunkt.lat, startpunkt.lon]).addTo(map);
+      startMarker.setTooltipContent('Startpunkt: ' + esc(startpunkt.name));
+    } else if (startMarker) startMarker.remove();
+  }
+
+  function zeigeUmkreis() { // Karte auf Startpunkt und passende Ziele
+    if (!startpunkt || !fz || umkreis === 'alle') return;
+    var pts = [[startpunkt.lat, startpunkt.lon]];
+    items.forEach(function (a) { if (markerLayer.hasLayer(markers[a.id])) pts.push([a.lat, a.lon]); });
+    map.fitBounds(L.latLngBounds(pts), { padding: [28, 28], maxZoom: 11 });
+  }
+
+  function neuRechnen() {
+    schaetzen();
+    items.forEach(function (a) { cards[a.id].querySelector('.fahrzeit').textContent = fahrzeitText(a); });
+    sortieren();
+    malStart();
+    applyFilters();
+  }
+
+  function setStart(s) {
+    if (!startpunkt) umkreis = 'alle'; // nach dem ersten Wählen: alle Ziele, nach Fahrzeit sortiert
+    startpunkt = s;
+    store(STORE_START, JSON.stringify(s));
+    store(STORE_UMKREIS, umkreis);
+    neuRechnen();
+    ladeFahrzeiten().then(neuRechnen);
+  }
+
+  function startWeg() {
+    startpunkt = null;
+    umkreis = 'alle';
+    store(STORE_START, null);
+    store(STORE_UMKREIS, null);
+    neuRechnen();
+  }
+
+  function waehlenAn(on) {
+    waehlen = on;
+    var b = $('startKarte');
+    b.classList.toggle('an', on);
+    b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    map.getContainer().classList.toggle('waehlen', on);
+    if (!on) return;
+    ladeOrte();
+    if (!mqDesktop.matches) window.scrollTo({ top: mapwrap.getBoundingClientRect().top + window.scrollY - 8, behavior: 'smooth' });
+    meldung('Tippe auf die Karte, wo du losfährst.');
+  }
+
+  // Startpunkt per Tipp auf die Karte (auch auf einen Pin), benannt nach dem nächsten Ort
+  function startVonKarte(ll) {
+    waehlenAn(false);
+    map.closePopup();
+    var s = { lat: Math.round(ll.lat * 1e4) / 1e4, lon: Math.round(ll.lng * 1e4) / 1e4, name: 'Punkt auf der Karte' };
+    setStart(s);
+    ladeOrte().then(function () {
+      var o = naechsterOrt(s.lat, s.lon);
+      if (o && startpunkt === s) {
+        s.name = 'Punkt bei ' + o.text;
+        store(STORE_START, JSON.stringify(s));
+        malStart();
+      }
+    });
+  }
+
+  function vorschlagListe() {
+    var ul = $('startVorschlaege'), feld = $('startFeld');
+    ul.innerHTML = vorschlaege.map(function (v, i) {
+      return '<li role="option" id="vs-' + i + '" data-i="' + i + '" aria-selected="' + (i === vsAktiv) + '"' + (i === vsAktiv ? ' class="an"' : '') + '>' +
+        '<span class="vs-plz">' + esc(v.plz) + '</span> ' + esc(v.o.text) + '</li>';
+    }).join('');
+    ul.hidden = !vorschlaege.length;
+    feld.setAttribute('aria-expanded', vorschlaege.length ? 'true' : 'false');
+    if (vsAktiv >= 0) feld.setAttribute('aria-activedescendant', 'vs-' + vsAktiv); else feld.removeAttribute('aria-activedescendant');
+  }
+  function vorschlagZu() { vorschlaege = []; vsAktiv = -1; vorschlagListe(); }
+  function vorschlagNehmen(v) {
+    vorschlagZu();
+    setStart({ lat: v.o.lat, lon: v.o.lon, name: (v.mitPlz ? v.plz + ' ' : '') + v.o.text }); // PLZ nur, wenn danach gesucht
+    $('startFeld').value = startpunkt.name;
+  }
+
+  function wireStart() {
+    var feld = $('startFeld'), ul = $('startVorschlaege');
+    function suchen() {
+      var q = feld.value;
+      if (!ortListe) { // erst laden; klappt es nicht, bleibt die Liste leer
+        ladeOrte().then(function () { if (ortListe && feld.value === q && document.activeElement === feld) suchen(); });
+        return;
+      }
+      vorschlaege = ortSuche(q);
+      vsAktiv = vorschlaege.length ? 0 : -1;
+      vorschlagListe();
+    }
+    feld.addEventListener('focus', function () { ladeOrte(); feld.select(); });
+    feld.addEventListener('input', suchen);
+    feld.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        if (!vorschlaege.length) return;
+        e.preventDefault();
+        vsAktiv = (vsAktiv + (e.key === 'ArrowDown' ? 1 : vorschlaege.length - 1)) % vorschlaege.length;
+        vorschlagListe();
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (vorschlaege.length) { vorschlagNehmen(vorschlaege[Math.max(vsAktiv, 0)]); feld.blur(); }
+      } else if (e.key === 'Escape') {
+        if (vorschlaege.length) { e.preventDefault(); vorschlagZu(); }
+        feld.value = startpunkt ? startpunkt.name : '';
+      }
+    });
+    feld.addEventListener('blur', function () {
+      setTimeout(function () { // ein Tipp auf einen Vorschlag kommt vor dem Schliessen an
+        if (document.activeElement === feld) return;
+        vorschlagZu();
+        feld.value = startpunkt ? startpunkt.name : '';
+      }, 200);
+    });
+    ul.addEventListener('mousedown', function (e) { e.preventDefault(); }); // Fokus bleibt im Feld
+    ul.addEventListener('click', function (e) {
+      var li = e.target.closest('li');
+      if (li && vorschlaege[+li.dataset.i]) { vorschlagNehmen(vorschlaege[+li.dataset.i]); feld.blur(); }
+    });
+    $('startWeg').addEventListener('click', function () { waehlenAn(false); startWeg(); });
+    $('startKarte').addEventListener('click', function () { waehlenAn(!waehlen); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && waehlen) waehlenAn(false); });
+    map.on('click', function (e) { if (waehlen) startVonKarte(e.latlng); });
+    $('umkreisWahl').addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b) return;
+      umkreis = b.dataset.umkreis;
+      store(STORE_UMKREIS, umkreis);
+      malStart();
+      applyFilters();
+      zeigeUmkreis();
+    });
+
+    // gespeicherter Startpunkt aus einem früheren Besuch
+    try {
+      var s = JSON.parse(load(STORE_START) || 'null');
+      if (s && typeof s.lat === 'number' && typeof s.lon === 'number' && Math.abs(s.lat - 46.8) < 6 && Math.abs(s.lon - 8.2) < 8) {
+        startpunkt = { lat: s.lat, lon: s.lon, name: String(s.name || 'Startpunkt').slice(0, 80) };
+        var u = load(STORE_UMKREIS);
+        umkreis = UMKREISE.indexOf(u) !== -1 ? u : 'alle';
+        ladeFahrzeiten().then(function () { neuRechnen(); zeigeUmkreis(); });
+      }
+    } catch (e) { /* kaputter Eintrag: ignorieren */ }
+    malStart();
   }
 
   // ---------- Bedienung ----------
@@ -582,6 +907,7 @@
     initMap();
     items.forEach(function (a) { paintDone(a.id); });
     wireUi();
+    wireStart();
     updateChips();
     applyFilters();
     updateStats();

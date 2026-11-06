@@ -38,6 +38,14 @@ lizenziert unter Creative Commons Attribution 4.0 (CC BY 4.0,
 https://creativecommons.org/licenses/by/4.0/).
 
 
+orte.json – Orte und Postleitzahlen für das Feld «Von wo?»
+--------------------------------------------------------
+Aus den Postleitzahl-Daten von GeoNames (https://www.geonames.org),
+lizenziert unter Creative Commons Attribution 4.0 (CC BY 4.0,
+https://creativecommons.org/licenses/by/4.0/). Zusammengefasst pro Ort und Kanton,
+Postfach-Einträge weggelassen (werkzeuge/orte.py).
+
+
 fahrzeiten.json – Fahrzeiten mit dem Auto
 ------------------------------------------
 Berechnet mit OSRM auf dem Routing-Server der FOSSGIS (https://routing.openstreetmap.de).

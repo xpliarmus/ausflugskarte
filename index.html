@@ -12,7 +12,7 @@
 <link rel="preload" href="karla.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fredoka.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="leaflet.css">
-<link rel="stylesheet" href="style.css?v=8">
+<link rel="stylesheet" href="style.css?v=9">
 </head>
 <body>
 
@@ -35,6 +35,21 @@
       <div class="saison-wahl" id="saisonWahl" role="group" aria-label="Jahreszeit">
         <button type="button" data-saison="alle">Alle</button><button type="button" data-saison="sommer">☀️ Sommer</button><button type="button" data-saison="winter">❄️ Winter</button>
       </div>
+      <div class="von-wo">
+        <div class="vw-feld">
+          <span class="vw-symbol" aria-hidden="true">📍</span>
+          <input type="text" id="startFeld" placeholder="Von wo? Ort oder PLZ" aria-label="Startpunkt für die Fahrzeit: Ort oder Postleitzahl" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="startVorschlaege">
+          <button type="button" class="vw-weg" id="startWeg" aria-label="Startpunkt entfernen" title="Startpunkt entfernen" hidden>✕</button>
+        </div>
+        <button type="button" class="vw-karte" id="startKarte" aria-pressed="false" aria-label="Startpunkt auf der Karte wählen" title="Startpunkt auf der Karte wählen">🗺️</button>
+        <ul class="vorschlaege" id="startVorschlaege" role="listbox" aria-label="Vorschläge" hidden></ul>
+      </div>
+      <div class="umkreis" id="umkreisBox" hidden>
+        <div class="saison-wahl umkreis-wahl" id="umkreisWahl" role="group" aria-label="Umkreis nach Fahrzeit">
+          <button type="button" data-umkreis="30">30 Min</button><button type="button" data-umkreis="60">1 h</button><button type="button" data-umkreis="90">1½ h</button><button type="button" data-umkreis="120">2 h</button><button type="button" data-umkreis="alle">alle</button>
+        </div>
+        <p class="umkreis-info" id="umkreisInfo"></p>
+      </div>
       <div class="filterbar-row">
         <h2>Kategorie filtern</h2>
         <button type="button" class="reset-link" id="resetFilters">zurücksetzen</button>
@@ -56,7 +71,8 @@
     </div>
 
     <footer class="sidebar-foot">
-      <p>Deine Haken werden nur in diesem Browser gespeichert. Mit «Erledigte Ziele teilen» überträgst du sie auf ein anderes Gerät.</p>
+      <p>Deine Haken und dein Startpunkt werden nur in diesem Browser gespeichert. Mit «Erledigte Ziele teilen» überträgst du die Haken auf ein anderes Gerät.</p>
+      <p>Fahrzeiten: OSRM, Strassendaten © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>-Mitwirkende · Orte: <a href="https://www.geonames.org" target="_blank" rel="noopener">GeoNames</a> (CC BY 4.0)</p>
       <p id="standInfo"></p>
     </footer>
   </aside>
@@ -95,6 +111,6 @@
 <button type="button" class="hochknopf" id="hochKnopf" aria-label="Nach oben scrollen" title="Nach oben">↑</button>
 
 <script src="leaflet.js"></script>
-<script src="app.js?v=8"></script>
+<script src="app.js?v=9"></script>
 </body>
 </html>
