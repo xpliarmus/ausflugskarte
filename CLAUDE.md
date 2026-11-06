@@ -26,7 +26,10 @@ Die Website selbst ist bewusst flach und ohne Build-Schritt. So lassen sich Date
 | `daten/ziele.json` | **Die Angaben zu allen Zielen** plus die zugehörigen To-Do-Aufgaben (`todo`). Hier werden Ziele ergänzt oder korrigiert. |
 | `daten/offen.json` | Wird erzeugt: Aufgaben aus To Do, zu denen es noch keine Angaben gibt (`id`, `titel`). |
 | `werkzeuge/todo.py` | Anmeldung bei Microsoft, Abruf der Liste und Zusammenbau (nur Python-Standardbibliothek). |
-| `.github/workflows/` | `microsoft-anmeldung.yml` (einmalige Anmeldung) und `todo-abruf.yml` (Abruf und Zusammenbau, siehe „Microsoft To Do“). |
+| `daten/startorte.json` | 131 Startorte in der Schweiz (Name, Kanton, Lage) für die Fahrzeiten, siehe „Fahrzeiten“. Hier werden Startorte ergänzt oder entfernt. |
+| `fahrzeiten.json` | Wird erzeugt: Fahrzeiten mit dem Auto in Minuten von jedem Startort zu jedem Ziel. **Nie von Hand bearbeiten.** |
+| `werkzeuge/fahrzeiten.py` | Berechnet fehlende Fahrzeiten über den Routenplaner der FOSSGIS (nur Python-Standardbibliothek). |
+| `.github/workflows/` | `microsoft-anmeldung.yml` (einmalige Anmeldung) und `todo-abruf.yml` (Abruf, Zusammenbau und Fahrzeiten, siehe „Microsoft To Do“ und „Fahrzeiten“). |
 | `leaflet.js`, `leaflet.css` | Leaflet 1.9.4, lokal eingebunden (kein CDN). |
 | `fredoka.woff2`, `karla.woff2` | Schriften lokal (Fontsource, latin, variable): Fredoka für Titel und Überschriften (`--font-display`), Karla für alles andere. Keine Anfragen an Google Fonts. |
 | `README.md`, `LIZENZEN.txt` | Beschreibung für Besucher und Drittanbieter-Lizenzen. |
@@ -140,6 +143,10 @@ python3 -m http.server 8899      # im Repo-Ordner
   - Tokens, Notizen und Status erscheinen nie im Protokoll, ausser in `::add-mask::`-Zeilen.
   - Probelauf schreibt nichts; Sicherheitsgrenze; zweiter Lauf ohne Änderung lässt die Dateien Zeichen für Zeichen gleich.
   - `todo.zusammenbauen()` mit den echten `daten/ziele.json` prüfen.
+- **`werkzeuge/fahrzeiten.py`** gegen einen nachgebildeten Routenplaner (`http.server`, `fahrzeiten.OSRM` umbiegen, `time.sleep` ersetzen; Achtung: Pfad mit `urllib.parse.urlsplit` lesen, `urlparse` schneidet bei `;` ab):
+  - Anzahl und Grösse der Anfragen, Kennung, Pause ≥ 1 s; Probelauf schreibt nichts
+  - zweiter Lauf ohne Anfrage und Zeichen für Zeichen gleich; neues Ziel, geänderte Koordinaten, entferntes Ziel, neuer und entfernter Startort
+  - Dienst antwortet nicht oder «TooBig»: Warnung, Datei unverändert; «keine Route» wird als `null` gespeichert
 
 ## Fahrplan (jede Stufe einzeln mit OK)
 
@@ -169,6 +176,17 @@ python3 -m http.server 8899      # im Repo-Ordner
      - Hinweise in den Einträgen in der grauen Zeile hinter Kategorie und Ort («☀️ nur Sommer», «❄️ nur Winter», «☔ auch bei Regen»), Variante A. Ganzjährige Ziele ohne Regentag bekommen keinen Hinweis.
      - «zurücksetzen» lässt die Jahreszeit stehen.
 
+6. **Umkreis nach Fahrzeit** (November 2026), in zwei Schritten mit je einem PR. Entscheidungen des Besitzers:
+   - Variante «vorberechnet»: Fahrzeiten von festen Startorten werden im Voraus berechnet, die Website schätzt daraus die Zeit ab dem eingegebenen Ort. Kein Live-Routenplaner im Browser (Schlüssel wären öffentlich, Standort ginge an fremde Dienste).
+   - Nur Auto, nur Startorte in der Schweiz. «Mein Standort» per Handy ist vorerst nicht nötig.
+   - OpenRouteService war beim Start nicht erreichbar (Website abgeschaltet). Darum der freie Routenplaner der FOSSGIS, ohne Konto und ohne Schlüssel.
+   - Schritt 1 (Daten): `daten/startorte.json`, `werkzeuge/fahrzeiten.py`, `fahrzeiten.json` aus dem To-Do-Abruf. Auf der Website noch unsichtbar.
+   - Schritt 2 (Website), noch offen:
+     - Feld «📍 Von wo?» mit Vorschlägen beim Tippen (Ort oder Postleitzahl, Ortsliste von GeoNames lokal auf der Website, nichts wird verschickt), zusätzlich Startpunkt per Antippen der Karte. Gespeichert nur im Browser.
+     - Schätzung: die drei nächsten Startorte; je Fahrzeit Startort → Ziel plus Zuschlag für die Strecke Startpunkt → Startort aus der Luftlinie mit Umwegfaktor; der kleinste Wert zählt. Ganz nahe Ziele direkt über die Luftlinie.
+     - Umkreis «bis 30 Min | 1 h | 1½ h | 2 h | alle», kombinierbar mit Jahreszeit, Regentag und Kategorien; Liste nach Fahrzeit sortiert, in den Einträgen «🚗 ca. 50 Min.». Ohne Startpunkt bleibt alles wie heute.
+     - Quellenangabe für die Fahrzeiten (OpenStreetMap/OSRM) auf der Website.
+
 ## Microsoft To Do
 
 - **Quelle:** Liste „Ausflugsideen“ im persönlichen Microsoft-Konto des Besitzers. Auch seine Frau trägt dort Ideen ein.
@@ -196,6 +214,16 @@ python3 -m http.server 8899      # im Repo-Ordner
 - **Öffentliches Protokoll:** Nie Tokens, Notizen, Status oder die Namen anderer Listen ausgeben. Titel und Aufgaben-IDs dürfen erscheinen.
 - **Für Claude:** Läufe lassen sich über GitHub-MCP starten (`actions_run_trigger`, z.B. mit `inputs: {probelauf: true}`), Protokolle liest `get_job_logs`. Ein direkter Download aus der Sandbox ist nicht möglich.
 
+## Fahrzeiten
+
+- **Quelle:** Routenplaner der FOSSGIS, OSRM-Tabelle auf `https://routing.openstreetmap.de/routed-car/table/v1/driving/` (Strassendaten von OpenStreetMap, täglich aktualisiert). Kein Konto, kein Schlüssel. Nutzungsbedingungen: höchstens eine Anfrage pro Sekunde (`PAUSE = 1.1`), erkennbare Kennung im User-Agent (`KENNUNG`), Quellenangabe. FOSSGIS darf den Dienst jederzeit einstellen; die gespeicherten Zeiten bleiben dann erhalten, nur neue fehlen. Ausweichmöglichkeit: OpenRouteService (braucht Konto und Schlüssel als Secret).
+- **Startorte** (`daten/startorte.json`): Kantonshauptorte, grössere Orte und Talorte (Bergell, Goms, Val Müstair, Vallée de Joux …), Lage aus GeoNames (CC BY 4.0, siehe `LIZENZEN.txt`). Abstand jeder Schweizer Postleitzahl zum nächsten Startort: Median 6 km, höchstens 18 km. Feld `name` ist der Schlüssel; Namen nicht doppelt.
+- **Ablauf** (`werkzeuge/fahrzeiten.py`, Schritt „Fahrzeiten berechnen“ im To-Do-Abruf nach dem Zusammenbau): liest `daten/startorte.json` und `ausfluege.json` und rechnet nur, was fehlt: neue Ziele und Ziele mit geänderten Koordinaten (gegen alle Startorte), neue Startorte (gegen alle übrigen Ziele). Anfragen in Blöcken zu 10 Startorten × 40 Zielen. Beim ersten Mal 56 Anfragen (gut eine Minute), danach meist keine. Entfernte Ziele und Startorte fallen weg.
+- **Format von `fahrzeiten.json`:** `quelle`, `startorte` als `[name, lat, lon]` und `ziele` als `{id: {lat, lon, min: [Minuten je Startort in derselben Reihenfolge]}}`, eine Zeile pro Startort und pro Ziel (`als_text()`). `null` heisst „keine Route“. Ohne Änderung bleibt die Datei Zeichen für Zeichen gleich.
+- **Fehler:** Antwortet der Dienst nicht (nach zwei Versuchen pro Anfrage), schreibt der Lauf eine gelbe Warnung und lässt `fahrzeiten.json`, wie sie war (alles oder nichts); der Rest des To-Do-Abrufs läuft normal, der nächste Lauf versucht es wieder.
+- **Protokoll:** Anzahl gerechneter Ziele, Startorte und Anfragen, Ziele mehr als 3 km von der nächsten Strasse (dort wird bis zur Strasse gerechnet, z.B. Gipfel mit Bergbahn), Paare ohne Route und Stichproben (Zürich/Bern → Zoo Basel, Verkehrshaus, Technorama).
+
+## Neue Ziele ergänzen
 ## Neue Ziele ergänzen
 
 1. `daten/offen.json` vom aktuellen `main` lesen. Falls nötig, vorher den „To-Do-Abruf“ laufen lassen.

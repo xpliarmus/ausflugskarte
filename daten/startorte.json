@@ -1,0 +1,791 @@
+{
+ "quelle": "Lage der Orte: GeoNames (geonames.org), CC BY 4.0",
+ "startorte": [
+  {
+   "name": "Aarau",
+   "kanton": "AG",
+   "lat": 47.3925,
+   "lon": 8.0442
+  },
+  {
+   "name": "Adelboden",
+   "kanton": "BE",
+   "lat": 46.4914,
+   "lon": 7.5603
+  },
+  {
+   "name": "Affoltern am Albis",
+   "kanton": "ZH",
+   "lat": 47.2774,
+   "lon": 8.4513
+  },
+  {
+   "name": "Aigle",
+   "kanton": "VD",
+   "lat": 46.3181,
+   "lon": 6.9646
+  },
+  {
+   "name": "Airolo",
+   "kanton": "TI",
+   "lat": 46.5286,
+   "lon": 8.6119
+  },
+  {
+   "name": "Altdorf UR",
+   "kanton": "UR",
+   "lat": 46.8804,
+   "lon": 8.6444
+  },
+  {
+   "name": "Altstätten SG",
+   "kanton": "SG",
+   "lat": 47.3777,
+   "lon": 9.5475
+  },
+  {
+   "name": "Amriswil",
+   "kanton": "TG",
+   "lat": 47.547,
+   "lon": 9.2959
+  },
+  {
+   "name": "Andermatt",
+   "kanton": "UR",
+   "lat": 46.6356,
+   "lon": 8.5939
+  },
+  {
+   "name": "Appenzell",
+   "kanton": "AI",
+   "lat": 47.331,
+   "lon": 9.41
+  },
+  {
+   "name": "Arosa",
+   "kanton": "GR",
+   "lat": 46.7779,
+   "lon": 9.6762
+  },
+  {
+   "name": "Baden",
+   "kanton": "AG",
+   "lat": 47.4733,
+   "lon": 8.3059
+  },
+  {
+   "name": "Basel",
+   "kanton": "BL",
+   "lat": 47.5186,
+   "lon": 7.6174
+  },
+  {
+   "name": "Bellinzona",
+   "kanton": "TI",
+   "lat": 46.1928,
+   "lon": 9.017
+  },
+  {
+   "name": "Bergün/Bravuogn",
+   "kanton": "GR",
+   "lat": 46.6293,
+   "lon": 9.7476
+  },
+  {
+   "name": "Bern",
+   "kanton": "BE",
+   "lat": 46.9476,
+   "lon": 7.4065
+  },
+  {
+   "name": "Biasca",
+   "kanton": "TI",
+   "lat": 46.3597,
+   "lon": 8.9697
+  },
+  {
+   "name": "Biel/Bienne",
+   "kanton": "BE",
+   "lat": 47.1492,
+   "lon": 7.2611
+  },
+  {
+   "name": "Brienz BE",
+   "kanton": "BE",
+   "lat": 46.7545,
+   "lon": 8.0385
+  },
+  {
+   "name": "Brig",
+   "kanton": "VS",
+   "lat": 46.3167,
+   "lon": 7.9833
+  },
+  {
+   "name": "Brugg AG",
+   "kanton": "AG",
+   "lat": 47.481,
+   "lon": 8.2087
+  },
+  {
+   "name": "Buchs SG",
+   "kanton": "SG",
+   "lat": 47.1674,
+   "lon": 9.4779
+  },
+  {
+   "name": "Bulle",
+   "kanton": "FR",
+   "lat": 46.618,
+   "lon": 7.0569
+  },
+  {
+   "name": "Burgdorf",
+   "kanton": "BE",
+   "lat": 47.059,
+   "lon": 7.6279
+  },
+  {
+   "name": "Bülach",
+   "kanton": "ZH",
+   "lat": 47.522,
+   "lon": 8.5405
+  },
+  {
+   "name": "Cevio",
+   "kanton": "TI",
+   "lat": 46.3148,
+   "lon": 8.6033
+  },
+  {
+   "name": "Chur",
+   "kanton": "GR",
+   "lat": 46.8499,
+   "lon": 9.5329
+  },
+  {
+   "name": "Château-d'Oex",
+   "kanton": "VD",
+   "lat": 46.4745,
+   "lon": 7.1316
+  },
+  {
+   "name": "Davos Platz",
+   "kanton": "GR",
+   "lat": 46.7961,
+   "lon": 9.8176
+  },
+  {
+   "name": "Delémont",
+   "kanton": "JU",
+   "lat": 47.3649,
+   "lon": 7.3445
+  },
+  {
+   "name": "Disentis/Mustér",
+   "kanton": "GR",
+   "lat": 46.7034,
+   "lon": 8.8509
+  },
+  {
+   "name": "Einsiedeln",
+   "kanton": "SZ",
+   "lat": 47.1285,
+   "lon": 8.7473
+  },
+  {
+   "name": "Engelberg",
+   "kanton": "OW",
+   "lat": 46.8211,
+   "lon": 8.4013
+  },
+  {
+   "name": "Estavayer-le-Lac",
+   "kanton": "FR",
+   "lat": 46.8488,
+   "lon": 6.8465
+  },
+  {
+   "name": "Evolène",
+   "kanton": "VS",
+   "lat": 46.1142,
+   "lon": 7.4941
+  },
+  {
+   "name": "Faido",
+   "kanton": "TI",
+   "lat": 46.477,
+   "lon": 8.8013
+  },
+  {
+   "name": "Fleurier",
+   "kanton": "NE",
+   "lat": 46.9022,
+   "lon": 6.5825
+  },
+  {
+   "name": "Flims Dorf",
+   "kanton": "GR",
+   "lat": 46.8371,
+   "lon": 9.2846
+  },
+  {
+   "name": "Frauenfeld",
+   "kanton": "TG",
+   "lat": 47.5578,
+   "lon": 8.8989
+  },
+  {
+   "name": "Fribourg",
+   "kanton": "FR",
+   "lat": 46.8024,
+   "lon": 7.1513
+  },
+  {
+   "name": "Frutigen",
+   "kanton": "BE",
+   "lat": 46.5872,
+   "lon": 7.6494
+  },
+  {
+   "name": "Genève",
+   "kanton": "GE",
+   "lat": 46.2058,
+   "lon": 6.1416
+  },
+  {
+   "name": "Glarus",
+   "kanton": "GL",
+   "lat": 47.0406,
+   "lon": 9.068
+  },
+  {
+   "name": "Grindelwald",
+   "kanton": "BE",
+   "lat": 46.624,
+   "lon": 8.036
+  },
+  {
+   "name": "Herisau",
+   "kanton": "AR",
+   "lat": 47.3861,
+   "lon": 9.2792
+  },
+  {
+   "name": "Huttwil",
+   "kanton": "BE",
+   "lat": 47.115,
+   "lon": 7.8621
+  },
+  {
+   "name": "Ilanz",
+   "kanton": "GR",
+   "lat": 46.7741,
+   "lon": 9.2046
+  },
+  {
+   "name": "Interlaken",
+   "kanton": "BE",
+   "lat": 46.652,
+   "lon": 7.9337
+  },
+  {
+   "name": "Klosters",
+   "kanton": "GR",
+   "lat": 46.8827,
+   "lon": 9.8761
+  },
+  {
+   "name": "Kreuzlingen",
+   "kanton": "TG",
+   "lat": 47.6505,
+   "lon": 9.175
+  },
+  {
+   "name": "La Chaux-de-Fonds",
+   "kanton": "NE",
+   "lat": 47.0999,
+   "lon": 6.8259
+  },
+  {
+   "name": "Lachen SZ",
+   "kanton": "SZ",
+   "lat": 47.1993,
+   "lon": 8.8543
+  },
+  {
+   "name": "Langenthal",
+   "kanton": "BE",
+   "lat": 47.2153,
+   "lon": 7.7961
+  },
+  {
+   "name": "Langnau im Emmental",
+   "kanton": "BE",
+   "lat": 46.9394,
+   "lon": 7.7874
+  },
+  {
+   "name": "Laufen",
+   "kanton": "BL",
+   "lat": 47.4219,
+   "lon": 7.4995
+  },
+  {
+   "name": "Lausanne",
+   "kanton": "VD",
+   "lat": 46.5218,
+   "lon": 6.633
+  },
+  {
+   "name": "Le Sentier",
+   "kanton": "VD",
+   "lat": 46.608,
+   "lon": 6.2324
+  },
+  {
+   "name": "Lenzerheide/Lai",
+   "kanton": "GR",
+   "lat": 46.7222,
+   "lon": 9.559
+  },
+  {
+   "name": "Leuk Stadt",
+   "kanton": "VS",
+   "lat": 46.3174,
+   "lon": 7.6341
+  },
+  {
+   "name": "Liestal",
+   "kanton": "BL",
+   "lat": 47.4846,
+   "lon": 7.7345
+  },
+  {
+   "name": "Linthal",
+   "kanton": "GL",
+   "lat": 46.9213,
+   "lon": 8.998
+  },
+  {
+   "name": "Locarno",
+   "kanton": "TI",
+   "lat": 46.1709,
+   "lon": 8.7995
+  },
+  {
+   "name": "Lugano",
+   "kanton": "TI",
+   "lat": 46.0101,
+   "lon": 8.96
+  },
+  {
+   "name": "Luzern",
+   "kanton": "LU",
+   "lat": 47.0471,
+   "lon": 8.3252
+  },
+  {
+   "name": "Martigny",
+   "kanton": "VS",
+   "lat": 46.1028,
+   "lon": 7.0724
+  },
+  {
+   "name": "Meiringen",
+   "kanton": "BE",
+   "lat": 46.7271,
+   "lon": 8.1872
+  },
+  {
+   "name": "Mendrisio",
+   "kanton": "TI",
+   "lat": 45.8702,
+   "lon": 8.9816
+  },
+  {
+   "name": "Mesocco",
+   "kanton": "GR",
+   "lat": 46.3939,
+   "lon": 9.2333
+  },
+  {
+   "name": "Monthey",
+   "kanton": "VS",
+   "lat": 46.2545,
+   "lon": 6.9541
+  },
+  {
+   "name": "Montreux",
+   "kanton": "VD",
+   "lat": 46.433,
+   "lon": 6.9114
+  },
+  {
+   "name": "Morges",
+   "kanton": "VD",
+   "lat": 46.5113,
+   "lon": 6.4985
+  },
+  {
+   "name": "Moutier",
+   "kanton": "BE",
+   "lat": 47.2782,
+   "lon": 7.3695
+  },
+  {
+   "name": "Murten",
+   "kanton": "FR",
+   "lat": 46.9283,
+   "lon": 7.1171
+  },
+  {
+   "name": "Münster VS",
+   "kanton": "VS",
+   "lat": 46.4865,
+   "lon": 8.2643
+  },
+  {
+   "name": "Neuchâtel",
+   "kanton": "NE",
+   "lat": 46.9918,
+   "lon": 6.931
+  },
+  {
+   "name": "Nyon",
+   "kanton": "VD",
+   "lat": 46.3832,
+   "lon": 6.2395
+  },
+  {
+   "name": "Olten",
+   "kanton": "SO",
+   "lat": 47.35,
+   "lon": 7.9033
+  },
+  {
+   "name": "Orsières",
+   "kanton": "VS",
+   "lat": 46.029,
+   "lon": 7.1444
+  },
+  {
+   "name": "Payerne",
+   "kanton": "VD",
+   "lat": 46.8219,
+   "lon": 6.9382
+  },
+  {
+   "name": "Pfäffikon ZH",
+   "kanton": "ZH",
+   "lat": 47.3645,
+   "lon": 8.792
+  },
+  {
+   "name": "Porrentruy",
+   "kanton": "JU",
+   "lat": 47.4153,
+   "lon": 7.0752
+  },
+  {
+   "name": "Poschiavo",
+   "kanton": "GR",
+   "lat": 46.3244,
+   "lon": 10.0582
+  },
+  {
+   "name": "Rapperswil SG",
+   "kanton": "SG",
+   "lat": 47.2256,
+   "lon": 8.8223
+  },
+  {
+   "name": "Rheinfelden",
+   "kanton": "AG",
+   "lat": 47.5544,
+   "lon": 7.794
+  },
+  {
+   "name": "Romont FR",
+   "kanton": "FR",
+   "lat": 46.6965,
+   "lon": 6.919
+  },
+  {
+   "name": "Rorschach",
+   "kanton": "SG",
+   "lat": 47.478,
+   "lon": 9.4903
+  },
+  {
+   "name": "Roveredo GR",
+   "kanton": "GR",
+   "lat": 46.2365,
+   "lon": 9.1275
+  },
+  {
+   "name": "Saanen",
+   "kanton": "BE",
+   "lat": 46.4894,
+   "lon": 7.26
+  },
+  {
+   "name": "Saas-Grund",
+   "kanton": "VS",
+   "lat": 46.1228,
+   "lon": 7.9365
+  },
+  {
+   "name": "Saignelégier",
+   "kanton": "JU",
+   "lat": 47.2562,
+   "lon": 6.9965
+  },
+  {
+   "name": "Samedan",
+   "kanton": "GR",
+   "lat": 46.534,
+   "lon": 9.8728
+  },
+  {
+   "name": "Samnaun-Compatsch",
+   "kanton": "GR",
+   "lat": 46.9596,
+   "lon": 10.4002
+  },
+  {
+   "name": "Sargans",
+   "kanton": "SG",
+   "lat": 47.049,
+   "lon": 9.441
+  },
+  {
+   "name": "Sarnen",
+   "kanton": "OW",
+   "lat": 46.8961,
+   "lon": 8.2453
+  },
+  {
+   "name": "Savognin",
+   "kanton": "GR",
+   "lat": 46.5973,
+   "lon": 9.5982
+  },
+  {
+   "name": "Schaffhausen",
+   "kanton": "SH",
+   "lat": 47.6973,
+   "lon": 8.6349
+  },
+  {
+   "name": "Schiers",
+   "kanton": "GR",
+   "lat": 46.9697,
+   "lon": 9.6872
+  },
+  {
+   "name": "Schwarzenburg",
+   "kanton": "BE",
+   "lat": 46.8181,
+   "lon": 7.3421
+  },
+  {
+   "name": "Schwyz",
+   "kanton": "SZ",
+   "lat": 47.0208,
+   "lon": 8.6541
+  },
+  {
+   "name": "Schüpfheim",
+   "kanton": "LU",
+   "lat": 46.9516,
+   "lon": 8.0172
+  },
+  {
+   "name": "Scuol",
+   "kanton": "GR",
+   "lat": 46.7967,
+   "lon": 10.298
+  },
+  {
+   "name": "Sierre",
+   "kanton": "VS",
+   "lat": 46.2919,
+   "lon": 7.5356
+  },
+  {
+   "name": "Sion",
+   "kanton": "VS",
+   "lat": 46.2274,
+   "lon": 7.3556
+  },
+  {
+   "name": "Solothurn",
+   "kanton": "SO",
+   "lat": 47.2079,
+   "lon": 7.5371
+  },
+  {
+   "name": "Spiez",
+   "kanton": "BE",
+   "lat": 46.6847,
+   "lon": 7.6911
+  },
+  {
+   "name": "Splügen",
+   "kanton": "GR",
+   "lat": 46.5518,
+   "lon": 9.3222
+  },
+  {
+   "name": "St. Gallen",
+   "kanton": "SG",
+   "lat": 47.4239,
+   "lon": 9.3748
+  },
+  {
+   "name": "St. Moritz",
+   "kanton": "GR",
+   "lat": 46.4994,
+   "lon": 9.8433
+  },
+  {
+   "name": "Sta. Maria Val Müstair",
+   "kanton": "GR",
+   "lat": 46.6012,
+   "lon": 10.423
+  },
+  {
+   "name": "Stans",
+   "kanton": "NW",
+   "lat": 46.9581,
+   "lon": 8.3661
+  },
+  {
+   "name": "Sursee",
+   "kanton": "LU",
+   "lat": 47.1709,
+   "lon": 8.1111
+  },
+  {
+   "name": "Thun",
+   "kanton": "BE",
+   "lat": 46.7512,
+   "lon": 7.6217
+  },
+  {
+   "name": "Thusis",
+   "kanton": "GR",
+   "lat": 46.6972,
+   "lon": 9.4394
+  },
+  {
+   "name": "Uster",
+   "kanton": "ZH",
+   "lat": 47.3471,
+   "lon": 8.7209
+  },
+  {
+   "name": "Vevey",
+   "kanton": "VD",
+   "lat": 46.463,
+   "lon": 6.8435
+  },
+  {
+   "name": "Vicosoprano",
+   "kanton": "GR",
+   "lat": 46.3511,
+   "lon": 9.6208
+  },
+  {
+   "name": "Visp",
+   "kanton": "VS",
+   "lat": 46.2937,
+   "lon": 7.8815
+  },
+  {
+   "name": "Wattwil",
+   "kanton": "SG",
+   "lat": 47.2996,
+   "lon": 9.0866
+  },
+  {
+   "name": "Weinfelden",
+   "kanton": "TG",
+   "lat": 47.5667,
+   "lon": 9.1
+  },
+  {
+   "name": "Wetzikon ZH",
+   "kanton": "ZH",
+   "lat": 47.3264,
+   "lon": 8.7978
+  },
+  {
+   "name": "Wil SG",
+   "kanton": "SG",
+   "lat": 47.2884,
+   "lon": 9.1539
+  },
+  {
+   "name": "Willisau",
+   "kanton": "LU",
+   "lat": 47.1218,
+   "lon": 7.9942
+  },
+  {
+   "name": "Winterthur",
+   "kanton": "ZH",
+   "lat": 47.5056,
+   "lon": 8.7241
+  },
+  {
+   "name": "Wohlen AG",
+   "kanton": "AG",
+   "lat": 47.3524,
+   "lon": 8.2788
+  },
+  {
+   "name": "Yverdon-les-Bains",
+   "kanton": "VD",
+   "lat": 46.7785,
+   "lon": 6.6411
+  },
+  {
+   "name": "Zermatt",
+   "kanton": "VS",
+   "lat": 46.02,
+   "lon": 7.7486
+  },
+  {
+   "name": "Zernez",
+   "kanton": "GR",
+   "lat": 46.6986,
+   "lon": 10.0927
+  },
+  {
+   "name": "Zofingen",
+   "kanton": "AG",
+   "lat": 47.2878,
+   "lon": 7.9459
+  },
+  {
+   "name": "Zug",
+   "kanton": "ZG",
+   "lat": 47.1724,
+   "lon": 8.5174
+  },
+  {
+   "name": "Zweisimmen",
+   "kanton": "BE",
+   "lat": 46.5554,
+   "lon": 7.373
+  },
+  {
+   "name": "Zürich",
+   "kanton": "ZH",
+   "lat": 47.458,
+   "lon": 8.5853
+  }
+ ]
+}

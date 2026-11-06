@@ -31,6 +31,20 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
+daten/startorte.json – Lage der Startorte für die Fahrzeiten
+-----------------------------------------------------------
+Koordinaten aus den Postleitzahl-Daten von GeoNames (https://www.geonames.org),
+lizenziert unter Creative Commons Attribution 4.0 (CC BY 4.0,
+https://creativecommons.org/licenses/by/4.0/).
+
+
+fahrzeiten.json – Fahrzeiten mit dem Auto
+------------------------------------------
+Berechnet mit OSRM auf dem Routing-Server der FOSSGIS (https://routing.openstreetmap.de).
+Strassendaten © OpenStreetMap-Mitwirkende, verfügbar unter der Open Database License (ODbL,
+https://www.openstreetmap.org/copyright).
+
+
 fredoka.woff2 – Fredoka (Milena Brandão, Hafontia), via Fontsource
 ------------------------------------------------------------------
 Copyright 2016 The Fredoka Project Authors (https://github.com/hafontia/Fredoka-One)
