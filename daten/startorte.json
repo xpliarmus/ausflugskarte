@@ -75,9 +75,9 @@
   },
   {
    "name": "Basel",
-   "kanton": "BL",
-   "lat": 47.5186,
-   "lon": 7.6174
+   "kanton": "BS",
+   "lat": 47.5577,
+   "lon": 7.5936
   },
   {
    "name": "Bellinzona",
@@ -94,8 +94,8 @@
   {
    "name": "Bern",
    "kanton": "BE",
-   "lat": 46.9476,
-   "lon": 7.4065
+   "lat": 46.9481,
+   "lon": 7.4474
   },
   {
    "name": "Biasca",
@@ -106,8 +106,8 @@
   {
    "name": "Biel/Bienne",
    "kanton": "BE",
-   "lat": 47.1492,
-   "lon": 7.2611
+   "lat": 47.1371,
+   "lon": 7.2461
   },
   {
    "name": "Brienz BE",
@@ -124,8 +124,8 @@
   {
    "name": "Brugg AG",
    "kanton": "AG",
-   "lat": 47.481,
-   "lon": 8.2087
+   "lat": 47.4863,
+   "lon": 8.211
   },
   {
    "name": "Buchs SG",
@@ -160,8 +160,8 @@
   {
    "name": "Chur",
    "kanton": "GR",
-   "lat": 46.8499,
-   "lon": 9.5329
+   "lat": 46.8521,
+   "lon": 9.5296
   },
   {
    "name": "Château-d'Oex",
@@ -232,8 +232,8 @@
   {
    "name": "Frauenfeld",
    "kanton": "TG",
-   "lat": 47.5578,
-   "lon": 8.8989
+   "lat": 47.558,
+   "lon": 8.8964
   },
   {
    "name": "Fribourg",
@@ -250,8 +250,8 @@
   {
    "name": "Genève",
    "kanton": "GE",
-   "lat": 46.2058,
-   "lon": 6.1416
+   "lat": 46.2022,
+   "lon": 6.1457
   },
   {
    "name": "Glarus",
@@ -286,8 +286,8 @@
   {
    "name": "Interlaken",
    "kanton": "BE",
-   "lat": 46.652,
-   "lon": 7.9337
+   "lat": 46.6839,
+   "lon": 7.8664
   },
   {
    "name": "Klosters",
@@ -304,8 +304,8 @@
   {
    "name": "La Chaux-de-Fonds",
    "kanton": "NE",
-   "lat": 47.0999,
-   "lon": 6.8259
+   "lat": 47.1102,
+   "lon": 6.8334
   },
   {
    "name": "Lachen SZ",
@@ -316,8 +316,8 @@
   {
    "name": "Langenthal",
    "kanton": "BE",
-   "lat": 47.2153,
-   "lon": 7.7961
+   "lat": 47.2158,
+   "lon": 7.7945
   },
   {
    "name": "Langnau im Emmental",
@@ -334,8 +334,8 @@
   {
    "name": "Lausanne",
    "kanton": "VD",
-   "lat": 46.5218,
-   "lon": 6.633
+   "lat": 46.516,
+   "lon": 6.6328
   },
   {
    "name": "Le Sentier",
@@ -376,14 +376,14 @@
   {
    "name": "Lugano",
    "kanton": "TI",
-   "lat": 46.0101,
-   "lon": 8.96
+   "lat": 46.0055,
+   "lon": 8.9714
   },
   {
    "name": "Luzern",
    "kanton": "LU",
-   "lat": 47.0471,
-   "lon": 8.3252
+   "lat": 47.0505,
+   "lon": 8.3064
   },
   {
    "name": "Martigny",
@@ -592,8 +592,8 @@
   {
    "name": "Schwyz",
    "kanton": "SZ",
-   "lat": 47.0208,
-   "lon": 8.6541
+   "lat": 47.0235,
+   "lon": 8.6746
   },
   {
    "name": "Schüpfheim",
@@ -616,14 +616,14 @@
   {
    "name": "Sion",
    "kanton": "VS",
-   "lat": 46.2274,
-   "lon": 7.3556
+   "lat": 46.2304,
+   "lon": 7.3661
   },
   {
    "name": "Solothurn",
    "kanton": "SO",
-   "lat": 47.2079,
-   "lon": 7.5371
+   "lat": 47.2084,
+   "lon": 7.5301
   },
   {
    "name": "Spiez",
@@ -640,8 +640,8 @@
   {
    "name": "St. Gallen",
    "kanton": "SG",
-   "lat": 47.4239,
-   "lon": 9.3748
+   "lat": 47.4221,
+   "lon": 9.3755
   },
   {
    "name": "St. Moritz",
@@ -658,8 +658,8 @@
   {
    "name": "Stans",
    "kanton": "NW",
-   "lat": 46.9581,
-   "lon": 8.3661
+   "lat": 46.9589,
+   "lon": 8.3633
   },
   {
    "name": "Sursee",
@@ -688,8 +688,8 @@
   {
    "name": "Vevey",
    "kanton": "VD",
-   "lat": 46.463,
-   "lon": 6.8435
+   "lat": 46.4642,
+   "lon": 6.8481
   },
   {
    "name": "Vicosoprano",
@@ -724,8 +724,8 @@
   {
    "name": "Wil SG",
    "kanton": "SG",
-   "lat": 47.2884,
-   "lon": 9.1539
+   "lat": 47.4615,
+   "lon": 9.0455
   },
   {
    "name": "Willisau",
@@ -766,14 +766,14 @@
   {
    "name": "Zofingen",
    "kanton": "AG",
-   "lat": 47.2878,
-   "lon": 7.9459
+   "lat": 47.2888,
+   "lon": 7.9633
   },
   {
    "name": "Zug",
    "kanton": "ZG",
-   "lat": 47.1724,
-   "lon": 8.5174
+   "lat": 47.15,
+   "lon": 8.5232
   },
   {
    "name": "Zweisimmen",
@@ -784,8 +784,8 @@
   {
    "name": "Zürich",
    "kanton": "ZH",
-   "lat": 47.458,
-   "lon": 8.5853
+   "lat": 47.3667,
+   "lon": 8.55
   }
  ]
 }
