@@ -918,23 +918,6 @@
    ]
   },
   {
-   "id": "insel-mainau-dinos",
-   "titel": "Insel Mainau (Dinos)",
-   "ort": "Insel Mainau (Konstanz)",
-   "region": "Baden-Württemberg",
-   "land": "Deutschland",
-   "lat": 47.7058,
-   "lon": 9.1906,
-   "kat": "park",
-   "saison": "ganzjaehrig",
-   "regentag": false,
-   "beschreibung": "Lebensgrosse Dinosaurier-Modelle auf der Blumeninsel",
-   "website": "https://www.mainau.de/en/events/dinosaurs-on-mainau-island",
-   "todo": [
-    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJHz8q-wAAAA=="
-   ]
-  },
-  {
    "id": "juckerhof-seegraben",
    "titel": "Juckerhof Seegräben",
    "ort": "Seegräben",
@@ -1040,23 +1023,6 @@
    "ungefaehr": true,
    "todo": [
     "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAJsuksDwAAAA=="
-   ]
-  },
-  {
-   "id": "kugelbahnweg-rickenbach-sulz",
-   "titel": "Kugelbahnweg Rickenbach/Sulz",
-   "ort": "Rickenbach ZH (Sulz)",
-   "region": "Zürich",
-   "land": "Schweiz",
-   "lat": 47.519,
-   "lon": 8.7275,
-   "kat": "kugel",
-   "saison": "sommer",
-   "regentag": false,
-   "beschreibung": "Gemeinschaftlicher Kugelbahnweg mit vielen Holzstationen",
-   "website": "https://familienverein.ch/kugelbahnweg/",
-   "todo": [
-    "AQMkADAwATNiZmYAZC1kMGU5LTE4N2YtMDACLTAwCgBGAAAD9NYHYO8NP06fK4YDRIfl8wcAJLVVzOJlJ0CBf9nZAKOGVG8AB2BdhWsAAAAktVXM4mUnQIF-2dkAo4ZUbwAILkRa4AAAAA=="
    ]
   },
   {

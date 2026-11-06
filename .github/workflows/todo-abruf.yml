@@ -1,7 +1,8 @@
 # Liest die To-Do-Liste «Ausflugsideen» (nur id und Titel), erneuert dabei die Microsoft-Anmeldung und baut
 # aus daten/ziele.json die Website-Daten ausfluege.json sowie daten/offen.json (Aufgaben ohne Angaben).
+# Danach ergänzt sie fahrzeiten.json (Auto, von den Startorten in daten/startorte.json zu allen Zielen).
 # Änderungen speichert die Action direkt auf main; die Website ist danach nach 1–2 Minuten aktuell.
-# Läuft jeden Morgen, nach jeder Änderung an daten/ziele.json auf main und von Hand
+# Läuft jeden Morgen, nach jeder Änderung an daten/ziele.json oder daten/startorte.json auf main und von Hand
 # (Actions → „To-Do-Abruf“ → „Run workflow“). Bei einem Fehler öffnet sie ein Issue (E-Mail an den Besitzer).
 name: To-Do-Abruf
 
@@ -10,7 +11,7 @@ on:
     - cron: '47 3 * * *'  # UTC: 4:47 Uhr Schweizer Winterzeit, 5:47 Uhr Sommerzeit
   push:
     branches: [main]
-    paths: ['daten/ziele.json']
+    paths: ['daten/ziele.json', 'daten/startorte.json', 'werkzeuge/fahrzeiten.py']
   workflow_dispatch:
     inputs:
       probelauf:
@@ -49,18 +50,23 @@ jobs:
           PROBELAUF: ${{ inputs.probelauf }}
           TROTZDEM: ${{ inputs.trotzdem }}
         run: python3 -u werkzeuge/todo.py aktualisieren
+      - name: Fahrzeiten berechnen
+        env:
+          PROBELAUF: ${{ inputs.probelauf }}
+        run: python3 -u werkzeuge/fahrzeiten.py
       - name: Änderungen speichern und veröffentlichen
         if: ${{ !inputs.probelauf }}
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if [ -z "$(git status --porcelain -- ausfluege.json daten/offen.json)" ]; then
+          if [ -z "$(git status --porcelain -- ausfluege.json daten/offen.json fahrzeiten.json)" ]; then
             echo "Keine Änderungen."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add ausfluege.json daten/offen.json
+          if [ -f fahrzeiten.json ]; then git add fahrzeiten.json; fi
           git commit -m "Daten aus To Do aktualisiert"
           git push || { git pull --rebase && git push; }
           if gh api -X POST "repos/$GITHUB_REPOSITORY/pages/builds" > /dev/null; then
