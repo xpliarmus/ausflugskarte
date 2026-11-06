@@ -39,7 +39,7 @@ env:
 jobs:
   abrufen:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v5
       - name: Liste abrufen und Website-Daten zusammenbauen
@@ -51,6 +51,8 @@ jobs:
           TROTZDEM: ${{ inputs.trotzdem }}
         run: python3 -u werkzeuge/todo.py aktualisieren
       - name: Fahrzeiten berechnen
+        timeout-minutes: 6        # rechnet höchstens 4 Minuten, der Rest folgt beim nächsten Lauf
+        continue-on-error: true   # ein Problem hier darf die Aktualisierung aus To Do nie aufhalten
         env:
           PROBELAUF: ${{ inputs.probelauf }}
         run: python3 -u werkzeuge/fahrzeiten.py
