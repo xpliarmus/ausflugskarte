@@ -115,6 +115,32 @@ h1,h2{font-family:var(--font-display); margin:0; text-wrap:balance;}
 .schalter input{margin:0; accent-color:var(--accent);}
 .treffer{margin-left:auto; font-size:.78rem; color:var(--ink-soft); white-space:nowrap; font-variant-numeric:tabular-nums;}
 .filter-chip.leer, .fb-zeile.leer{opacity:.45;} /* keine Ziele in dieser Jahreszeit */
+/* Fahrzeit: Feld «Von wo?» mit Vorschlägen, Knopf für die Karte, Umkreis */
+.von-wo{position:relative; display:flex; gap:8px; margin:0 0 10px;}
+.vw-feld{
+  flex:1; min-width:0; display:flex; align-items:center; gap:6px; padding:0 3px 0 9px;
+  border:1px solid var(--line); border-radius:10px; background:var(--surface-2);
+}
+.vw-feld:focus-within{outline:2px solid color-mix(in srgb, var(--accent) 55%, transparent); outline-offset:1px;}
+.vw-symbol{font-size:.95rem; line-height:1;}
+#startFeld{flex:1; min-width:0; padding:8px 0; border:none; outline:none; background:none; color:var(--ink); font-family:var(--font-body); font-size:.9rem;}
+.vw-weg{flex:0 0 auto; width:28px; height:28px; padding:0; border:none; border-radius:50%; background:none; color:var(--ink-soft); font-size:.85rem; cursor:pointer;}
+.vw-weg:hover{background:var(--line); color:var(--ink);}
+.vw-karte{flex:0 0 auto; width:42px; padding:0; border:1px solid var(--line); border-radius:10px; background:var(--surface); font-size:1.05rem; cursor:pointer;}
+.vw-karte:hover{background:var(--surface-2);}
+.vw-karte.an{background:color-mix(in srgb, var(--accent) 16%, var(--surface)); border-color:var(--accent);}
+.vorschlaege{
+  position:absolute; z-index:50; left:0; right:50px; top:calc(100% + 4px); margin:0; padding:4px; list-style:none;
+  background:var(--surface); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow);
+}
+.vorschlaege li{padding:8px 10px; border-radius:7px; font-size:.88rem; cursor:pointer; overflow-wrap:anywhere;}
+.vorschlaege li.an, .vorschlaege li:hover{background:var(--surface-2);}
+.vs-plz{color:var(--ink-soft); font-variant-numeric:tabular-nums;}
+.umkreis-wahl{margin:0 0 5px;}
+.umkreis-wahl button{padding:6px 2px; font-size:.82rem; white-space:nowrap;}
+.umkreis-info{margin:0 0 10px; font-size:.72rem; line-height:1.4; color:var(--ink-soft);}
+.umkreis-info strong{color:var(--accent-warm);}
+.fahrzeit{font-weight:700; color:var(--ink); white-space:nowrap;}
 
 /* ---------- Liste ---------- */
 .list{flex:1 0 auto; padding:6px 12px 12px;}
@@ -185,6 +211,11 @@ h1,h2{font-family:var(--font-display); margin:0; text-wrap:balance;}
 .pin{stroke:var(--surface);}
 .hl-halo{fill:var(--accent); fill-opacity:.32; pointer-events:none;}
 .hl-ring{fill:var(--surface); fill-opacity:.65; stroke:var(--accent); pointer-events:none;}
+/* Startpunkt für die Fahrzeit; beim Wählen auf der Karte ein Fadenkreuz */
+.start-pin svg{display:block; width:28px; height:34px; filter:drop-shadow(0 1px 2px rgba(0,0,0,.35));}
+.start-pin path{fill:var(--ink); stroke:var(--surface); stroke-width:2;}
+.start-pin circle{fill:var(--surface);}
+.leaflet-container.waehlen, .leaflet-container.waehlen .leaflet-interactive{cursor:crosshair;}
 
 /* ---------- Nach-oben-Knopf ----------
    Bewusst neutral benannt: Inhaltsblocker (z.B. in Safari) blenden Elemente
@@ -288,6 +319,7 @@ h1,h2{font-family:var(--font-display); margin:0; text-wrap:balance;}
   .mapwrap{order:1; flex:none; height:380px; height:min(58svh, 470px);}
   .sidebar{order:2; width:100%; flex:none; overflow:visible; border-right:none; border-top:1px solid var(--line);}
   .filterbar{padding:12px 16px 10px;}
+  #searchInput, #startFeld{font-size:16px;} /* kleiner zoomt das iPhone beim Antippen in die Seite */
   .mit-filterblatt .filter-knopf{display:flex;}
   .mit-filterblatt .chips, .mit-filterblatt .filterbar-row{display:none;} /* Zurücksetzen gibt es im Fenster */
   .chips{flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; padding-bottom:6px; margin-bottom:6px; scrollbar-width:thin;}
