@@ -2,6 +2,12 @@
  "quelle": "Lage der Orte: GeoNames (geonames.org), CC BY 4.0",
  "startorte": [
   {
+   "name": "Aadorf",
+   "kanton": "TG",
+   "lat": 47.492,
+   "lon": 8.901
+  },
+  {
    "name": "Aarau",
    "kanton": "AG",
    "lat": 47.3925,
@@ -50,6 +56,12 @@
    "lon": 9.2959
   },
   {
+   "name": "Andelfingen",
+   "kanton": "ZH",
+   "lat": 47.5945,
+   "lon": 8.6783
+  },
+  {
    "name": "Andermatt",
    "kanton": "UR",
    "lat": 46.6356,
@@ -62,10 +74,28 @@
    "lon": 9.41
   },
   {
+   "name": "Arbon",
+   "kanton": "TG",
+   "lat": 47.5167,
+   "lon": 9.4333
+  },
+  {
    "name": "Arosa",
    "kanton": "GR",
    "lat": 46.7779,
    "lon": 9.6762
+  },
+  {
+   "name": "Bad Ragaz",
+   "kanton": "SG",
+   "lat": 47.006,
+   "lon": 9.5027
+  },
+  {
+   "name": "Bad Zurzach",
+   "kanton": "AG",
+   "lat": 47.5876,
+   "lon": 8.2936
   },
   {
    "name": "Baden",
@@ -78,6 +108,12 @@
    "kanton": "BS",
    "lat": 47.5577,
    "lon": 7.5936
+  },
+  {
+   "name": "Bauma",
+   "kanton": "ZH",
+   "lat": 47.3674,
+   "lon": 8.879
   },
   {
    "name": "Bellinzona",
@@ -108,6 +144,18 @@
    "kanton": "BE",
    "lat": 47.1371,
    "lon": 7.2461
+  },
+  {
+   "name": "Bischofszell",
+   "kanton": "TG",
+   "lat": 47.4957,
+   "lon": 9.2388
+  },
+  {
+   "name": "Bremgarten AG",
+   "kanton": "AG",
+   "lat": 47.3511,
+   "lon": 8.3421
   },
   {
    "name": "Brienz BE",
@@ -182,16 +230,70 @@
    "lon": 7.3445
   },
   {
+   "name": "Dielsdorf",
+   "kanton": "ZH",
+   "lat": 47.4815,
+   "lon": 8.4585
+  },
+  {
+   "name": "Diessenhofen",
+   "kanton": "TG",
+   "lat": 47.6891,
+   "lon": 8.7496
+  },
+  {
+   "name": "Dietikon",
+   "kanton": "ZH",
+   "lat": 47.4017,
+   "lon": 8.4001
+  },
+  {
    "name": "Disentis/Mustér",
    "kanton": "GR",
    "lat": 46.7034,
    "lon": 8.8509
   },
   {
+   "name": "Dübendorf",
+   "kanton": "ZH",
+   "lat": 47.3972,
+   "lon": 8.6187
+  },
+  {
+   "name": "Ebnat-Kappel",
+   "kanton": "SG",
+   "lat": 47.262,
+   "lon": 9.1247
+  },
+  {
+   "name": "Effretikon",
+   "kanton": "ZH",
+   "lat": 47.4258,
+   "lon": 8.6909
+  },
+  {
+   "name": "Eglisau",
+   "kanton": "ZH",
+   "lat": 47.5774,
+   "lon": 8.5212
+  },
+  {
    "name": "Einsiedeln",
    "kanton": "SZ",
    "lat": 47.1285,
    "lon": 8.7473
+  },
+  {
+   "name": "Elgg",
+   "kanton": "ZH",
+   "lat": 47.4972,
+   "lon": 8.8652
+  },
+  {
+   "name": "Embrach",
+   "kanton": "ZH",
+   "lat": 47.5056,
+   "lon": 8.5941
   },
   {
    "name": "Engelberg",
@@ -218,6 +320,12 @@
    "lon": 8.8013
   },
   {
+   "name": "Flawil",
+   "kanton": "SG",
+   "lat": 47.413,
+   "lon": 9.1832
+  },
+  {
    "name": "Fleurier",
    "kanton": "NE",
    "lat": 46.9022,
@@ -242,6 +350,12 @@
    "lon": 7.1513
   },
   {
+   "name": "Frick",
+   "kanton": "AG",
+   "lat": 47.5117,
+   "lon": 8.0247
+  },
+  {
    "name": "Frutigen",
    "kanton": "BE",
    "lat": 46.5872,
@@ -260,16 +374,46 @@
    "lon": 9.068
   },
   {
+   "name": "Gossau SG",
+   "kanton": "SG",
+   "lat": 47.421,
+   "lon": 9.2536
+  },
+  {
    "name": "Grindelwald",
    "kanton": "BE",
    "lat": 46.624,
    "lon": 8.036
   },
   {
+   "name": "Hallau",
+   "kanton": "SH",
+   "lat": 47.6965,
+   "lon": 8.4583
+  },
+  {
+   "name": "Heerbrugg",
+   "kanton": "SG",
+   "lat": 47.4149,
+   "lon": 9.6268
+  },
+  {
    "name": "Herisau",
    "kanton": "AR",
    "lat": 47.3861,
    "lon": 9.2792
+  },
+  {
+   "name": "Hinwil",
+   "kanton": "ZH",
+   "lat": 47.2943,
+   "lon": 8.8439
+  },
+  {
+   "name": "Horgen",
+   "kanton": "ZH",
+   "lat": 47.2598,
+   "lon": 8.5978
   },
   {
    "name": "Huttwil",
@@ -294,6 +438,12 @@
    "kanton": "GR",
    "lat": 46.8827,
    "lon": 9.8761
+  },
+  {
+   "name": "Kloten",
+   "kanton": "ZH",
+   "lat": 47.4515,
+   "lon": 8.5849
   },
   {
    "name": "Kreuzlingen",
@@ -332,6 +482,12 @@
    "lon": 7.4995
   },
   {
+   "name": "Laufenburg",
+   "kanton": "AG",
+   "lat": 47.5598,
+   "lon": 8.0622
+  },
+  {
    "name": "Lausanne",
    "kanton": "VD",
    "lat": 46.516,
@@ -342,6 +498,12 @@
    "kanton": "VD",
    "lat": 46.608,
    "lon": 6.2324
+  },
+  {
+   "name": "Lenzburg",
+   "kanton": "AG",
+   "lat": 47.3885,
+   "lon": 8.175
   },
   {
    "name": "Lenzerheide/Lai",
@@ -386,10 +548,22 @@
    "lon": 8.3064
   },
   {
+   "name": "Marthalen",
+   "kanton": "ZH",
+   "lat": 47.6291,
+   "lon": 8.6533
+  },
+  {
    "name": "Martigny",
    "kanton": "VS",
    "lat": 46.1028,
    "lon": 7.0724
+  },
+  {
+   "name": "Meilen",
+   "kanton": "ZH",
+   "lat": 47.2723,
+   "lon": 8.6462
   },
   {
    "name": "Meiringen",
@@ -434,10 +608,22 @@
    "lon": 7.3695
   },
   {
+   "name": "Muri AG",
+   "kanton": "AG",
+   "lat": 47.2743,
+   "lon": 8.3385
+  },
+  {
    "name": "Murten",
    "kanton": "FR",
    "lat": 46.9283,
    "lon": 7.1171
+  },
+  {
+   "name": "Möhlin",
+   "kanton": "AG",
+   "lat": 47.5592,
+   "lon": 7.8433
   },
   {
    "name": "Münster VS",
@@ -450,6 +636,12 @@
    "kanton": "NE",
    "lat": 46.9918,
    "lon": 6.931
+  },
+  {
+   "name": "Neunkirch",
+   "kanton": "SH",
+   "lat": 47.6901,
+   "lon": 8.4998
   },
   {
    "name": "Nyon",
@@ -468,6 +660,12 @@
    "kanton": "VS",
    "lat": 46.029,
    "lon": 7.1444
+  },
+  {
+   "name": "Ossingen",
+   "kanton": "ZH",
+   "lat": 47.6118,
+   "lon": 8.7278
   },
   {
    "name": "Payerne",
@@ -494,16 +692,46 @@
    "lon": 10.0582
   },
   {
+   "name": "Rafz",
+   "kanton": "ZH",
+   "lat": 47.6044,
+   "lon": 8.543
+  },
+  {
    "name": "Rapperswil SG",
    "kanton": "SG",
    "lat": 47.2256,
    "lon": 8.8223
   },
   {
+   "name": "Regensdorf",
+   "kanton": "ZH",
+   "lat": 47.4341,
+   "lon": 8.4687
+  },
+  {
+   "name": "Reinach AG",
+   "kanton": "AG",
+   "lat": 47.2573,
+   "lon": 8.1809
+  },
+  {
+   "name": "Rheineck",
+   "kanton": "SG",
+   "lat": 47.4663,
+   "lon": 9.5903
+  },
+  {
    "name": "Rheinfelden",
    "kanton": "AG",
    "lat": 47.5544,
    "lon": 7.794
+  },
+  {
+   "name": "Romanshorn",
+   "kanton": "TG",
+   "lat": 47.5659,
+   "lon": 9.3787
   },
   {
    "name": "Romont FR",
@@ -522,6 +750,12 @@
    "kanton": "GR",
    "lat": 46.2365,
    "lon": 9.1275
+  },
+  {
+   "name": "Rüti ZH",
+   "kanton": "ZH",
+   "lat": 47.256,
+   "lon": 8.8555
   },
   {
    "name": "Saanen",
@@ -638,6 +872,12 @@
    "lon": 9.3222
   },
   {
+   "name": "Spreitenbach",
+   "kanton": "AG",
+   "lat": 47.4202,
+   "lon": 8.363
+  },
+  {
    "name": "St. Gallen",
    "kanton": "SG",
    "lat": 47.4221,
@@ -662,10 +902,34 @@
    "lon": 8.3633
   },
   {
+   "name": "Steckborn",
+   "kanton": "TG",
+   "lat": 47.6667,
+   "lon": 8.9833
+  },
+  {
+   "name": "Stein am Rhein",
+   "kanton": "SH",
+   "lat": 47.6593,
+   "lon": 8.8596
+  },
+  {
+   "name": "Stäfa",
+   "kanton": "ZH",
+   "lat": 47.2425,
+   "lon": 8.7234
+  },
+  {
    "name": "Sursee",
    "kanton": "LU",
    "lat": 47.1709,
    "lon": 8.1111
+  },
+  {
+   "name": "Thayngen",
+   "kanton": "SH",
+   "lat": 47.7472,
+   "lon": 8.7072
   },
   {
    "name": "Thun",
@@ -680,10 +944,28 @@
    "lon": 9.4394
   },
   {
+   "name": "Unterstammheim",
+   "kanton": "ZH",
+   "lat": 47.6392,
+   "lon": 8.7906
+  },
+  {
    "name": "Uster",
    "kanton": "ZH",
    "lat": 47.3471,
    "lon": 8.7209
+  },
+  {
+   "name": "Uznach",
+   "kanton": "SG",
+   "lat": 47.2242,
+   "lon": 8.9826
+  },
+  {
+   "name": "Uzwil",
+   "kanton": "SG",
+   "lat": 47.4365,
+   "lon": 9.1342
   },
   {
    "name": "Vevey",
@@ -704,6 +986,12 @@
    "lon": 7.8815
   },
   {
+   "name": "Walenstadt",
+   "kanton": "SG",
+   "lat": 47.1241,
+   "lon": 9.3119
+  },
+  {
    "name": "Wattwil",
    "kanton": "SG",
    "lat": 47.2996,
@@ -714,6 +1002,12 @@
    "kanton": "TG",
    "lat": 47.5667,
    "lon": 9.1
+  },
+  {
+   "name": "Wettingen",
+   "kanton": "AG",
+   "lat": 47.4705,
+   "lon": 8.3164
   },
   {
    "name": "Wetzikon ZH",
@@ -744,6 +1038,12 @@
    "kanton": "AG",
    "lat": 47.3524,
    "lon": 8.2788
+  },
+  {
+   "name": "Wädenswil",
+   "kanton": "ZH",
+   "lat": 47.2268,
+   "lon": 8.6687
   },
   {
    "name": "Yverdon-les-Bains",

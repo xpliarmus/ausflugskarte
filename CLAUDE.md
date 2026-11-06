@@ -26,7 +26,7 @@ Die Website selbst ist bewusst flach und ohne Build-Schritt. So lassen sich Date
 | `daten/ziele.json` | **Die Angaben zu allen Zielen** plus die zugehörigen To-Do-Aufgaben (`todo`). Hier werden Ziele ergänzt oder korrigiert. |
 | `daten/offen.json` | Wird erzeugt: Aufgaben aus To Do, zu denen es noch keine Angaben gibt (`id`, `titel`). |
 | `werkzeuge/todo.py` | Anmeldung bei Microsoft, Abruf der Liste und Zusammenbau (nur Python-Standardbibliothek). |
-| `daten/startorte.json` | 131 Startorte in der Schweiz (Name, Kanton, Lage) für die Fahrzeiten, siehe „Fahrzeiten“. Hier werden Startorte ergänzt oder entfernt. |
+| `daten/startorte.json` | 181 Startorte in der Schweiz (Name, Kanton, Lage) für die Fahrzeiten, siehe „Fahrzeiten“. Hier werden Startorte ergänzt oder entfernt. |
 | `fahrzeiten.json` | Wird erzeugt: Fahrzeiten mit dem Auto in Minuten von jedem Startort zu jedem Ziel. **Nie von Hand bearbeiten.** |
 | `werkzeuge/fahrzeiten.py` | Berechnet fehlende Fahrzeiten über den Routenplaner der FOSSGIS (nur Python-Standardbibliothek). |
 | `.github/workflows/` | `microsoft-anmeldung.yml` (einmalige Anmeldung) und `todo-abruf.yml` (Abruf, Zusammenbau und Fahrzeiten, siehe „Microsoft To Do“ und „Fahrzeiten“). |
@@ -217,13 +217,12 @@ python3 -m http.server 8899      # im Repo-Ordner
 ## Fahrzeiten
 
 - **Quelle:** Routenplaner der FOSSGIS, OSRM-Tabelle auf `https://routing.openstreetmap.de/routed-car/table/v1/driving/` (Strassendaten von OpenStreetMap, täglich aktualisiert). Kein Konto, kein Schlüssel. Nutzungsbedingungen: höchstens eine Anfrage pro Sekunde (`PAUSE = 1.1`), erkennbare Kennung im User-Agent (`KENNUNG`), Quellenangabe. FOSSGIS darf den Dienst jederzeit einstellen; die gespeicherten Zeiten bleiben dann erhalten, nur neue fehlen. Ausweichmöglichkeit: OpenRouteService (braucht Konto und Schlüssel als Secret).
-- **Startorte** (`daten/startorte.json`): Kantonshauptorte, grössere Orte und Talorte (Bergell, Goms, Val Müstair, Vallée de Joux …), Lage aus GeoNames (CC BY 4.0, siehe `LIZENZEN.txt`). Abstand jeder Schweizer Postleitzahl zum nächsten Startort: Median 6 km, höchstens 18 km. Feld `name` ist der Schlüssel; Namen nicht doppelt.
-- **Ablauf** (`werkzeuge/fahrzeiten.py`, Schritt „Fahrzeiten berechnen“ im To-Do-Abruf nach dem Zusammenbau): liest `daten/startorte.json` und `ausfluege.json` und rechnet nur, was fehlt: neue Ziele und Ziele mit geänderten Koordinaten (gegen alle Startorte), neue Startorte (gegen alle übrigen Ziele). Anfragen in Blöcken zu 10 Startorten × 40 Zielen. Beim ersten Mal 56 Anfragen (gut eine Minute), danach meist keine. Entfernte Ziele und Startorte fallen weg.
+- **Startorte** (`daten/startorte.json`): Kantonshauptorte, grössere Orte und Talorte (Bergell, Goms, Val Müstair, Vallée de Joux …), dazu auf Wunsch des Besitzers dichter im Raum Aargau, Zürich, Schaffhausen, St. Gallen und Thurgau, wo die meisten Besucher erwartet werden. Lage aus GeoNames (CC BY 4.0, siehe `LIZENZEN.txt`): bei Orten mit mehreren Postleitzahlen die mittlere Lage der Einträge derselben Gemeinde (der erste Eintrag liegt oft daneben, z.B. «Zürich» beim Flughafen). Abstand jeder Schweizer Postleitzahl zum nächsten Startort: Median 5 km, höchstens 18 km; in AG/ZH/SH/SG/TG Median 4 km, höchstens 13 km. Feld `name` ist der Schlüssel; Namen nicht doppelt.
+- **Ablauf** (`werkzeuge/fahrzeiten.py`, Schritt „Fahrzeiten berechnen“ im To-Do-Abruf nach dem Zusammenbau): liest `daten/startorte.json` und `ausfluege.json` und rechnet nur, was fehlt: neue Ziele und Ziele mit geänderten Koordinaten (gegen alle Startorte), neue Startorte (gegen alle übrigen Ziele). Anfragen in Blöcken zu 10 Startorten × 40 Zielen. Beim ersten Mal 76 Anfragen (knapp 1½ Minuten), danach meist keine. Entfernte Ziele und Startorte fallen weg.
 - **Format von `fahrzeiten.json`:** `quelle`, `startorte` als `[name, lat, lon]` und `ziele` als `{id: {lat, lon, min: [Minuten je Startort in derselben Reihenfolge]}}`, eine Zeile pro Startort und pro Ziel (`als_text()`). `null` heisst „keine Route“. Ohne Änderung bleibt die Datei Zeichen für Zeichen gleich.
 - **Fehler:** Antwortet der Dienst nicht (nach zwei Versuchen pro Anfrage), schreibt der Lauf eine gelbe Warnung und lässt `fahrzeiten.json`, wie sie war (alles oder nichts); der Rest des To-Do-Abrufs läuft normal, der nächste Lauf versucht es wieder.
 - **Protokoll:** Anzahl gerechneter Ziele, Startorte und Anfragen, Ziele mehr als 3 km von der nächsten Strasse (dort wird bis zur Strasse gerechnet, z.B. Gipfel mit Bergbahn), Paare ohne Route und Stichproben (Zürich/Bern → Zoo Basel, Verkehrshaus, Technorama).
 
-## Neue Ziele ergänzen
 ## Neue Ziele ergänzen
 
 1. `daten/offen.json` vom aktuellen `main` lesen. Falls nötig, vorher den „To-Do-Abruf“ laufen lassen.
