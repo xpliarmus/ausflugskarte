@@ -168,6 +168,7 @@ python3 -m http.server 8899      # im Repo-Ordner
   - Tokens, Notizen und Status erscheinen nie im Protokoll, ausser in `::add-mask::`-Zeilen.
   - Probelauf schreibt nichts; Sicherheitsgrenze; zweiter Lauf ohne Änderung lässt die Dateien Zeichen für Zeichen gleich.
   - `todo.zusammenbauen()` mit den echten `daten/ziele.json` prüfen.
+  - Störungen: `time.sleep` ersetzen (im Testserver dann mit `threading.Event().wait()` warten, nicht mit `time.sleep`); 502 einmal, 502+503, dreimal 502 (rot, Dateien unverändert), 500/504, 404/401 ohne Wiederholung, 429 mit `Retry-After` (90, 500 → 120, 5 → 30, Datum übergangen), Anmeldung erneuern mit 503 (HTML und JSON) und dreimal 502 (nichts gespeichert), `invalid_grant` ohne Wiederholung, Verbindung ohne Antwort abgebrochen, zu langsame Antwort (`todo.TIMEOUT` klein setzen), kein Server.
 - **`werkzeuge/fahrzeiten.py`** gegen einen nachgebildeten Routenplaner (`http.server`, `fahrzeiten.OSRM` umbiegen, `time.sleep` ersetzen; Achtung: Pfad mit `urllib.parse.urlsplit` lesen, `urlparse` schneidet bei `;` ab):
   - Anzahl und Grösse der Anfragen, Kennung, Pause ≥ 1 s; Probelauf schreibt nichts
   - zweiter Lauf ohne Anfrage und Zeichen für Zeichen gleich; neues Ziel, geänderte Koordinaten, entferntes Ziel, neuer und entfernter Startort
@@ -225,10 +226,11 @@ python3 -m http.server 8899      # im Repo-Ordner
 - **Action „To-Do-Abruf“** (`todo-abruf.yml`):
   - Ablauf: Anmeldung erneuern, Liste lesen, `todo.py aktualisieren` baut `ausfluege.json` und `daten/offen.json`. Bei Änderungen committet die Action direkt auf `main` (`GITHUB_TOKEN`, `contents: write`) und fordert eine Pages-Veröffentlichung an (`POST /pages/builds`).
   - Startet in drei Fällen:
-    - täglich um `47 3 * * *` UTC, also 4:47 Uhr Winterzeit bzw. 5:47 Uhr Sommerzeit. Bewusst ohne das neue `timezone`-Feld, dessen Schreibweise nicht geprüft werden konnte.
+    - täglich um `47 3 * * *` UTC, also 4:47 Uhr Winterzeit bzw. 5:47 Uhr Sommerzeit. Bewusst ohne das neue `timezone`-Feld, dessen Schreibweise nicht geprüft werden konnte. GitHub startet geplante Läufe oft verspätet (Mitte November 2026 meist erst gegen 12:30 Uhr Schweizer Zeit); das liegt bei GitHub und ist harmlos.
     - bei jeder Änderung an `daten/ziele.json` auf `main` (`push` mit `paths`), also direkt nach dem Merge eines Ziele-PRs
     - von Hand, mit den Optionen „Probelauf“ (nichts speichern) und „trotzdem“
   - **Zeitplan aktiv halten:** Bei öffentlichen Repos schaltet GitHub Zeitpläne nach 60 Tagen ohne Betrieb ab. Darum ruft jeder Lauf `PUT …/actions/workflows/todo-abruf.yml/enable` auf (`actions: write`). Fällt der Zeitplan trotzdem aus, läuft nach 90 Tagen auch die Microsoft-Anmeldung ab.
+  - **Störungen bei Microsoft:** Antwortet Microsoft mit HTTP 429, 500, 502, 503 oder 504, gar nicht oder zu langsam (`TIMEOUT = 30` s), wiederholt `json_holen()` in `werkzeuge/todo.py` die Anfrage nach 30 und nochmals nach 60 Sekunden (`WARTEN`), bei `Retry-After` in Sekunden so lange wie verlangt, höchstens 2 Minuten. Jeder neue Versuch steht als Zeile im Protokoll, ohne Adresse und Tokens. Andere Fehler (z.B. 400 `invalid_grant`, 401, 404) werden nicht wiederholt. Anlass: Am 13. November 2026 war ein Lauf wegen eines einzelnen HTTP 502 von Microsoft Graph rot, der Lauf von Hand kurz danach klappte.
   - **Fehler:** Ein roter Lauf öffnet das Issue „To-Do-Abruf fehlgeschlagen“, das den Besitzer erwähnt, und löst so eine E-Mail aus. Weitere Fehler kommen als Kommentar dazu. Der nächste erfolgreiche Lauf schliesst das Issue. Grund: GitHub schickt Fehler-Mails zu Zeitplänen an den, der den Zeitplan zuletzt geändert hat, und das war ein Claude-Commit.
   - **Pages:** Schon der Push durch `GITHUB_TOKEN` löst die Veröffentlichung aus. Die zusätzliche Anforderung ersetzt diese nur durch eine gleichwertige. Sie ist harmlos und bleibt als Rückfallebene.
   - Anmeldung und Abruf teilen sich die `concurrency`-Gruppe `microsoft-todo`.

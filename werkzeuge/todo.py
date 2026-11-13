@@ -20,7 +20,11 @@ Umgebung: MS_CLIENT_ID (Anwendungs-ID der App bei Microsoft),
 
 Das Protokoll der Actions ist öffentlich: Tokens werden nie ausgegeben, sondern
 sofort maskiert. Aus To Do wird nur gelesen (Berechtigung Tasks.Read).
+
+Bei einer vorübergehenden Störung bei Microsoft (HTTP 429/500/502/503/504, keine Antwort)
+wird jede Anfrage nach 30 und nochmals nach 60 Sekunden wiederholt, erst dann ist der Lauf rot.
 """
+import http.client
 import json
 import os
 import subprocess
@@ -45,6 +49,9 @@ OFFEN = os.path.join(REPO, 'daten', 'offen.json')      # Aufgaben ohne Angaben (
 WEBSITE = os.path.join(REPO, 'ausfluege.json')         # wird erzeugt, nicht von Hand bearbeiten
 GRENZE = 10  # verschwinden mehr Ziele auf einmal, wird zur Sicherheit nichts geändert
 SAISONS = ('sommer', 'winter', 'ganzjaehrig')  # Feld „saison“ pro Ziel; dazu „regentag“ (true/false)
+TIMEOUT = 30                                   # Sekunden pro Anfrage
+WARTEN = (30, 60)                              # bei einer Störung bei Microsoft: so lange warten, dann neu versuchen
+VORUEBERGEHEND = (429, 500, 502, 503, 504)     # diese Antworten gelten als vorübergehende Störung
 
 
 class Fehler(Exception):
@@ -62,11 +69,38 @@ def kurz(text):
     return (text or '').split(' Trace ID:')[0].strip()
 
 
+def json_holen(dienst, req):
+    """Anfrage senden und JSON lesen. Bei einer vorübergehenden Störung bei Microsoft
+    (HTTP 429/5xx, keine Verbindung, keine Antwort) nach WARTEN Sekunden neu versuchen;
+    nach dem letzten Versuch geht der Fehler an den Aufrufer. Die Adresse und Tokens
+    erscheinen nie im Protokoll."""
+    versuche = len(WARTEN) + 1
+    for nr in range(1, versuche + 1):
+        try:
+            with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
+                return json.load(r)
+        except urllib.error.HTTPError as e:
+            if e.code not in VORUEBERGEHEND or nr == versuche:
+                raise
+            grund = 'HTTP %s' % e.code
+            pause = WARTEN[nr - 1]
+            nachher = (e.headers or {}).get('Retry-After', '')
+            if nachher.isdigit():  # Microsoft sagt selbst, wann es wieder geht (höchstens 2 Minuten warten)
+                pause = max(pause, min(int(nachher), 120))
+        except (OSError, http.client.HTTPException) as e:  # keine Verbindung, Zeit abgelaufen, Verbindung abgebrochen
+            if nr == versuche:
+                raise
+            grund = 'keine Antwort'
+            pause = WARTEN[nr - 1]
+        print('  %s: Störung (%s), neuer Versuch in %d Sekunden (Versuch %d von %d) …'
+              % (dienst, grund, pause, nr + 1, versuche), flush=True)
+        time.sleep(pause)
+
+
 def post(url, felder):
-    daten = urllib.parse.urlencode(felder).encode()
+    req = urllib.request.Request(url, data=urllib.parse.urlencode(felder).encode())
     try:
-        with urllib.request.urlopen(urllib.request.Request(url, data=daten), timeout=30) as r:
-            return json.load(r)
+        return json_holen('Microsoft-Anmeldung', req)
     except urllib.error.HTTPError as e:
         try:
             return json.load(e)  # Microsoft liefert Fehler als JSON (error, error_description)
@@ -74,13 +108,14 @@ def post(url, felder):
             raise Fehler('Microsoft antwortet mit HTTP %s.' % e.code)
     except urllib.error.URLError as e:
         raise Fehler('Keine Verbindung zu Microsoft (%s).' % e.reason)
+    except (OSError, http.client.HTTPException) as e:
+        raise Fehler('Keine Antwort von Microsoft (%s).' % type(e).__name__)
 
 
 def graph_get(url, token):
     req = urllib.request.Request(url, headers={'Authorization': 'Bearer ' + token})
     try:
-        with urllib.request.urlopen(req, timeout=30) as r:
-            return json.load(r)
+        return json_holen('Microsoft Graph', req)
     except urllib.error.HTTPError as e:
         try:
             meldung = json.load(e).get('error', {}).get('message', '')
@@ -89,6 +124,8 @@ def graph_get(url, token):
         raise Fehler('Microsoft Graph antwortet mit HTTP %s. %s' % (e.code, meldung))
     except urllib.error.URLError as e:
         raise Fehler('Keine Verbindung zu Microsoft Graph (%s).' % e.reason)
+    except (OSError, http.client.HTTPException) as e:
+        raise Fehler('Keine Antwort von Microsoft Graph (%s).' % type(e).__name__)
 
 
 def alle(url, token):
